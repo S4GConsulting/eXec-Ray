@@ -1,3 +1,36 @@
+<!--
+  @description       : Search in a list of objects
+  @author            : juanjo.prieto@s4g.es
+  @group             : 
+  @last modified on  : 2022-03-23
+  @last modified by  : juanjo.prieto@s4g.es
+-->
 <template>
-    
+    <lightning-card  title={labels.TitleLabel}>        
+        <div class="slds-p-left_medium slds-p-right_medium">
+            <lightning-input data-id="userinput" label="Search an object:" name="searchText" onchange={searchField} placeholder={labels.PlaceholderLabel}></lightning-input>
+        </div>
+        <lightning-vertical-navigation  selected-item={selected} onselect={handleSelect}>
+            <lightning-vertical-navigation-section label="Standard">
+                <template if:false={isAnyStandardObject}>
+                    <div class="slds-text-body_small slds-text-align_center">{labels.AnyResult}</div>
+                </template>
+                <template if:true={isAnyStandardObject}>
+                    <template for:each={standardObjectsToShow} for:item="object">
+                        <lightning-vertical-navigation-item key={object.Name} label={object.Name} name={object.Name}></lightning-vertical-navigation-item>
+                    </template>
+                </template>
+            </lightning-vertical-navigation-section>
+            <lightning-vertical-navigation-section label="Custom">
+                <template if:false={isAnyCustomdObject}>
+                    <div class="slds-text-body_small slds-text-align_center">{labels.AnyResult}</div>
+                </template>
+                <template if:true={isAnyCustomdObject}>
+                    <template for:each={customObjectsToShow} for:item="object">
+                        <lightning-vertical-navigation-item key={object.Name} label={object.Name} name={object.Name}>asd</lightning-vertical-navigation-item>
+                    </template>
+                </template>
+            </lightning-vertical-navigation-section>
+        </lightning-vertical-navigation>
+    </lightning-card>
 </template>
