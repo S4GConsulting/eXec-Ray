@@ -1,0 +1,53 @@
+<!-- sldsValidatorIgnore -->
+<!--
+  @description       : parameterizable data table with different functionalities.
+  @author            : Raúl Iglesias
+  @group             : S4G
+  @last modified on  : 03-23-2022
+  @last modified by  : Raúl Iglesias
+-->
+<template>
+    <template if:true={hideCheckbox}>  <!---Table without checkbox column-->
+        <div style={tabStyle}>
+            <lightning-datatable
+                key-field={keyField} 
+                resize-column-disabled=false 
+                data={records} 
+                columns={columns}
+                is-loading={tableLoadingState} 
+                max-row-selection={maxRowSelection} 
+                onrowaction={handleRowAction}
+                onrowselection={handleClick} 
+                onsave={handleSave}
+                draft-values={draftValues}
+                errors={errors}
+                sorted-by={sortBy}
+                sorted-direction={sortDirection}
+                onsort={handleSortdata}
+                hide-checkbox-column
+                >  
+            </lightning-datatable>
+        </div>
+    </template>
+    <template if:false={hideCheckbox}> <!---Table with checkbox column-->
+        <div style={tabStyle}>
+            <lightning-datatable 
+                    key-field={keyField} 
+                    resize-column-disabled=false 
+                    data={records} 
+                    columns={columns}
+                    is-loading={tableLoadingState} 
+                    max-row-selection={maxRowSelection} 
+                    onrowaction={handleRowAction}
+                    onrowselection={handleClick} 
+                    onsave={handleSave}
+                    draft-values={draftValues}
+                    selected-rows={preselectedRows}
+                    sorted-by={sortBy}
+                    sorted-direction={sortDirection}
+                    onsort={handleSortdata}
+                    >
+            </lightning-datatable>
+        </div>
+    </template>
+</template>
