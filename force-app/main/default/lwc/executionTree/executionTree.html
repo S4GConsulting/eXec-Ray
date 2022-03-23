@@ -1,3 +1,21 @@
+<!--
+  @description       : interface as timeLine component to show different operations by category.
+  @author            : Raúl Iglesias
+  @group             : 
+  @last modified on  : 03-23-2022
+  @last modified by  : Raúl Iglesias
+-->
 <template>
-    
+    <lightning-card  title={objectName}>   <!-- Object Name-->
+        <lightning-button label="Refresh" slot="actions"></lightning-button>
+        <div class="slds-p-around_medium">
+            <ul class="slds-timeline">
+                <template if:true={isAnyOperationCategory}>
+                    <template for:each={operationsByCategory} for:item="operationCategory">
+                        <c-time-line-item key={operationCategory.category} operation={operationCategory}></c-time-line-item>                    
+                    </template>
+                </template>
+            </ul>
+        </div>
+    </lightning-card>
 </template>

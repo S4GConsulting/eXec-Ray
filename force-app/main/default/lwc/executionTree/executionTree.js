@@ -11,51 +11,10 @@ export default class ExecutionTree extends LightningElement {
      **/
 
     //Input variable for dynamic interaction or parent component.
-    @api objectName;
+    @api objectName = 'Account';
 
     //Variable to store the different operations by type of category as VRs, triggers, flow trigger..
     operationsByCategory;
-
-    //-----Child table variables-----//
-
-    hideCheckbox = true;
-    scrollable = true;
-    height = 120;
-
-    //-----*-----//
-
-    tableColumns = [
-        {
-            label: 'Label',
-            fieldName: 'label',
-            type: 'text',
-            sortable: true,
-            iconName: 'utility:display_text'
-        },
-        {
-            label: 'API Name',
-            fieldName: 'apiName',
-            type: 'text',
-            sortable: true,
-            iconName: 'utility:variable'
-        },
-        {
-            label: 'Namespace',
-            fieldName: 'namespace',
-            type: 'text',
-            sortable: true,
-            iconName: 'utility:wellness' 
-        },
-        {
-            label: 'URL',
-            fieldName: 'url',
-            type: 'url', 
-            typeAttributes: {label: 'LINK TO'},
-            iconName: 'utility:zoomin'
-                
-        }
-    ];
-
 
     /**
      * ********************
@@ -113,6 +72,10 @@ export default class ExecutionTree extends LightningElement {
 
     connectedCallback(){
         this.operationsByCategory = this.mockRecords;
+    }
+
+    get isAnyOperationCategory(){
+        return this.operationsByCategory != undefined && this.operationsByCategory.length > 0;
     }
 
 
