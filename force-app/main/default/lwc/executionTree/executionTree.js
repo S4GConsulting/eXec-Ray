@@ -11,7 +11,7 @@ export default class ExecutionTree extends LightningElement {
      **/
 
     //Input variable for dynamic interaction or parent component.
-    @api objectName = 'Account';
+    @api objectName;
 
     //Variable to store the different operations by type of category as VRs, triggers, flow trigger..
     operationsByCategory;

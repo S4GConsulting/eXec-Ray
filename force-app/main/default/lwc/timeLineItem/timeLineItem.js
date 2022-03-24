@@ -42,6 +42,13 @@ const ENTITLEMENT_RULES_NAME = "Entitlement Rules";
 const SUMMARY_FIELD_NAME = "Summary Fields";
 const SHARING_RULES_NAME = "Sharing Rules";
 
+/******************X******************/
+
+/**
+ * *************************
+ * MAP ICON WITH CATEGORY NAME (TBD)
+ * *************************
+ **/
 const ICON_BY_CATEGORY_NAME = {
     [RECORD_BEFORE_TRIGGER_FLOW_NAME] : RECORD_BEFORE_TRIGGER_FLOW_ICON,
     [BEFORE_TRIGGERS_NAME] : BEFORE_TRIGGERS_ICON,
@@ -117,6 +124,12 @@ export default class TimeLineItem extends LightningElement {
         return this.showDetails ? "slds-timeline__item_expandable slds-is-open" : "slds-timeline__item_expandable";
     }
 
+    get operationCounter() {
+        return this.operation !== undefined && this.operation.operations.length > 0
+                ? this.operation.operations.length
+                    : 0;
+    }
+
     get categoryIcon() {
         return ICON_BY_CATEGORY_NAME[this.operation.category] !== undefined 
                 ? ICON_BY_CATEGORY_NAME[this.operation.category] 
@@ -134,7 +147,5 @@ export default class TimeLineItem extends LightningElement {
         }else{
             this.showDetails = true
         };
-
-        //-----> call imperative apex method to get new updateRecords from custom Apex Controller
     }
 }

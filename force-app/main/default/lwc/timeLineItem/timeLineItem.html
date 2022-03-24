@@ -2,7 +2,7 @@
   @description       : item time line to the differents categories.
   @author            : Raúl Iglesias
   @group             : 
-  @last modified on  : 03-23-2022
+  @last modified on  : 03-24-2022
   @last modified by  : Raúl Iglesias
 -->
 <template>
@@ -11,12 +11,12 @@
             <div class="slds-media">
                 <div class="slds-media__figure">
                     <button class="slds-button slds-button_icon" title='Open Details' onclick={handleOpenDetails}> <!-- Control for show details area -->
-                        <lightning-icon icon-name="utility:switch" size="x-small" class="slds-button__icon slds-timeline__details-action-icon" 
+                        <lightning-icon icon-name="utility:switch" size="xx-small" class="slds-button__icon slds-timeline__details-action-icon" 
                                         alternative-text="Open or close the details of the different operations"> <!-- TBD pass to label-->
                         </lightning-icon>
                     </button>
                     <div class="slds-icon_container slds-timeline__icon" title={operation.category}>  <!-- Color and icon by category-->
-                        <lightning-icon icon-name={categoryIcon} class="slds-icon slds-icon_medium" >
+                        <lightning-icon icon-name={categoryIcon} size="small" class="slds-icon slds-icon_small" >
                         </lightning-icon>
                     </div>
                 </div>
@@ -24,15 +24,15 @@
                     <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
                         <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
                             <h3 class="slds-truncate" title="Operation Category">   <!-- TBD pass to label-->
-                                <p> <strong> {operation.category} </strong> </p>    <!-- Category Name-->
+                                <p> <strong> {operation.category} <span class="round">{operationCounter}</span> </strong> </p>    <!-- Category Name-->
                             </h3>
                         </div>
                     </div>
                     <p class="slds-m-horizontal_xx-small">
-                        3 {operation.category}   <!-- Number of operations + Category Name-->
+                        {operationCounter} Items <!-- Number of operations TBD pass to label-->
                     </p>
                     <template if:true={showDetails}>
-                        <div >                       <!-- Operations Records-->
+                        <div class="slds-p-top_small"> <!-- Operations Records-->
                             <c-full-data-table
                                 records={operation.operations}  
                                 columns={tableColumns}
