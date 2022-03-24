@@ -9,7 +9,7 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__AppPage">
-            <event name="objectDevelopername" label="Object developer name to send">
+            <event name="object" label="Object to send">
                 <schema>
                     {
                         "type": "object",
@@ -18,6 +18,11 @@
                                 "type": "string",
                                 "title": "Object name",
                                 "description": "Enter an object name"
+                            },
+                            "developername": {
+                                "type": "string",
+                                "title": "Object developername",
+                                "description": "Enter an object developer name"
                             }
                        }
                     }
