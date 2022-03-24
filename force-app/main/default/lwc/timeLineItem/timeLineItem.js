@@ -124,12 +124,18 @@ export default class TimeLineItem extends LightningElement {
         return this.showDetails ? "slds-timeline__item_expandable slds-is-open" : "slds-timeline__item_expandable";
     }
 
+    get showDetailsTable() {
+        return this.operation && this.operation.operations.length === 0
+                ? false
+                    : true;
+    }
+
     get operationCounter() {
         return this.operation !== undefined && this.operation.operations.length > 0
                 ? this.operation.operations.length
                     : 0;
     }
-
+    
     get categoryIcon() {
         return ICON_BY_CATEGORY_NAME[this.operation.category] !== undefined 
                 ? ICON_BY_CATEGORY_NAME[this.operation.category] 
