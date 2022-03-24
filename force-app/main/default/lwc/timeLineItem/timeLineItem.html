@@ -1,9 +1,5 @@
 <!--
-  @description       : item time line to the differents categories.
-  @author            : Raúl Iglesias
-  @group             : 
-  @last modified on  : 03-24-2022
-  @last modified by  : Raúl Iglesias
+  @description : item time line to show the differents categories.
 -->
 <template>
     <li>
@@ -24,23 +20,30 @@
                     <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
                         <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
                             <h3 class="slds-truncate" title="Operation Category">   <!-- TBD pass to label-->
-                                <p> <strong> {operation.category} <span class="round">{operationCounter}</span> </strong> </p>    <!-- Category Name-->
+                                <p> <strong> {operation.category} </strong> </p>    <!-- Category Name-->
                             </h3>
                         </div>
                     </div>
-                    <p class="slds-m-horizontal_xx-small">
+                    <p class="slds-var-m-horizontal_xx-small">
                         {operationCounter} Items <!-- Number of operations TBD pass to label-->
                     </p>
                     <template if:true={showDetails}>
-                        <div class="slds-p-top_small"> <!-- Operations Records-->
-                            <c-full-data-table
-                                records={operation.operations}  
-                                columns={tableColumns}
-                                hide-checkbox={hideCheckbox}
-                                scroll={scrollable}
-                                height={height}
-                            ></c-full-data-table>
-                        </div> 
+                        <template if:true={showDetailsTable}>
+                            <div class="slds-var-p-top_small"> <!-- Operations Records-->
+                                <c-full-data-table
+                                    records={operation.operations}  
+                                    columns={tableColumns}
+                                    hide-checkbox={hideCheckbox}
+                                    scroll={scrollable}
+                                    height={height}
+                                ></c-full-data-table>
+                            </div> 
+                        </template>
+                        <template if:false={showDetailsTable}>
+                            <p class="slds-var-m-horizontal_xx-small">
+                                No items to show. <!--TBD pass to label-->
+                            </p>
+                        </template>
                     </template>
                 </div>
             </div>

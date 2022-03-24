@@ -1,14 +1,10 @@
 <!--
-  @description       : interface as timeLine component to show different operations by category.
-  @author            : Raúl Iglesias
-  @group             : 
-  @last modified on  : 03-23-2022
-  @last modified by  : Raúl Iglesias
+  @description :  timeline estructure to show execution tree operations.
 -->
 <template>
     <lightning-card  title={objectName}>   <!-- Object Name-->
         <lightning-button label="Refresh" slot="actions"></lightning-button>
-        <div class="slds-p-around_medium">
+        <div class="slds-p-around_medium slds-scrollable_y scrolleable">
             <ul class="slds-timeline">
                 <template if:true={isAnyOperationCategory}>
                     <template for:each={operationsByCategory} for:item="operationCategory">

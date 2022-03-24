@@ -61,6 +61,22 @@ export default class ExecutionTree extends LightningElement {
                 {label : 'TEST AT 5', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
                 {label : 'TEST AT 6', url: 'Fintech', namespace:'Npsp', apiName: 'test5'}
             ]
+        },
+        {
+            category: 'Workflow Rules',
+            operations : 
+            [
+                {label : 'TEST WR 1', url: 'Energy', namespace:'Worker', apiName: 'test2'},
+                {label : 'TEST WR 2', url: 'Fintech', namespace:'Qualtrics', apiName: 'test3'},
+                {label : 'TEST WR 3', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
+                {label : 'TEST WR 4', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
+                {label : 'TEST WR 5', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
+                {label : 'TEST WR 6', url: 'Fintech', namespace:'Npsp', apiName: 'test5'}
+            ]
+        },
+        {
+            category: 'Sharing Rules',
+            operations : []
         }
     ]; 
 
