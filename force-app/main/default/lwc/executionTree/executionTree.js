@@ -1,6 +1,6 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import getObjectMetadata from '@salesforce/apex/MockController.getObjectMetadata';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { showErrorMessage } from 'c/idUtils';
 
 const SUCCESS_TITLE = 'Success';
 
@@ -50,11 +50,7 @@ export default class ExecutionTree extends LightningElement {
         if (result.data) {
             this.operationsByCategory = result.data;
         } else if (result.error) {
-            this.dispatchEvent(new ShowToastEvent({
-                title: 'Error',
-                message: result.error.body.message,
-                variant: 'error',
-            }));
+            showErrorMessage(result.error);
         }
         this.spinner = false;
     }
