@@ -5,7 +5,7 @@ import { LightningElement, api } from 'lwc';
  * CATEGORY ICONS DEFINITION (TBD)
  * *************************
  **/
-const RECORD_BEFORE_TRIGGER_FLOW_ICON = "standard:cproduct_request_line_item";
+const RECORD_BEFORE_TRIGGER_FLOW_ICON = "standard:product_request_line_item";
 const BEFORE_TRIGGERS_ICON = "standard:coaching";
 const VALIDATION_RULES_ICON = "standard:incident";
 const DUPLICATE_RULES_ICON = "standard:topic";
@@ -140,10 +140,6 @@ export default class TimeLineItem extends LightningElement {
         return ICON_BY_CATEGORY_NAME[this.operation.category] !== undefined 
                 ? ICON_BY_CATEGORY_NAME[this.operation.category] 
                     : "standard:generic_loading"; //(TBD)
-    }
-
-    connectedCallback(){
-        console.log("HOLA" + JSON.stringify(this.operation));
     }
 
     handleOpenDetails(){

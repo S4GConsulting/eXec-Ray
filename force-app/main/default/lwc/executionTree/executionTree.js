@@ -1,4 +1,6 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire, track } from 'lwc';
+import getObjectMetadata from '@salesforce/apex/MockController.getObjectMetadata';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const SUCCESS_TITLE = 'Success';
 
@@ -10,75 +12,24 @@ export default class ExecutionTree extends LightningElement {
      * ********************
      **/
 
+    //To control spinner visibility.
+    _objectName;
+
     //Input variable for dynamic interaction or parent component.
-    @api objectName;
+    @api
+    get objectName() {
+        return this._objectName;
+    }
+    set objectName(value) {
+        this._objectName = value;
+        this.spinner = true;
+    }
 
     //Variable to store the different operations by type of category as VRs, triggers, flow trigger..
-    operationsByCategory;
+    @track operationsByCategory;
 
-    /**
-     * ********************
-     * MOCK RECORDS
-     * ********************
-     **/
-
-    mockRecords = [
-        {
-            category: 'Validation Rules',
-            operations : 
-            [
-                {label : 'TEST VR 1', url: 'Energy', namespace:'Worker', apiName: 'test2'},
-                {label : 'TEST VR 2', url: 'Fintech', namespace:'Qualtrics', apiName: 'test3'},
-                {label : 'TEST VR 3', url: 'Fintech', namespace:'Npsp', apiName: 'test5'}
-            ]
-        },
-        {
-            category: 'Before Triggers',
-            operations : 
-            [
-                {label : 'TEST BT 1', url: 'Energy', namespace:'Worker', apiName: 'test2'},
-                {label : 'TEST BT 2', url: 'Fintech', namespace:'Qualtrics', apiName: 'test3'},
-                {label : 'TEST BT 3', url: 'Fintech', namespace:'Npsp', apiName: 'test5'}
-            ]
-        },
-        {
-            category: 'Duplicate Rules',
-            operations : 
-            [
-                {label : 'TEST DR 1', url: 'Energy', namespace:'Worker', apiName: 'test2'},
-                {label : 'TEST DR 2', url: 'Fintech', namespace:'Qualtrics', apiName: 'test3'},
-                {label : 'TEST DR 3', url: 'Fintech', namespace:'Npsp', apiName: 'test5'}
-            ]
-        },
-        {
-            category: 'After Triggers',
-            operations : 
-            [
-                {label : 'TEST AT 1', url: 'Energy', namespace:'Worker', apiName: 'test2'},
-                {label : 'TEST AT 2', url: 'Fintech', namespace:'Qualtrics', apiName: 'test3'},
-                {label : 'TEST AT 3', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
-                {label : 'TEST AT 4', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
-                {label : 'TEST AT 5', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
-                {label : 'TEST AT 6', url: 'Fintech', namespace:'Npsp', apiName: 'test5'}
-            ]
-        },
-        {
-            category: 'Workflow Rules',
-            operations : 
-            [
-                {label : 'TEST WR 1', url: 'Energy', namespace:'Worker', apiName: 'test2'},
-                {label : 'TEST WR 2', url: 'Fintech', namespace:'Qualtrics', apiName: 'test3'},
-                {label : 'TEST WR 3', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
-                {label : 'TEST WR 4', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
-                {label : 'TEST WR 5', url: 'Fintech', namespace:'Npsp', apiName: 'test5'},
-                {label : 'TEST WR 6', url: 'Fintech', namespace:'Npsp', apiName: 'test5'}
-            ]
-        },
-        {
-            category: 'Sharing Rules',
-            operations : []
-        }
-    ]; 
+    //Variable to control when the spinner have to show
+    spinner = true;
 
     /**
      * ********************
@@ -86,13 +37,30 @@ export default class ExecutionTree extends LightningElement {
      * ********************
      **/
 
-    connectedCallback(){
-        this.operationsByCategory = this.mockRecords;
-    }
-
     get isAnyOperationCategory(){
         return this.operationsByCategory != undefined && this.operationsByCategory.length > 0;
     }
 
+    get objectIsSelected(){
+        return this.objectName ? true : false;
+    }
+
+    @wire(getObjectMetadata, { objectName: '$objectName', recordsNumber : 10})
+    wiredMockRecords(result) {
+        if (result.data) {
+            this.operationsByCategory = result.data;
+        } else if (result.error) {
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Error',
+                message: result.error.body.message,
+                variant: 'error',
+            }));
+        }
+        this.spinner = false;
+    }
+
+    handleRefresh(){
+        //TODO call to apex method to refresh the metadata
+    }
 
 }

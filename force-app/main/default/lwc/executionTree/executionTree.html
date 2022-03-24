@@ -2,16 +2,32 @@
   @description :  timeline estructure to show execution tree operations.
 -->
 <template>
-    <lightning-card  title={objectName}>   <!-- Object Name-->
-        <lightning-button label="Refresh" slot="actions"></lightning-button>
-        <div class="slds-p-around_medium slds-scrollable_y scrolleable">
-            <ul class="slds-timeline">
-                <template if:true={isAnyOperationCategory}>
-                    <template for:each={operationsByCategory} for:item="operationCategory">
-                        <c-time-line-item key={operationCategory.category} operation={operationCategory}></c-time-line-item>                    
-                    </template>
-                </template>
-            </ul>
+    <template if:false={spinner}>
+        <template if:true={objectIsSelected}>
+            <lightning-card  title={objectName}>   <!-- Object Name-->
+                <lightning-button label="Refresh" slot="actions" onclick={handleRefresh}></lightning-button>
+                <div class="slds-p-around_medium slds-scrollable_y scrolleable">
+                    <ul class="slds-timeline">
+                        <template if:true={isAnyOperationCategory}>
+                            <template for:each={operationsByCategory} for:item="operationCategory">
+                                <c-time-line-item key={operationCategory.category} operation={operationCategory}></c-time-line-item>                    
+                            </template>
+                        </template>
+                    </ul>
+                </div>
+            </lightning-card>
+        </template>
+        <template if:false={objectIsSelected}>
+            <div class="slds-notify slds-notify_alert" role="alert">
+                <span class="slds-assistive-text">info</span>
+                <h2>Please select an object to display the execution tree. <!--Pass to label-->
+                </h2>
+            </div>
+        </template>
+    </template>
+    <template if:true={spinner}>
+        <div class="slds-is-relative" style="height:6rem">
+            <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
         </div>
-    </lightning-card>
+    </template>
 </template>
