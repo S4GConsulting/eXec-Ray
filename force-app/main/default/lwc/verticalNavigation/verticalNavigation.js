@@ -1,62 +1,16 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import TitleLabel from '@salesforce/label/c.SEARCH_OBJECTS_TITLE';
 import PlaceholderLabel from '@salesforce/label/c.SEARCH_OBJECTS_PLACEHOLDER';
 import AnyResult from '@salesforce/label/c.SEARCH_OBJECTS_ANY_RESULT';
+import getObjectsList from '@salesforce/apex/MockController.getObjectsList';
 
 export default class VerticalNavigation extends LightningElement {
 
     labels =  {TitleLabel, PlaceholderLabel, AnyResult}
 
-    /**
-     * ********************
-     * MOCK RECORDS
-     * ********************
-     **/
-
-    standardObjects = [{
-        'Name' : 'Account',
-        'APIName' : '',
-        'Type' : 'Standard'
-    },
-    {
-        'Name' : 'Contact',
-        'APIName' : '',
-        'Type' : 'Standard'
-    },
-    {
-        'Name' : 'Lead',
-        'APIName' : '',
-        'Type' : 'Standard'
-    },
-    {
-        'Name' : 'Opportunity',
-        'APIName' : '',
-        'Type' : 'Standard'
-    },
-    {
-        'Name' : 'Task',
-        'APIName' : '',
-        'Type' : 'Standard'
-    }];
-
-    customObjects = [{
-        'Name' : 'Amounts',
-        'APIName' : '',
-        'Type' : 'Custom'
-    },{
-        'Name' : 'Projects',
-        'APIName' : '',
-        'Type' : 'Custom'
-    },
-    {
-        'Name' : 'Templates',
-        'APIName' : '',
-        'Type' : 'Custom'
-    }];
-
     standardObjectsToShow;
     customObjectsToShow;
-    selectedObjectDeveloperame;
+    isLoading = true;
 
     get isAnyStandardObject(){
         return this.standardObjectsToShow != undefined && this.standardObjectsToShow.length > 0;
@@ -66,10 +20,40 @@ export default class VerticalNavigation extends LightningElement {
         return this.customObjectsToShow != undefined && this.customObjectsToShow.length > 0;
     }
 
+    @wire(getObjectsList, {})
+    wiredMockRecords(result) {
+        if (result.data) {
+            this.standardObjects = result.data.filter(object => object.Type === 'Standard');
+            this.customObjects = result.data.filter(object => object.Type === 'Custom');
+
+            this.formatLabel();
+
+            // Assign variables to list that is show
+            this.standardObjectsToShow = this.standardObjects
+            this.customObjectsToShow = this.customObjects;
+        } else if (result.error) {
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Error',
+                message: result.error.body.message,
+                variant: 'error',
+            }));
+        }
+        this.isLoading = false;
+    }
+
     connectedCallback(){
-        // ToDo: Call controller to retrieve objects
-        this.standardObjectsToShow = this.standardObjects;
-        this.customObjectsToShow = this.customObjects;
+        this.isLoading = true;
+    }
+
+    formatLabel(){
+        this.standardObjects = this.standardObjects.map((element) => ({
+            ...element,
+            Label: element.Name + ' (' + element.APIName + ')'
+        }));
+        this.customObjects = this.customObjects.map((element) => ({
+            ...element,
+            Label: element.Name + ' (' + element.APIName + ')'
+        }));
     }
 
     searchField(event){
@@ -79,13 +63,15 @@ export default class VerticalNavigation extends LightningElement {
     }
 
     handleSelect(event) {
-        this.selectedObjectDeveloperame = event.detail.name;
+        const selectedObjectLabel = event.detail.name.Name;
+        const selectedObjectDevelopername = event.detail.name.APIName;
         
-        const objectToPass = new CustomEvent("objectDevelopername", {
+        const eventWithObject = new CustomEvent("object", {
             detail: {
-                name: this.selectedObjectDeveloperame
+                name: selectedObjectLabel,
+                developername: selectedObjectDevelopername
             }
         })
-        this.dispatchEvent(objectToPass);
+        this.dispatchEvent(eventWithObject);
     }
 }
