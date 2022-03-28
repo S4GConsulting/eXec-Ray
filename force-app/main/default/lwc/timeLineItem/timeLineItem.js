@@ -101,9 +101,15 @@ export default class TimeLineItem extends LightningElement {
     tableColumns = [
         {
             label: 'Label',
-            fieldName: 'label',
-            type: 'text',
+            fieldName: 'url',
+            type: 'url',
             sortable: true,
+            typeAttributes: {
+                label: {
+                  fieldName: "label"
+                },            
+                tooltip: "URL Link"
+            },
             iconName: 'utility:display_text'
         },
         {
@@ -119,45 +125,69 @@ export default class TimeLineItem extends LightningElement {
             type: 'text',
             sortable: true,
             iconName: 'utility:wellness' 
-        },
-        {
-            label: 'URL',
-            fieldName: 'url',
-            type: 'url', 
-            typeAttributes: {label: 'LINK TO'},
-            iconName: 'utility:zoomin'
-                
         }
     ];
 
+    /**
+     * @description : control if an item is expandable or not.
+    **/
     get itemStyle() {
         return this.showDetails ? "slds-timeline__item_expandable slds-is-open" : "slds-timeline__item_expandable";
     }
 
+    /**
+     * @description : control itemButton style for hidden or not.
+    **/
     get itemButtonStyle() {
         return this.showDetailsTable ? "slds-button slds-button_icon" : "slds-button slds-button_icon slds-hidden";
     }
 
+    /**
+     * @description : control category icon style for change it if there are not category operations.
+    **/
+    get iconStyle() {
+        return this.showDetailsTable ? "slds-icon slds-icon_small" : "slds-icon slds-icon_small disabledIcon";
+    }
+
+    /**
+     * @description : control category font style for change it if there are not category operations.
+    **/
+    get countItemsStyle() {
+        return this.showDetailsTable ? "slds-var-m-horizontal_xx-small" : "slds-var-m-horizontal_xx-small italic";
+    }
+
+    /**
+     * @description : control category font style for change it if there are not category operations.
+    **/
     get titleStyle() {
         return this.showDetailsTable ? "" : "italic";
     }
 
+    /**
+     * @description : control table visibility.
+    **/
     get showDetailsTable() {
         return this.operation && this.operation.operations.length === 0
                 ? false
                     : true;
     }
 
+    /**
+     * @description : count operation category records.
+    **/
     get operationCounter() {
         return this.operation !== undefined && this.operation.operations.length > 0
                 ? this.operation.operations.length
                     : 0;
     }
     
+    /**
+     * @description : get icon by category name.
+    **/
     get categoryIcon() {
         return ICON_BY_CATEGORY_NAME[this.operation.category] !== undefined 
                 ? ICON_BY_CATEGORY_NAME[this.operation.category] 
-                    : "standard:generic_loading"; //(TBD)
+                    : "standard:generic_loading"; 
     }
 
     handleOpenDetails(){

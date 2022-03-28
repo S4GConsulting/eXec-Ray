@@ -2,11 +2,11 @@
   @description :  timeline estructure to show execution tree operations.
 -->
 <template>
-    <lightning-card  title={objectName}>   <!-- Object Name-->
+    <lightning-card  title={objectLabel}>   <!-- Object Name-->
         <template if:false={spinner}>
             <template if:true={objectIsSelected}>
                 <lightning-button label="Refresh" slot="actions" onclick={handleRefresh}></lightning-button>
-                <div class="slds-p-around_medium slds-scrollable_y scrolleable">
+                <div class="slds-p-left_medium slds-p-right_medium slds-scrollable_y scrolleable">
                     <ul class="slds-timeline">
                         <template if:true={isAnyOperationCategory}>
                             <template for:each={operationsByCategory} for:item="operationCategory">
@@ -121,7 +121,7 @@
                     </g>
                     </svg>
                     <div class="slds-text-longform">
-                    <div class="slds-text-color_weak">{label.PLEASE_SELECT_OBJECT}</div>
+                    <div class="slds-text-color_weak"> {label.PLEASE_SELECT_OBJECT}</div>
                     </div>
                 </div>
             </template>
