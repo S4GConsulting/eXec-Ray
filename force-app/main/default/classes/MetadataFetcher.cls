@@ -10,12 +10,12 @@ public abstract class MetadataFetcher {
     * @param ; 
     * @return Wrapper? 
     **/
-    abstract public String requestMetadata(List<String> sobjectNames);
+    abstract public List<CategoryOperation> requestMetadata(List<String> sobjectNames);
 
     /**
     * @description Transforms metadata into a readable structure.
     * @param ; 
     * @return Wrapper? 
     **/
-    abstract public String parseMetadata();
+    abstract public List<CategoryOperation> parseMetadata();
 }
