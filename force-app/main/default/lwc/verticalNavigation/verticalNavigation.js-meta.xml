@@ -14,14 +14,14 @@
                     {
                         "type": "object",
                         "properties": {
-                            "name": {
+                            "label": {
                                 "type": "string",
-                                "title": "Object name",
-                                "description": "Enter an object name"
+                                "title": "Object label",
+                                "description": "Enter an object label"
                             },
-                            "developername": {
+                            "developerName": {
                                 "type": "string",
-                                "title": "Object developername",
+                                "title": "Object developerName",
                                 "description": "Enter an object developer name"
                             }
                        }
