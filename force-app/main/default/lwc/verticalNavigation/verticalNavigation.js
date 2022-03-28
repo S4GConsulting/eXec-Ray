@@ -23,8 +23,8 @@ export default class VerticalNavigation extends LightningElement {
     @wire(getObjectsList, {})
     wiredMockRecords(result) {
         if (result.data) {
-            this.standardObjects = result.data.filter(object => object.Type === 'Standard');
-            this.customObjects = result.data.filter(object => object.Type === 'Custom');
+            this.standardObjects = result.data.filter(object => object.type === 'Standard');
+            this.customObjects = result.data.filter(object => object.type === 'Custom');
 
             this.formatLabel();
 
@@ -48,11 +48,11 @@ export default class VerticalNavigation extends LightningElement {
     formatLabel(){
         this.standardObjects = this.standardObjects.map((element) => ({
             ...element,
-            Label: element.Name + ' (' + element.APIName + ')'
+            label: element.name + ' (' + element.apiName + ')'
         }));
         this.customObjects = this.customObjects.map((element) => ({
             ...element,
-            Label: element.Name + ' (' + element.APIName + ')'
+            label: element.name + ' (' + element.apiName + ')'
         }));
     }
 
@@ -63,8 +63,8 @@ export default class VerticalNavigation extends LightningElement {
     }
 
     handleSelect(event) {
-        const selectedObjectLabel = event.detail.name.Name;
-        const selectedObjectDevelopername = event.detail.name.APIName;
+        const selectedObjectLabel = event.detail.name.name;
+        const selectedObjectDevelopername = event.detail.name.apiName;
         
         const eventWithObject = new CustomEvent("object", {
             detail: {
