@@ -3,7 +3,6 @@ import getObjectMetadata from '@salesforce/apex/MockController.getObjectMetadata
 import { showErrorMessage } from 'c/idUtils';
 
 //Custom Labels
-
 import PLEASE_SELECT_OBJECT from '@salesforce/label/c.PLEASE_SELECT_OBJECT';
 
 export default class ExecutionTree extends LightningElement {
@@ -18,15 +17,19 @@ export default class ExecutionTree extends LightningElement {
     label = {PLEASE_SELECT_OBJECT};
 
     //To control spinner visibility.
-    _objectName;
+    _objectLabel;
+
+    //Input variable for dynamic interaction or parent component.
+    @api objectDeveloperName;
 
     //Input variable for dynamic interaction or parent component.
     @api
-    get objectName() {
-        return this._objectName;
+    get objectLabel() {
+        return this._objectLabel;
     }
-    set objectName(value) {
-        this._objectName = value;
+    set objectLabel(value) {
+        console.log(JSON.stringify(value));
+        this._objectLabel = value;
         if(value !== ''){
             this.spinner = true;
         }
@@ -44,15 +47,25 @@ export default class ExecutionTree extends LightningElement {
      * ********************
      **/
 
+    /**
+     * @description :control show time line items childs
+    **/
     get isAnyOperationCategory(){
         return this.operationsByCategory != undefined && this.operationsByCategory.length > 0;
     }
 
+    /**
+     * @description : control visibility object details.
+    **/
     get objectIsSelected(){
-        return this.objectName ? true : false;
+        return this.objectLabel ? true : false;
     }
 
-    @wire(getObjectMetadata, { objectName: '$objectName', recordsNumber : 10})
+    /**
+     * @description : get execution data records.
+     * @param objectName 
+    **/
+    @wire(getObjectMetadata, { objectName: '$objectDeveloperName', recordsNumber : 10})
     wiredMockRecords(result) {
         if (result.data) {
             this.operationsByCategory = result.data;

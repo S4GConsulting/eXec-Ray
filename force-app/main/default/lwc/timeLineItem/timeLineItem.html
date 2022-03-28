@@ -12,38 +12,31 @@
                             </lightning-icon>
                         </button>
                     <div class="slds-icon_container slds-timeline__icon" title={operation.category}>  <!-- Color and icon by category-->
-                        <lightning-icon icon-name={categoryIcon} size="small" class="slds-icon slds-icon_small" >
+                        <lightning-icon icon-name={categoryIcon} size="small" class={iconStyle} >
                         </lightning-icon>
                     </div>
                 </div>
                 <div class="slds-media__body">
-                    <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                    <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
                             <h3 class="slds-truncate" title={label.OPERATION_CATEGORY_TITLE}>   
                                 <p class={titleStyle}> <strong> {operation.category} </strong> </p>    <!-- Category Name-->
                             </h3>
                         </div>
                     </div>
-                    <p class="slds-var-m-horizontal_xx-small">
+                    <p class={countItemsStyle}>
                         {operationCounter} {label.ITEMS_MESSAGE	} <!-- Number of operations TBD pass to label-->
                     </p>
                     <template if:true={showDetails}>
-                        <template if:true={showDetailsTable}>
-                            <div class="slds-var-p-top_small"> <!-- Operations Records-->
-                                <c-full-data-table
-                                    records={operation.operations}  
-                                    columns={tableColumns}
-                                    hide-checkbox={hideCheckbox}
-                                    scroll={scrollable}
-                                    height={height}
-                                ></c-full-data-table>
-                            </div> 
-                        </template>
-                        <template if:false={showDetailsTable}>
-                            <p class="slds-var-m-horizontal_xx-small">
-                                {label.NO_ITEMS_MESSAGE	} 
-                            </p>
-                        </template>
+                        <div class="slds-var-p-top_small"> <!-- Operations Records-->
+                            <c-full-data-table
+                                records={operation.operations}  
+                                columns={tableColumns}
+                                hide-checkbox={hideCheckbox}
+                                scroll={scrollable}
+                                height={height}
+                            ></c-full-data-table>
+                        </div> 
                     </template>
                 </div>
             </div>

@@ -9,7 +9,8 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__AppPage">
-            <property name="objectName" type="String" label="Object Name" />
+            <property name="objectLabel" type="String" label="Object Label" />
+            <property name="objectDeveloperName" type="String" label="Object Developer Name" />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
