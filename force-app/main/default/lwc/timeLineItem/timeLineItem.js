@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 
-//Custom Labels
+// Custom Labels
 
 import OPEN_DETAILS_MESSAGE from '@salesforce/label/c.OPEN_DETAILS_MESSAGE';
 import OPERATION_CATEGORY_TITLE from '@salesforce/label/c.OPERATION_CATEGORY_TITLE';
@@ -83,21 +83,21 @@ export default class TimeLineItem extends LightningElement {
      * ********************
      **/
 
-    //Operation data with all information category data.
+    // Operation data with all information category data.
     @api operation;
 
-    //Custom labels
+    // Custom labels
     label = {OPEN_DETAILS_MESSAGE, OPERATION_CATEGORY_TITLE, ITEMS_MESSAGE, NO_ITEMS_MESSAGE};
 
-    //Control the visibility of the detail operations by category area operations.
+    // Control the visibility of the detail operations by category area operations.
     showDetails = false;
 
-    //Child table variables.
+    // Child table variables.
     hideCheckbox = true;
     scrollable = true;
     height;
 
-    //Columns for table. (TBD)
+    // Columns for table. (TBD)
     tableColumns = [
         {
             label: 'Label',

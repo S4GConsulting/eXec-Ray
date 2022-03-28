@@ -13,16 +13,16 @@ export default class ExecutionTree extends LightningElement {
      * ********************
      **/
 
-    //Custom labels
+    // Custom labels
     label = {PLEASE_SELECT_OBJECT};
 
-    //To control spinner visibility.
+    // To control spinner visibility.
     _objectLabel;
 
-    //Input variable for dynamic interaction or parent component.
+    // Input variable for dynamic interaction or parent component.
     @api objectDeveloperName;
 
-    //Input variable for dynamic interaction or parent component.
+    // Input variable for dynamic interaction or parent component.
     @api
     get objectLabel() {
         return this._objectLabel;
@@ -35,10 +35,10 @@ export default class ExecutionTree extends LightningElement {
         }
     }
 
-    //Variable to store the different operations by type of category as VRs, triggers, flow trigger..
+    // Variable to store the different operations by type of category as VRs, triggers, flow trigger..
     @track operationsByCategory;
 
-    //Variable to control when the spinner have to show
+    // Variable to control when the spinner have to show
     spinner;
 
     /**
