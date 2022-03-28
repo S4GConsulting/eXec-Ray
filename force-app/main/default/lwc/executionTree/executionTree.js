@@ -6,8 +6,6 @@ import { showErrorMessage } from 'c/idUtils';
 
 import PLEASE_SELECT_OBJECT from '@salesforce/label/c.PLEASE_SELECT_OBJECT';
 
-const SUCCESS_TITLE = 'Success';
-
 export default class ExecutionTree extends LightningElement {
 
     /**
