@@ -1,1 +1,4 @@
-{}
+.italic{
+    font-style: italic;
+    color: lightgrey !important;
+}

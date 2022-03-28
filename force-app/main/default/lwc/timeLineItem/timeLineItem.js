@@ -134,6 +134,14 @@ export default class TimeLineItem extends LightningElement {
         return this.showDetails ? "slds-timeline__item_expandable slds-is-open" : "slds-timeline__item_expandable";
     }
 
+    get itemButtonStyle() {
+        return this.showDetailsTable ? "slds-button slds-button_icon" : "slds-button slds-button_icon slds-hidden";
+    }
+
+    get titleStyle() {
+        return this.showDetailsTable ? "" : "italic";
+    }
+
     get showDetailsTable() {
         return this.operation && this.operation.operations.length === 0
                 ? false
