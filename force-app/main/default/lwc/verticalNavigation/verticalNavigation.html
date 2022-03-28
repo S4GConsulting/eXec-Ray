@@ -15,7 +15,7 @@
                         </template>
                         <template if:true={isAnyStandardObject}>
                             <template for:each={standardObjectsToShow} for:item="object">
-                                <lightning-vertical-navigation-item key={object.APIName} label={object.Label} name={object}></lightning-vertical-navigation-item>
+                                <lightning-vertical-navigation-item key={object.apiName} label={object.label} name={object}></lightning-vertical-navigation-item>
                             </template>
                         </template>
                     </lightning-vertical-navigation-section>
@@ -25,7 +25,7 @@
                         </template>
                         <template if:true={isAnyCustomdObject}>
                             <template for:each={customObjectsToShow} for:item="object">
-                                <lightning-vertical-navigation-item key={object.APIName} label={object.Label} name={object}></lightning-vertical-navigation-item>
+                                <lightning-vertical-navigation-item key={object.apiName} label={object.label} name={object}></lightning-vertical-navigation-item>
                             </template>
                         </template>
                     </lightning-vertical-navigation-section>
