@@ -1,5 +1,12 @@
 import { LightningElement, api } from 'lwc';
 
+//Custom Labels
+
+import OPEN_DETAILS_MESSAGE from '@salesforce/label/c.OPEN_DETAILS_MESSAGE';
+import OPERATION_CATEGORY_TITLE from '@salesforce/label/c.OPERATION_CATEGORY_TITLE';
+import ITEMS_MESSAGE from '@salesforce/label/c.ITEMS_MESSAGE';
+import NO_ITEMS_MESSAGE from '@salesforce/label/c.NO_ITEMS_MESSAGE';
+
 /**
  * *************************
  * CATEGORY ICONS DEFINITION (TBD)
@@ -79,13 +86,16 @@ export default class TimeLineItem extends LightningElement {
     //Operation data with all information category data.
     @api operation;
 
+    //Custom labels
+    label = {OPEN_DETAILS_MESSAGE, OPERATION_CATEGORY_TITLE, ITEMS_MESSAGE, NO_ITEMS_MESSAGE};
+
     //Control the visibility of the detail operations by category area operations.
     showDetails = false;
 
     //Child table variables.
     hideCheckbox = true;
     scrollable = true;
-    height = 120;
+    height;
 
     //Columns for table. (TBD)
     tableColumns = [

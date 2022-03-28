@@ -8,7 +8,7 @@
                 <div class="slds-media__figure">
                     <button class="slds-button slds-button_icon" title='Open Details' onclick={handleOpenDetails}> <!-- Control for show details area -->
                         <lightning-icon icon-name="utility:switch" size="xx-small" class="slds-button__icon slds-timeline__details-action-icon" 
-                                        alternative-text="Open or close the details of the different operations"> <!-- TBD pass to label-->
+                                        alternative-text={label.OPEN_DETAILS_MESSAGE}> <!-- TBD pass to label-->
                         </lightning-icon>
                     </button>
                     <div class="slds-icon_container slds-timeline__icon" title={operation.category}>  <!-- Color and icon by category-->
@@ -19,13 +19,13 @@
                 <div class="slds-media__body">
                     <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
                         <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
-                            <h3 class="slds-truncate" title="Operation Category">   <!-- TBD pass to label-->
+                            <h3 class="slds-truncate" title={label.OPERATION_CATEGORY_TITLE}>   
                                 <p> <strong> {operation.category} </strong> </p>    <!-- Category Name-->
                             </h3>
                         </div>
                     </div>
                     <p class="slds-var-m-horizontal_xx-small">
-                        {operationCounter} Items <!-- Number of operations TBD pass to label-->
+                        {operationCounter} {label.ITEMS_MESSAGE	} <!-- Number of operations TBD pass to label-->
                     </p>
                     <template if:true={showDetails}>
                         <template if:true={showDetailsTable}>
@@ -41,7 +41,7 @@
                         </template>
                         <template if:false={showDetailsTable}>
                             <p class="slds-var-m-horizontal_xx-small">
-                                No items to show. <!--TBD pass to label-->
+                                {label.NO_ITEMS_MESSAGE	} 
                             </p>
                         </template>
                     </template>

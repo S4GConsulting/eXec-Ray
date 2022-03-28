@@ -2,6 +2,10 @@ import { LightningElement, api, wire, track } from 'lwc';
 import getObjectMetadata from '@salesforce/apex/MockController.getObjectMetadata';
 import { showErrorMessage } from 'c/idUtils';
 
+//Custom Labels
+
+import PLEASE_SELECT_OBJECT from '@salesforce/label/c.PLEASE_SELECT_OBJECT';
+
 const SUCCESS_TITLE = 'Success';
 
 export default class ExecutionTree extends LightningElement {
@@ -11,6 +15,9 @@ export default class ExecutionTree extends LightningElement {
      * VARIABLES DEFINITION
      * ********************
      **/
+
+    //Custom labels
+    label = {PLEASE_SELECT_OBJECT};
 
     //To control spinner visibility.
     _objectName;
@@ -22,14 +29,16 @@ export default class ExecutionTree extends LightningElement {
     }
     set objectName(value) {
         this._objectName = value;
-        this.spinner = true;
+        if(value !== ''){
+            this.spinner = true;
+        }
     }
 
     //Variable to store the different operations by type of category as VRs, triggers, flow trigger..
     @track operationsByCategory;
 
     //Variable to control when the spinner have to show
-    spinner = true;
+    spinner;
 
     /**
      * ********************
