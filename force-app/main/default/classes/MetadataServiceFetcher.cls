@@ -4,65 +4,58 @@
 
 public with sharing class MetadataServiceFetcher extends MetadataFetcher {
 
-    final List<String> METADATA_TYPES = new List<String>{'SharingRules'};
-    static List<MetadataService.SharingRules> retrievedSharingRules = new List<MetadataService.SharingRules>();
+    final private List<String> METADATA_TYPES = new List<String>{'SharingRules'};
+    
+    private List<MetadataService.SharingRules> retrievedSharingRules = new List<MetadataService.SharingRules>();
 
-    public override Map<String,List<CategoryOperation>> requestMetadata(List<String> sobjectNames) {
+    public MetadataServiceFetcher(List<String> sobjectNames, List<String> categories) {
+        super(sobjectNames,categories);
+    }
+
+    public override Map<String,List<CategoryOperation>> requestMetadata() {
         
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
         service.SessionHeader = new MetadataService.SessionHeader_element();
         service.SessionHeader.sessionId = UserInfo.getSessionId();
         List<MetadataService.SharingRules> sharingRules  = new List<MetadataService.SharingRules>();
         
-        
-        retrievedSharingRules.addAll((List<MetadataService.SharingRules>) service.readMetadata(METADATA_TYPES, new String[] {sobjectNames}).getRecords());
+        this.retrievedSharingRules.addAll((List<MetadataService.SharingRules>) service.readMetadata(METADATA_TYPES[0], new List<String>(this.sobjectNames)).getRecords());
+ 
+        this.parseMetadata();
 
-        return parseMetadata();
+        return this.operationsByObject;
     }
 
-    public override Map<String,List<CategoryOperation>> parseMetadata() {
-
-        parseSharingRules(MetadataServiceFetcher.retrievedSharingRules);
-
+    private void parseMetadata() {
+        this.parseSharingRules(this.retrievedSharingRules);
     }
 
-
-    public List<String,List< parseSharingRules(List<MetadataService.SharingRules> unparsedSharingRules) {
-        
-        Map<String,List<CategoryOperation>> operationList = new Map<String,List<CategoryOperation>>();
-        
-        for(MetadataService.SharingRules sobjectSharingRule : unparsedSharingRules) {
-
-            parseSObjectSharingRule(sobjectSharingRule);
+    private void parseSharingRules(List<MetadataService.SharingRules> unparsedSharingRules) {
+        Integer categoryIndex = this.getCategoryIndex(METADATA_TYPES[0]);
+        for(MetadataService.SharingRules rule : unparsedSharingRules) {
+            if(rule.sharingCriteriaRules != null) {
+                this.operationsByObject.get(rule.fullName)[categoryIndex].operations.addAll(this.parseBaseSharingRule(rule.sharingCriteriaRules));
+            }
+            if(rule.sharingOwnerRules != null) {
+                this.operationsByObject.get(rule.fullName)[categoryIndex].operations.addAll(this.parseBaseSharingRule(rule.sharingOwnerRules));
+            }
+            if(rule.sharingTerritoryRules != null) {
+                this.operationsByObject.get(rule.fullName)[categoryIndex].operations.addAll(this.parseBaseSharingRule(rule.sharingTerritoryRules));
+            }
+            if(rule.sharingGuestRules != null) {
+                this.operationsByObject.get(rule.fullName)[categoryIndex].operations.addAll(this.parseBaseSharingRule(rule.sharingGuestRules));
+            }       
         }  
     }
 
-    parseSObjectSharingRule(MetadataService.SharingRules sRule) {
-        List<CategoryOperation> operationList = new 
-        if(sRule.sharingCriteriaRules != null) {
-            for(MetadataService.SharingCriteriaRule rule : sRule.sharingCriteriaRules) {
-                
-            }
+    private List<CategoryOperation.Operation> parseBaseSharingRule(List<MetadataService.SharingBaseRule> rules) {
+        List<CategoryOperation.Operation> ruleList = new List<CategoryOperation.Operation>();
+        for(MetadataService.SharingBaseRule rule : rules) {
+            CategoryOperation.Operation tempSharingRule= new CategoryOperation.Operation();
+            tempSharingRule.label = rule.label;
+            tempSharingRule.developerName = rule.fullName;
+            ruleList.add(tempSharingRule);
         }
-        if(sRule.sharingOwnerRules != null) {
-            for(MetadataService.SharingOwnerRule rule : sRule.sharingOwnerRules) {
-                System.debug(rule.label);
-                System.debug(rule.fullName);
-            }
-        }
-        if(sRule.sharingTerritoryRules != null) {
-            for(MetadataService.SharingTerritoryRule rule : sRule.sharingTerritoryRules) {
-                System.debug(rule.label);
-                System.debug(rule.fullName);
-            }
-        }
-        if(sRule.sharingGuestRules != null) {
-            for(MetadataService.SharingGuestRule rule : sRule.sharingGuestRules) {
-                System.debug(rule.label);
-                System.debug(rule.fullName);
-            }
-        }
-    }
-    return operationList;
+        return ruleList;
     }
 }
