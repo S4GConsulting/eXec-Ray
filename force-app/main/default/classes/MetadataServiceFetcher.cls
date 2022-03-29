@@ -8,10 +8,19 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     
     private List<MetadataService.SharingRules> retrievedSharingRules = new List<MetadataService.SharingRules>();
 
+    /**
+    * @description Class constructor
+    * @param sobjectNames 
+    * @param categories 
+    **/
     public MetadataServiceFetcher(List<String> sobjectNames, List<String> categories) {
         super(sobjectNames,categories);
     }
 
+    /**
+    * @description Executes all metadata request logic
+    * @return Map<String, List<CategoryOperation>> 
+    **/
     public override Map<String,List<CategoryOperation>> requestMetadata() {
         
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
@@ -26,14 +35,23 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         return this.operationsByObject;
     }
 
+    /**
+    * @description Transforms metadata into a readable structure.
+    **/
     private void parseMetadata() {
         this.parseSharingRules(this.retrievedSharingRules);
     }
 
+
+    /**
+    * @description Transforms SharingRules metadata into a readable structure (operationsByObject).
+    * @param unparsedSharingRules 
+    **/
     private void parseSharingRules(List<MetadataService.SharingRules> unparsedSharingRules) {
         Integer categoryIndex = this.getCategoryIndex(METADATA_TYPES[0]);
         for(MetadataService.SharingRules rule : unparsedSharingRules) {
             if(rule.sharingCriteriaRules != null) {
+                // Updates operationsByObject map, this map is returned by requestMetadata, class public method 
                 this.operationsByObject.get(rule.fullName)[categoryIndex].operations.addAll(this.parseBaseSharingRule(rule.sharingCriteriaRules));
             }
             if(rule.sharingOwnerRules != null) {
@@ -48,6 +66,11 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         }  
     }
 
+    /**
+    * @description Parses each different type of MetadataService.SharingRules class into the proper data structure of Operation.
+    * @param rules SharingBaseRule list. Virtual class behind the differente types of sharing rules from MetadataService class.
+    * @return List<CategoryOperation.Operation> 
+    **/
     private List<CategoryOperation.Operation> parseBaseSharingRule(List<MetadataService.SharingBaseRule> rules) {
         List<CategoryOperation.Operation> ruleList = new List<CategoryOperation.Operation>();
         for(MetadataService.SharingBaseRule rule : rules) {
