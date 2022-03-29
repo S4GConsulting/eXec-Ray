@@ -3,6 +3,37 @@
 **/
 public abstract class MetadataFetcher {
     
+    private Map<String, Integer> categoriesOrder = new Map<String, Integer>{
+        'Record Before Trigger Flows' => 0,
+        'Before Triggers' => 1,
+        'Validation rules' => 2,
+        'Duplicate rules' => 3,
+        'After Triggers' => 4,
+        'Assignment Rules' => 5,
+        'Autoresponse Rules' => 6,
+        'Workflow Rules' => 7,
+        'Process Builders' => 8,
+        'Escalation Rules' => 9,
+        'Record After Tirgger Flows' => 10,
+        'Entitlement Rules' => 11
+    };
+
+    private Map<String, List<CategoryOperation>> operationsByObject = new Map<String, List<CategoryOperation>>();
+    private List<String> sobjectNames = new List<String>();
+
+    public MetadataFetcher(List<String> sobjectNames, List<String> categories) {
+        this.sobjectNames = sobjectNames;
+        for(String sobjectName : sobjectNames) {
+            List<CategoryOperation> categoryOperations = new List<CategoryOperation>();
+            for(String categoryName : categories) {
+                CategoryOperation catOperation = new CategoryOperation();
+                catOperation.category = categoryName;
+                catOperation.order = this.categoriesOrder.get(categoryName);
+                categoryOperations.add(catOperation);
+            }
+            this.operationsByObject.put(sobjectName, categoryOperations);
+        }
+    }
 
     /**
     * @description Executes all metadata request logic
@@ -10,12 +41,12 @@ public abstract class MetadataFetcher {
     * @param ; 
     * @return Wrapper? 
     **/
-    abstract public List<CategoryOperation> requestMetadata(List<String> sobjectNames);
+    abstract public Map<String, List<CategoryOperation>> requestMetadata();
 
     /**
     * @description Transforms metadata into a readable structure.
     * @param ; 
     * @return Wrapper? 
     **/
-    abstract public List<CategoryOperation> parseMetadata();
+    abstract private void parseMetadata();
 }

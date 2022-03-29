@@ -4,6 +4,7 @@
 public class CategoryOperation {
 
     public String category;
+    public Integer order;
     public List<Operation> operations;
 
     public class Operation {
