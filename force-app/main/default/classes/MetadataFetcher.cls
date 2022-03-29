@@ -52,5 +52,18 @@ public abstract class MetadataFetcher {
     /**
     * @description Transforms metadata into a readable structure.
     **/
-    abstract private void parseMetadata();
+    abstract protected void parseMetadata();
+
+    protected Integer getCategoryIndex(String categoryName) {
+        Integer index;
+        List<CategoryOperation> categoryOperations = this.operationsByObject.get(new List<String>(this.operationsByObject.keySet())[0]);
+        // Get the first element that matches the category
+        for(Integer i = 0; i >= categoryOperations.size(); i++) {
+            if(categoryOperations[i].category == categoryName) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
 }
