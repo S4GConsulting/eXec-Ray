@@ -1134,7 +1134,7 @@ public class MetadataService {
         private String[] field_order_type_info = new String[]{'done','id','message','state','statusCode'};
     }
     public class MetadataPort {
-        public String endpoint_x = URL.getOrgDomainURL().toExternalForm() + '/services/Soap/m/55.0';
+        public String endpoint_x = URL.getOrgDomainURL().toExternalForm() + '/services/Soap/m/54.0';
         public Map<String,String> inputHttpHeaders_x;
         public Map<String,String> outputHttpHeaders_x;
         public String clientCertName_x;
