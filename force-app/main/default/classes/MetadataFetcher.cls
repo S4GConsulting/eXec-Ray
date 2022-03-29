@@ -18,9 +18,14 @@ public abstract class MetadataFetcher {
         'Entitlement Rules' => 11
     };
 
-    private Map<String, List<CategoryOperation>> operationsByObject = new Map<String, List<CategoryOperation>>();
-    private List<String> sobjectNames = new List<String>();
+    protected Map<String, List<CategoryOperation>> operationsByObject = new Map<String, List<CategoryOperation>>();
+    protected List<String> sobjectNames = new List<String>();
 
+    /**
+    * @description Class constructor
+    * @param sobjectNames 
+    * @param categories 
+    **/
     public MetadataFetcher(List<String> sobjectNames, List<String> categories) {
         this.sobjectNames = sobjectNames;
         for(String sobjectName : sobjectNames) {
@@ -29,6 +34,7 @@ public abstract class MetadataFetcher {
                 CategoryOperation catOperation = new CategoryOperation();
                 catOperation.category = categoryName;
                 catOperation.order = this.categoriesOrder.get(categoryName);
+                catOperation.operations = new List<CategoryOperation.Operation>();
                 categoryOperations.add(catOperation);
             }
             this.operationsByObject.put(sobjectName, categoryOperations);
@@ -39,14 +45,12 @@ public abstract class MetadataFetcher {
     * @description Executes all metadata request logic
     * @param sobjectNames Names of Salesforce objects to be targeted during request. 
     * @param ; 
-    * @return Wrapper? 
+    * @return Map containing List<CategoryOperation> per SFObject name. 
     **/
     abstract public Map<String, List<CategoryOperation>> requestMetadata();
 
     /**
     * @description Transforms metadata into a readable structure.
-    * @param ; 
-    * @return Wrapper? 
     **/
     abstract private void parseMetadata();
 }
