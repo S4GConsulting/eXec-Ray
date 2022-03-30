@@ -38,7 +38,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     /**
     * @description Transforms metadata into a readable structure.
     **/
-    private void parseMetadata() {
+    protected override void parseMetadata() {
         this.parseSharingRules(this.retrievedSharingRules);
     }
 
@@ -63,7 +63,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
             if(rule.sharingGuestRules != null) {
                 this.operationsByObject.get(rule.fullName)[categoryIndex].operations.addAll(this.parseBaseSharingRule(rule.sharingGuestRules));
             }       
-        }  
+        }
     }
 
     /**
