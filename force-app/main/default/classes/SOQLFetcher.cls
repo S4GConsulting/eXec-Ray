@@ -16,22 +16,19 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
             'developerName' => 'DeveloperName',
             'namespace' => 'NamespacePrefix',
             'createdDate' => 'CreatedDate',
-            'lastModifiedDate' => 'LastModifiedDate',
-            'category' => 'Duplicate rules'
+            'lastModifiedDate' => 'LastModifiedDate'
         },
         'AssignmentRule' => new Map<String, String>{
             'label' => 'Name',
             'developerName' => 'Name',
             'createdDate' => 'CreatedDate',
-            'lastModifiedDate' => 'LastModifiedDate',
-            'category' => 'Assignment Rules'
+            'lastModifiedDate' => 'LastModifiedDate'
         },
         'SlaProcess' => new Map<String, String>{
             'label' => 'Name',
             'developerName' => 'NameNorm',
             'createdDate' => 'CreatedDate',
-            'lastModifiedDate' => 'LastModifiedDate',
-            'category' => 'Entitlement Rules'
+            'lastModifiedDate' => 'LastModifiedDate'
         }
     };
 
@@ -69,7 +66,7 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
             newOperation.createdDate = (Datetime)(getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('createdDate')));
             newOperation.lastModifiedDate = (Datetime)(getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('lastModifiedDate')));
             //System.debug((Datetime)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('createdDate')));
-            Integer indexCategory = this.getCategoryIndex(OPERATION_MAPPING.get(objectName).get('category'));
+            Integer indexCategory = this.getCategoryIndex(CATEGORIES_MAPPING.get(objectName));
             //Each record needs to be added to the map with the corresponding SObjectType that it belongs to
             this.operationsByObject.get((String)metadataObject.get('SobjectType'))[indexCategory].operations.add(newOperation);
         }
