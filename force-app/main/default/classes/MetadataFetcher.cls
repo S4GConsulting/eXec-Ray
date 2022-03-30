@@ -15,7 +15,8 @@ public abstract class MetadataFetcher {
         'Process Builders' => 8,
         'Escalation Rules' => 9,
         'Record After Tirgger Flows' => 10,
-        'Entitlement Rules' => 11
+        'Entitlement Rules' => 11,
+        'SharingRules' => 12
     };
 
     protected Map<String, List<CategoryOperation>> operationsByObject = new Map<String, List<CategoryOperation>>();
@@ -58,7 +59,7 @@ public abstract class MetadataFetcher {
         Integer index;
         List<CategoryOperation> categoryOperations = this.operationsByObject.get(new List<String>(this.operationsByObject.keySet())[0]);
         // Get the first element that matches the category
-        for(Integer i = 0; i >= categoryOperations.size(); i++) {
+        for(Integer i = 0; i <= categoryOperations.size(); i++) {
             if(categoryOperations[i].category == categoryName) {
                 index = i;
                 break;
