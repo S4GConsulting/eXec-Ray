@@ -9,6 +9,7 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__AppPage">
+            <property name="refreshDatetime" type="String" label="Refresh datetime" />
             <event name="object" label="Object to send">
                 <schema>
                     {
