@@ -1,8 +1,11 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire, api } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { showErrorMessage } from 'c/idUtils';
 import TitleLabel from '@salesforce/label/c.SEARCH_OBJECTS_TITLE';
 import PlaceholderLabel from '@salesforce/label/c.SEARCH_OBJECTS_PLACEHOLDER';
 import AnyResult from '@salesforce/label/c.SEARCH_OBJECTS_ANY_RESULT';
 import getObjectsList from '@salesforce/apex/MockController.getObjectsList';
+import { refreshApex } from '@salesforce/apex';
 
 export default class VerticalNavigation extends LightningElement {
     
@@ -24,12 +27,55 @@ export default class VerticalNavigation extends LightningElement {
     customObjectsToShow;
     // Control spinner visibility
     isLoading = true;
+    // Selected navigarion item
+    selected = undefined;
+    // Record from wire method
+    _wiredRecord;
+    // Private parameter to save refresh datetime
+    _refreshDatetime;
+    // Save datetime last refresh. When this is updated the component is reloaded
+    @api
+    get refreshDatetime(){
+        return this._refreshDatetime;
+    }
+
+    set refreshDatetime(value){
+        this.refresh();  
+        this._refreshDatetime = value; 
+    }
+
 
     /**
      * ********************
      * LOGIC IMPLEMENTATION
      * ********************
-     **/
+     **/    
+
+    /**
+     * @description : get and format organization Objects list
+    **/
+     @wire(getObjectsList)
+     wiredMockRecords(result) {
+         const { data, error } = result;
+         this._wiredRecords = result;
+         if (data) {
+             this.standardObjects = data.filter(object => object.type === 'Standard');
+             this.customObjects = data.filter(object => object.type === 'Custom');
+ 
+             this.formatLabel();
+ 
+             // Assign variables to the list that is show
+             this.standardObjectsToShow = this.standardObjects
+             this.customObjectsToShow = this.customObjects;
+         } else if (error) {
+             this.dispatchEvent(new ShowToastEvent({
+                 title: 'Error',
+                 message: result.error.body.message,
+                 variant: 'error',
+             }));
+         }
+         this.isLoading = false;
+     }
 
     /**
      * @description : control if Standard Objects list is empty.
@@ -43,30 +89,6 @@ export default class VerticalNavigation extends LightningElement {
     **/
     get isAnyCustomdObject(){
         return this.customObjectsToShow && this.customObjectsToShow.length > 0;
-    }
-
-    /**
-     * @description : get and format organization Objects list
-    **/
-    @wire(getObjectsList, {})
-    wiredMockRecords(result) {
-        if (result.data) {
-            this.standardObjects = result.data.filter(object => object.type === 'Standard');
-            this.customObjects = result.data.filter(object => object.type === 'Custom');
-
-            this.formatLabel();
-
-            // Assign variables to the list that is show
-            this.standardObjectsToShow = this.standardObjects
-            this.customObjectsToShow = this.customObjects;
-        } else if (result.error) {
-            this.dispatchEvent(new ShowToastEvent({
-                title: 'Error',
-                message: result.error.body.message,
-                variant: 'error',
-            }));
-        }
-        this.isLoading = false;
     }
 
     /**
@@ -100,11 +122,24 @@ export default class VerticalNavigation extends LightningElement {
     }
 
     /**
+     * @description : refresh list of objects
+    **/
+    refresh(){
+        this.isLoading = true;
+        this.selected = undefined;
+        refreshApex(this._wiredRecords).then(() => {
+            this.isLoading = false;
+        });   
+    }
+
+    /**
      * @description : handle item selected. Launch custom event to Dynamic Interaction as defines in XML
     **/
     handleSelect(event) {
         const selectedObjectLabel = event.detail.name.name;
         const selectedObjectDevelopername = event.detail.name.apiName;
+
+        this.selected = event.detail.label;
         
         const eventWithObject = new CustomEvent("object", {
             detail: {
