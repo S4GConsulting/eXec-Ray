@@ -3,11 +3,11 @@
 **/
 public abstract class MetadataFetcher {
     
-    private Map<String, Integer> categoriesOrder = new Map<String, Integer>{
+    private final Map<String, Integer> CATEGORIES_ORDER = new Map<String, Integer> {
         'Record Before Trigger Flows' => 0,
         'Before Triggers' => 1,
-        'Validation rules' => 2,
-        'Duplicate rules' => 3,
+        'Validation Rules' => 2,
+        'Duplicate Rules' => 3,
         'After Triggers' => 4,
         'Assignment Rules' => 5,
         'Autoresponse Rules' => 6,
@@ -16,7 +16,14 @@ public abstract class MetadataFetcher {
         'Escalation Rules' => 9,
         'Record After Tirgger Flows' => 10,
         'Entitlement Rules' => 11,
-        'SharingRules' => 12
+        'Sharing Rules' => 12
+    };
+
+    protected final Map<String, String> CATEGORIES_MAPPING = new Map<String, String> {
+        'DuplicateRule' => 'Duplicate Rules',
+        'AssignmentRule' => 'Assignment Rules',
+        'SlaProcess' => 'Entitlement Rules',
+        'SharingRules' => 'Sharing Rules'
     };
 
     protected Map<String, List<CategoryOperation>> operationsByObject = new Map<String, List<CategoryOperation>>();
@@ -34,7 +41,7 @@ public abstract class MetadataFetcher {
             for(String categoryName : categories) {
                 CategoryOperation catOperation = new CategoryOperation();
                 catOperation.category = categoryName;
-                catOperation.order = this.categoriesOrder.get(categoryName);
+                catOperation.order = this.CATEGORIES_ORDER.get(categoryName);
                 catOperation.operations = new List<CategoryOperation.Operation>();
                 categoryOperations.add(catOperation);
             }
