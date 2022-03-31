@@ -11,6 +11,20 @@
         <targetConfig targets="lightning__AppPage">
             <property name="objectLabel" type="String" label="Object Label" />
             <property name="objectDeveloperName" type="String" label="Object Developer Name" />
+            <event name="refresh" label="Refresh event">
+                <schema>
+                    {
+                        "type": "object",
+                        "properties": {
+                            "refreshDateTime": {
+                                "type": "string",
+                                "title": "Refreshed time",
+                                "description": "refreshed datetime"
+                            }
+                        }
+                    }
+                </schema>
+            </event>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

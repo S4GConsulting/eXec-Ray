@@ -1,6 +1,8 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import getObjectMetadata from '@salesforce/apex/MockController.getObjectMetadata';
 import { showErrorMessage } from 'c/idUtils';
+import { refreshApex } from '@salesforce/apex';
+
 
 //Custom Labels
 import PLEASE_SELECT_OBJECT from '@salesforce/label/c.PLEASE_SELECT_OBJECT';
@@ -21,6 +23,9 @@ export default class ExecutionTree extends LightningElement {
 
     // Input variable for dynamic interaction or parent component.
     @api objectDeveloperName;
+    
+    // Variable to refresh data.
+    _wiredRecords;
 
     // Input variable for dynamic interaction or parent component.
     @api
@@ -28,10 +33,12 @@ export default class ExecutionTree extends LightningElement {
         return this._objectLabel;
     }
     set objectLabel(value) {
-        console.log(JSON.stringify(value));
-        this._objectLabel = value;
-        if(value !== ''){
+        if(value !== '' && value !== undefined){     
+            this._objectLabel = value;
             this.spinner = true;
+            refreshApex(this._wiredRecords).then(() => {
+                this.spinner = false;
+            });
         }
     }
 
@@ -61,12 +68,14 @@ export default class ExecutionTree extends LightningElement {
         return this.objectLabel ? true : false;
     }
 
+    
     /**
      * @description : get execution data records.
      * @param objectName 
     **/
     @wire(getObjectMetadata, { objectName: '$objectDeveloperName', recordsNumber : 10})
     wiredMockRecords(result) {
+        this._wiredRecords = result;
         if (result.data) {
             this.operationsByCategory = result.data;
         } else if (result.error) {
@@ -75,8 +84,20 @@ export default class ExecutionTree extends LightningElement {
         this.spinner = false;
     }
 
+    /**
+     * @description : fire refresh event to other component and reset variables.
+    **/
     handleRefresh(){
-        //TODO call to apex method to refresh the metadata
+        const refreshEvent = new CustomEvent("refresh", {
+            detail: {
+                //Is neccesary send a dynamic value because if we send the same 
+               //value always, does not fit in the target component setter (USING DYNAMIC INTERACTION)
+                refreshDateTime: Date.now().toString()
+            }
+        })
+        this.dispatchEvent(refreshEvent);
+        this._objectLabel = undefined; 
+        this.operationsByCategory = undefined;       
     }
 
 }
