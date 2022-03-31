@@ -18,4 +18,22 @@ public with sharing class ExecutionTreeController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+    /**
+    * @description Get a List with all the Operations for each Category in a given SObject
+    * @param objectName 
+    * @return List<CategoryOperation> 
+    **/
+    @AuraEnabled(cacheable=true)
+    public static List<CategoryOperation> getObjectMetadata(String objectName){
+        try {
+            ExecutionTreeHandler handler = new ExecutionTreeHandler();
+            List<CategoryOperation> categoryOperations = new List<CategoryOperation>();
+            categoryOperations = handler.getCategoryOperations(objectName);
+            return categoryOperations;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
 }

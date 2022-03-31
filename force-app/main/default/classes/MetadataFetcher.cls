@@ -30,11 +30,11 @@ public abstract class MetadataFetcher {
     protected List<String> sobjectNames = new List<String>();
 
     /**
-    * @description Class constructor
+    * @description Class constructor, every class that extends this class needs to call init() in requestMetadata();
     * @param sobjectNames 
     * @param categories 
     **/
-    public MetadataFetcher(List<String> sobjectNames, List<String> categories) {
+    protected void init(List<String> sobjectNames, List<String> categories) {
         this.sobjectNames = sobjectNames;
         for(String sobjectName : sobjectNames) {
             List<CategoryOperation> categoryOperations = new List<CategoryOperation>();
@@ -52,10 +52,10 @@ public abstract class MetadataFetcher {
     /**
     * @description Executes all metadata request logic
     * @param sobjectNames Names of Salesforce objects to be targeted during request. 
-    * @param ; 
+    * @param categories
     * @return Map containing List<CategoryOperation> per SFObject name. 
     **/
-    abstract public Map<String, List<CategoryOperation>> requestMetadata();
+    abstract public Map<String, List<CategoryOperation>> requestMetadata(List<String> sobjectNames, List<String> categories);
 
     /**
     * @description Transforms metadata into a readable structure.
