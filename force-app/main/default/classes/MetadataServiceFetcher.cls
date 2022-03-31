@@ -9,19 +9,11 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     private List<MetadataService.SharingRules> retrievedSharingRules = new List<MetadataService.SharingRules>();
 
     /**
-    * @description Class constructor
-    * @param sobjectNames 
-    * @param categories 
-    **/
-    public MetadataServiceFetcher(List<String> sobjectNames, List<String> categories) {
-        super(sobjectNames,categories);
-    }
-
-    /**
     * @description Executes all metadata request logic
     * @return Map<String, List<CategoryOperation>> 
     **/
-    public override Map<String,List<CategoryOperation>> requestMetadata() {
+    public override Map<String,List<CategoryOperation>> requestMetadata(List<String> sobjectNames, List<String> categories) {
+        init(sobjectNames, categories);
         
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
         service.SessionHeader = new MetadataService.SessionHeader_element();
@@ -48,7 +40,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     * @param unparsedSharingRules 
     **/
     private void parseSharingRules(List<MetadataService.SharingRules> unparsedSharingRules) {
-        Integer categoryIndex = this.getCategoryIndex(METADATA_TYPES[0]);
+        Integer categoryIndex = this.getCategoryIndex(CATEGORIES_MAPPING.get(METADATA_TYPES[0]));
         for(MetadataService.SharingRules rule : unparsedSharingRules) {
             if(rule.sharingCriteriaRules != null) {
                 // Updates operationsByObject map, this map is returned by requestMetadata, class public method 

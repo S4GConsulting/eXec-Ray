@@ -1,7 +1,7 @@
 /**
  * @description       : Operations that ocurrs during a DML execution grouped for each of the categories
 **/
-public class CategoryOperation {
+public class CategoryOperation implements Comparable {
 
     public String category;
     public Integer order;
@@ -15,5 +15,17 @@ public class CategoryOperation {
         public String namespace;
         public Datetime createdDate;
         public Datetime lastModifiedDate;
+    }
+
+    /**
+    * @description Implements Comparable interface in order to sort by order of CategoryOperation
+    * @param compareTo 
+    * @return Integer 
+    **/
+    public Integer compareTo(Object compareTo) {
+        CategoryOperation compareToCategory = (CategoryOperation)compareTo;
+        if(order > compareToCategory.order) {return 1;}
+        else if(order < compareToCategory.order) {return -1;}
+        return 0;
     }
 }
