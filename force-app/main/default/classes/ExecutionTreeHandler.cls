@@ -3,21 +3,15 @@
 **/
 public with sharing class ExecutionTreeHandler {
 
-    //Remove these types from the list
-    private final List<String> IGNORED_TYPES = new List<String> {'Share', 'History','ChangeEvent'};
-
     /**
     * @description Obtain the list of SObject relevant in the org
     * @return List<SFObject> 
     **/
     public List<SFObject> getObjectList() {
         List<SFObject> sfObjects = new List<SFObject>();
-        List<Schema.SObjectType> sObjectTypes = Schema.getGlobalDescribe().values();
-        for(Schema.SObjectType sObjectType : sObjectTypes) {
-            Schema.DescribeSObjectResult objectDescribe = sObjectType.getDescribe();
-            if(!IGNORED_TYPES.contains(objectDescribe.getAssociateEntityType())) {
-                sfObjects.add(getObjectWrapper(objectDescribe));
-            }
+        List<EntityDefinition> entities = [SELECT QualifiedApiName, MasterLabel FROM EntityDefinition WHERE IsCustomizable = true];
+        for(EntityDefinition entity : entities) {
+            sfObjects.add(getObjectWrapper(entity));
         }
         return sfObjects;
     }
@@ -27,11 +21,11 @@ public with sharing class ExecutionTreeHandler {
     * @param objectDescribe 
     * @return SFObject 
     **/
-    private SFObject getObjectWrapper(Schema.DescribeSObjectResult objectDescribe) {
+    private SFObject getObjectWrapper(EntityDefinition objectDescribe) {
         SFObject sfObjectWrapper = new SFObject();
-        sfObjectWrapper.label = objectDescribe.getLabel();
-        sfObjectWrapper.apiName = objectDescribe.getName();
-        sfObjectWrapper.type = objectDescribe.isCustom() ? 'Custom' : 'Standard';
+        sfObjectWrapper.label = objectDescribe.MasterLabel;
+        sfObjectWrapper.apiName = objectDescribe.QualifiedApiName;
+        sfObjectWrapper.type = objectDescribe.QualifiedApiName.contains('__c') ? 'Custom' : 'Standard';
         return sfObjectWrapper;
     }
 }
