@@ -4,7 +4,8 @@ import { showErrorMessage } from 'c/idUtils';
 import TitleLabel from '@salesforce/label/c.SEARCH_OBJECTS_TITLE';
 import PlaceholderLabel from '@salesforce/label/c.SEARCH_OBJECTS_PLACEHOLDER';
 import AnyResult from '@salesforce/label/c.SEARCH_OBJECTS_ANY_RESULT';
-import getObjectsList from '@salesforce/apex/MockController.getObjectsList';
+//import getObjectsList from '@salesforce/apex/MockController.getObjectsList';
+import init from '@salesforce/apex/ExecutionTreeController.init';
 import { refreshApex } from '@salesforce/apex';
 
 export default class VerticalNavigation extends LightningElement {
@@ -40,7 +41,9 @@ export default class VerticalNavigation extends LightningElement {
     }
 
     set refreshDatetime(value){
-        this.refresh();  
+        if(value){ // Is neccesary for the first rendered time
+            this.refresh();
+        }
         this._refreshDatetime = value; 
     }
 
@@ -54,7 +57,7 @@ export default class VerticalNavigation extends LightningElement {
     /**
      * @description : get and format organization Objects list
     **/
-     @wire(getObjectsList)
+     @wire(init)
      wiredMockRecords(result) {
          const { data, error } = result;
          this._wiredRecords = result;
@@ -104,11 +107,11 @@ export default class VerticalNavigation extends LightningElement {
     formatLabel(){
         this.standardObjects = this.standardObjects.map((element) => ({
             ...element,
-            label: element.name + ' (' + element.apiName + ')'
+            formattedlabel: element.label + ' (' + element.apiName + ')'
         }));
         this.customObjects = this.customObjects.map((element) => ({
             ...element,
-            label: element.name + ' (' + element.apiName + ')'
+            formattedlabel: element.label + ' (' + element.apiName + ')'
         }));
     }
 
@@ -117,8 +120,8 @@ export default class VerticalNavigation extends LightningElement {
     **/
     searchField(event){
         let searchText = event.target.value;
-        this.standardObjectsToShow = this.standardObjects.filter(object => object.name.toLowerCase().includes(searchText.toLowerCase()));
-        this.customObjectsToShow = this.customObjects.filter(object => object.name.toLowerCase().includes(searchText.toLowerCase()));
+        this.standardObjectsToShow = this.standardObjects.filter(object => object.label.toLowerCase().includes(searchText.toLowerCase()));
+        this.customObjectsToShow = this.customObjects.filter(object => object.label.toLowerCase().includes(searchText.toLowerCase()));
     }
 
     /**
@@ -136,7 +139,7 @@ export default class VerticalNavigation extends LightningElement {
      * @description : handle item selected. Launch custom event to Dynamic Interaction as defines in XML
     **/
     handleSelect(event) {
-        const selectedObjectLabel = event.detail.name.name;
+        const selectedObjectLabel = event.detail.name.label;
         const selectedObjectDevelopername = event.detail.name.apiName;
 
         this.selected = event.detail.label;
