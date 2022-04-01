@@ -101,8 +101,8 @@ export default class TimeLineItem extends LightningElement {
     tableColumns = [
         {
             label: 'Label',
-            fieldName: 'url',
-            type: 'url',
+            fieldName: 'label',
+            type: 'text',
             sortable: true,
             typeAttributes: {
                 label: {
@@ -113,18 +113,26 @@ export default class TimeLineItem extends LightningElement {
             iconName: 'utility:display_text'
         },
         {
-            label: 'API Name',
-            fieldName: 'apiName',
+            label: 'Developer Name',
+            fieldName: 'developerName',
             type: 'text',
             sortable: true,
             iconName: 'utility:variable'
         },
         {
-            label: 'Namespace',
-            fieldName: 'namespace',
-            type: 'text',
+            label: 'Created Date',
+            fieldName: 'createdDate',
+            type: 'date',
             sortable: true,
-            iconName: 'utility:wellness' 
+            iconName: 'utility:event' 
+        }
+        ,
+        {
+            label: 'Last Modify Date',
+            fieldName: 'lastModifiedDate',
+            type: 'date',
+            sortable: true,
+            iconName: 'utility:event_ext' 
         }
     ];
 
@@ -167,7 +175,7 @@ export default class TimeLineItem extends LightningElement {
      * @description : control table visibility.
     **/
     get showDetailsTable() {
-        return this.operation && this.operation.operations.length === 0
+        return this.operation && this.operation.operations && this.operation.operations.length === 0
                 ? false
                     : true;
     }
@@ -176,7 +184,7 @@ export default class TimeLineItem extends LightningElement {
      * @description : count operation category records.
     **/
     get operationCounter() {
-        return this.operation !== undefined && this.operation.operations.length > 0
+        return this.operation && this.operation.operations && this.operation.operations.length > 0
                 ? this.operation.operations.length
                     : 0;
     }
@@ -191,7 +199,6 @@ export default class TimeLineItem extends LightningElement {
     }
 
     handleOpenDetails(){
-       
         if(this.showDetails){ 
             this.showDetails = false
         }else{
