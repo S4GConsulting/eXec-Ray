@@ -1,8 +1,7 @@
 import { LightningElement, api, wire, track } from 'lwc';
-import getObjectMetadata from '@salesforce/apex/MockController.getObjectMetadata';
+import getObjectMetadata from '@salesforce/apex/ExecutionTreeController.getObjectMetadata';
 import { showErrorMessage } from 'c/idUtils';
 import { refreshApex } from '@salesforce/apex';
-
 
 //Custom Labels
 import PLEASE_SELECT_OBJECT from '@salesforce/label/c.PLEASE_SELECT_OBJECT';
@@ -42,6 +41,19 @@ export default class ExecutionTree extends LightningElement {
         }
     }
 
+    @api
+    get refreshDatetime(){
+        return this._refreshDatetime;
+    }
+
+    set refreshDatetime(value){
+        this.spinner = true;
+        refreshApex(this._wiredRecords).then(() => {
+            this.spinner = false;
+        });
+        this._refreshDatetime = value; 
+    }
+
     // Variable to store the different operations by type of category as VRs, triggers, flow trigger..
     @track operationsByCategory;
 
@@ -58,7 +70,7 @@ export default class ExecutionTree extends LightningElement {
      * @description :control show time line items childs
     **/
     get isAnyOperationCategory(){
-        return this.operationsByCategory != undefined && this.operationsByCategory.length > 0;
+        return this.operationsByCategory  && this.operationsByCategory.length > 0;
     }
 
     /**
@@ -73,31 +85,16 @@ export default class ExecutionTree extends LightningElement {
      * @description : get execution data records.
      * @param objectName 
     **/
-    @wire(getObjectMetadata, { objectName: '$objectDeveloperName', recordsNumber : 10})
+    @wire(getObjectMetadata, { objectName: '$objectDeveloperName'})
     wiredMockRecords(result) {
         this._wiredRecords = result;
         if (result.data) {
+            console.log(JSON.stringify(result.data));
             this.operationsByCategory = result.data;
         } else if (result.error) {
-            showErrorMessage(result.error);
+            console.log(JSON.stringify(result.error));
+            this.dispatchEvent(showErrorMessage(result.error));
         }
         this.spinner = false;
     }
-
-    /**
-     * @description : fire refresh event to other component and reset variables.
-    **/
-    handleRefresh(){
-        const refreshEvent = new CustomEvent("refresh", {
-            detail: {
-                //Is neccesary send a dynamic value because if we send the same 
-               //value always, does not fit in the target component setter (USING DYNAMIC INTERACTION)
-                refreshDateTime: Date.now().toString()
-            }
-        })
-        this.dispatchEvent(refreshEvent);
-        this._objectLabel = undefined; 
-        this.operationsByCategory = undefined;       
-    }
-
 }
