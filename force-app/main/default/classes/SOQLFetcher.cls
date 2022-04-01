@@ -9,7 +9,6 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
         'SlaProcess' => new List<String>{'Name','NameNorm','CreatedDate','LastModifiedDate','SobjectType'}
     };
 
-    // TODO: Remove category, should be in the MetadataFetcher.
     private final Map<String, Map<String, String>> OPERATION_MAPPING = new Map<String, Map<String, String>>{
         'DuplicateRule' => new Map<String, String>{
             'label' => 'MasterLabel',
@@ -34,18 +33,20 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
 
     private List<SObject> metadataObjects = new List<SObject>();
 
-    public SOQLFetcher(List<String> sobjectNames, List<String> categories) {
-        super(sobjectNames, categories);
-    }
-
-    public override Map<String, List<CategoryOperation>> requestMetadata() {
+    /**
+    * @description Query each object dinamically for each supported type
+    * @param sobjectNames 
+    * @param categories 
+    * @return Map<String, List<CategoryOperation>> 
+    **/
+    public override Map<String, List<CategoryOperation>> requestMetadata(List<String> sobjectNames, List<String> categories) {
+        init(sobjectNames, categories);
         // Need to do 3 different queries depending the object passed
         // For each object, launch a query.
         for(String type : FIELDS_BY_TYPE.keySet()) {
             String fields = String.join(FIELDS_BY_TYPE.get(type), ',');
-            String objects = String.join(this.sobjectNames, '\',\'');
-            String query = 'SELECT ' + String.escapeSingleQuotes(fields) + ' FROM ' + String.escapeSingleQuotes(type) + ' WHERE SobjectType IN (\'' + objects + '\')';
-            metadataObjects.addAll(Database.query(query));
+            String query = 'SELECT ' + fields + ' FROM ' + type + ' WHERE SobjectType IN :sobjectNames';
+            metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
         }
 
         parseMetadata();
@@ -53,6 +54,9 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
         return this.operationsByObject;
     }
 
+    /**
+    * @description Parse each of the entities into a CategoryOperation and stores to the corresponding object
+    **/
     protected override void parseMetadata() {
         List<CategoryOperation> categoryOperations = new List<CategoryOperation>();
 
@@ -65,13 +69,18 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
             newOperation.namespace = (String)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('namespace'));
             newOperation.createdDate = (Datetime)(getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('createdDate')));
             newOperation.lastModifiedDate = (Datetime)(getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('lastModifiedDate')));
-            //System.debug((Datetime)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('createdDate')));
             Integer indexCategory = this.getCategoryIndex(CATEGORIES_MAPPING.get(objectName));
             //Each record needs to be added to the map with the corresponding SObjectType that it belongs to
             this.operationsByObject.get((String)metadataObject.get('SobjectType'))[indexCategory].operations.add(newOperation);
         }
     }
 
+    /**
+    * @description Get field value regardless of type
+    * @param metadataObject 
+    * @param fieldName 
+    * @return Object 
+    **/
     private Object getFieldValue(SObject metadataObject, String fieldName) {
         Object fieldValue = fieldName != null ? metadataObject.get(fieldName) : null;
         return fieldValue;
