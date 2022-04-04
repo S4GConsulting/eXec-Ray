@@ -4,7 +4,6 @@ import { showErrorMessage } from 'c/idUtils';
 import TitleLabel from '@salesforce/label/c.SEARCH_OBJECTS_TITLE';
 import PlaceholderLabel from '@salesforce/label/c.SEARCH_OBJECTS_PLACEHOLDER';
 import AnyResult from '@salesforce/label/c.SEARCH_OBJECTS_ANY_RESULT';
-//import getObjectsList from '@salesforce/apex/MockController.getObjectsList';
 import init from '@salesforce/apex/ExecutionTreeController.init';
 import { refreshApex } from '@salesforce/apex';
 
@@ -47,7 +46,6 @@ export default class VerticalNavigation extends LightningElement {
         this._refreshDatetime = value; 
     }
 
-
     /**
      * ********************
      * LOGIC IMPLEMENTATION
@@ -70,10 +68,11 @@ export default class VerticalNavigation extends LightningElement {
              // Assign variables to the list that is show
              this.standardObjectsToShow = this.standardObjects
              this.customObjectsToShow = this.customObjects;
+             this.isLoading = false;
          } else if (error) {
             this.dispatchEvent(showErrorMessage(error));
+            this.isLoading = false;
          }
-         this.isLoading = false;
      }
 
     /**
@@ -88,13 +87,6 @@ export default class VerticalNavigation extends LightningElement {
     **/
     get isAnyCustomdObject(){
         return this.customObjectsToShow && this.customObjectsToShow.length > 0;
-    }
-
-    /**
-     * @description : set as loading in component callback
-    **/
-    connectedCallback(){
-        this.isLoading = true;
     }
 
     /**
