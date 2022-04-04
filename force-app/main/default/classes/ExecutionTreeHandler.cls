@@ -5,6 +5,7 @@ public with sharing class ExecutionTreeHandler {
 
     private final Map<String, List<String>> CATEGORY_FETCHER = new Map<String, List<String>> {
         'SOQLFetcher' => new List<String> {'Duplicate Rules','Assignment Rules','Entitlement Rules'}
+        //'ToolingApiFetcher' => new List<String>{'After Triggers', 'Autoresponse Rules', 'Before Triggers', 'Validation Rules', 'Workflow Rules'},
         //'MetadataServiceFetcher' => new List<String> {'Sharing Rules'}
     };
     /**
