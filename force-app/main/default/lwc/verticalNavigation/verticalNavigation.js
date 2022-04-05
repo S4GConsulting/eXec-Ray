@@ -120,6 +120,9 @@ export default class VerticalNavigation extends LightningElement {
         this.selected = undefined;
         refreshApex(this._wiredRecords).then(() => {
             this.isLoading = false;
+        }, (error) => {
+            this.dispatchEvent(showErrorMessage(error));
+            this.spinner = false;
         });          
         this.standardObjectsToShow = this.standardObjects
         this.customObjectsToShow = this.customObjects; 
