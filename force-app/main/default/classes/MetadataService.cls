@@ -1451,7 +1451,7 @@ public class MetadataService {
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
         private String[] field_order_type_info = new String[]{'result'};
     }
-    public class FlowStart {
+    public class FlowStart extends FlowNode {
         public MetadataService.FlowConnector connector;
         public Boolean doesRequireRecordChangedToMeetCriteria;
         public String filterLogic;
@@ -1462,6 +1462,14 @@ public class MetadataService {
         public MetadataService.FlowSchedule schedule;
         public MetadataService.FlowScheduledPath[] scheduledPaths;
         public String triggerType;
+        public String elementSubtype;
+        public String label;
+        public Integer locationX;
+        public Integer locationY;
+        private String[] elementSubtype_type_info = new String[]{'elementSubtype','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
+        private String[] label_type_info = new String[]{'label','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
+        private String[] locationX_type_info = new String[]{'locationX','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
+        private String[] locationY_type_info = new String[]{'locationY','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] connector_type_info = new String[]{'connector','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] doesRequireRecordChangedToMeetCriteria_type_info = new String[]{'doesRequireRecordChangedToMeetCriteria','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] filterLogic_type_info = new String[]{'filterLogic','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
@@ -3034,12 +3042,12 @@ public class MetadataService {
         private String[] name_type_info = new String[]{'name','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         public String elementSubtype;
         public String label;
-        public Integer locationX;
-        public Integer locationY;
+        //public Integer locationX;
+        //public Integer locationY;
         private String[] elementSubtype_type_info = new String[]{'elementSubtype','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] label_type_info = new String[]{'label','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
-        private String[] locationX_type_info = new String[]{'locationX','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
-        private String[] locationY_type_info = new String[]{'locationY','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
+        //private String[] locationX_type_info = new String[]{'locationX','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
+        //private String[] locationY_type_info = new String[]{'locationY','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         public String assignRecordIdToReference;
         public MetadataService.FlowConnector connector;
         public MetadataService.FlowConnector faultConnector;
