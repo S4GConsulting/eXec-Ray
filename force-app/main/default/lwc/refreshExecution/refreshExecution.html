@@ -1,5 +1,18 @@
+<!--
+  @description       : 
+  @author            : juanjo.prieto@s4g.es
+  @group             : 
+  @last modified on  : 2022-04-05
+  @last modified by  : juanjo.prieto@s4g.es
+-->
 <template>
     <lightning-card class="card-height">
-        <lightning-button label="Refresh" slot="actions" icon-name="utility:refresh" onclick={handleRefresh}></lightning-button>
+        <h3 slot="title">
+            <lightning-icon icon-name="standard:bundle_config" size="medium"></lightning-icon>
+            <span class="slds-p-left_small">eXec-RAY</span>
+        </h3>  
+        <div slot="actions">
+            <span class="slds-p-right_small refreshText"><i>Last refresh: {parsedDate}</i></span><lightning-button label="Refresh" slot="actions" icon-name="utility:refresh" onclick={handleRefresh}></lightning-button>
+        </div>
     </lightning-card>
 </template>

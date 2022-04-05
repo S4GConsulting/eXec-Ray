@@ -2,7 +2,7 @@
   @description       : Search in a list of objects
 -->
 <template>
-    <lightning-card class="card-height" title={labels.TitleLabel}>     
+    <lightning-card class="card-height" title={labels.TitleLabel}>   
         <template if:false={isLoading}>  
             <div class="slds-p-left_medium slds-p-right_medium">
                 <lightning-input data-id="userinput" label="Search an object:" name="searchText" onchange={searchField} placeholder={labels.PlaceholderLabel}></lightning-input>
