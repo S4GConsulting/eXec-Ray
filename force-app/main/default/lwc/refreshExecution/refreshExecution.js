@@ -1,8 +1,11 @@
 import { LightningElement } from 'lwc';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import NoHeader from '@salesforce/resourceUrl/NoHeader';
+import logo from '@salesforce/resourceUrl/eXecRayLogo';
 
 export default class RefreshExecution extends LightningElement {
+
+    execRayLogo = logo;
 
     /**
      * ********************
@@ -40,7 +43,7 @@ export default class RefreshExecution extends LightningElement {
      * @description : removes header on init.
     **/
     connectedCallback() {
-        loadStyle(this, NoHeader)
+        loadStyle(this, NoHeader);
     }
 
     /**
