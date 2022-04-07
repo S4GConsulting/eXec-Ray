@@ -28,7 +28,7 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
         HttpRequest req = new HttpRequest();
         req.setEndpoint(URL.getOrgDomainURL().toExternalForm() + '/services/data/v53.0/tooling/composite');
         req.setMethod('GET');
-        req.setHeader('Authorization', 'Bearer ' + Session__c.getInstance().SessionId__c); //UserInfo.getSessionID());
+        req.setHeader('Authorization', 'Bearer ' + Session__c.getInstance().SessionId__c);
         req.setHeader('Content-Type', 'application/json');
         CompositeWrapper composite = new CompositeWrapper();
         composite.allOrNone = 'true';

@@ -14,7 +14,7 @@ public abstract class MetadataFetcher {
         'Workflow Rules' => 7,
         'Process Builders' => 8,
         'Escalation Rules' => 9,
-        'Record After Tirgger Flows' => 10,
+        'Record After Trigger Flows' => 10,
         'Entitlement Rules' => 11,
         'Sharing Rules' => 12
     };
