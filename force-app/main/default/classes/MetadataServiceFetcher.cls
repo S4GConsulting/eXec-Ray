@@ -11,6 +11,9 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     private static final string WORKFLOWS = 'WorkflowRules'; 
     private static final string BEFORETRIGGERFLOW ='RecordBeforeSave';
     private static final string AFTERTRIGGERFLOW ='RecordAfterSave';
+    private static final string PROCESSTYPE_WORKFLOW ='Workflow';
+    private static final string PROCESSTYPE_AUTOLAUNCHEDFLOW='AutoLaunchedFlow';
+    private static final string PROCESSBUILDER ='ProcessBuilder';
     private static final string ACTIVE ='Active';
 
     private Map<String,List<MetadataService.Metadata>> retrievedResponse = new Map<String,List<MetadataService.Metadata>>();
@@ -27,24 +30,28 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         CategorySettingHelper.fillCategory();
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
         service.SessionHeader = new MetadataService.SessionHeader_element();
-        service.SessionHeader.sessionId = Session__c.getInstance().SessionId__c;// UserInfo.getSessionId();
-        //List<MetadataService.SharingRules> sharingRules  = new List<MetadataService.SharingRules>();
-        for(Category_Setting__mdt category :CategorySettingHelper.getAllCategorySettingsMetadata()){
-            if(!FLOWS.equalsIgnoreCase(category.ApiName__c)){
-                this.retrievedResponse.put(category.DeveloperName , service.readMetadata(category.ApiName__c, new List<String>(this.sobjectNames)).getRecords());
-            }else if(!category.RepeatApi__c) {
-                MetadataService.ListMetadataQuery query = new MetadataService.ListMetadataQuery();
-                query.type_x= category.ApiName__c;
-	            double asOfVersion = 50.0;
-                MetadataService.FileProperties[] propeties = service.listMetadata(new List<MetadataService.ListMetadataQuery>{query}, asOfVersion);
-                for(MetadataService.FileProperties fileProperty : propeties){
-                    flowByFullName.put(fileProperty.fullName, fileProperty);
+        service.SessionHeader.sessionId = Session__c.getInstance().SessionId__c;
+        service.timeout_x = 50000;
+        try{
+            for(Category_Setting__mdt category :CategorySettingHelper.getAllCategorySettingsMetadata()){
+                if(!FLOWS.equalsIgnoreCase(category.ApiName__c)){
+                    this.retrievedResponse.put(category.DeveloperName , service.readMetadata(category.ApiName__c, new List<String>(this.sobjectNames)).getRecords());
+                }else if(!category.RepeatApi__c) {
+                    MetadataService.ListMetadataQuery query = new MetadataService.ListMetadataQuery();
+                    query.type_x= category.ApiName__c;
+                    double asOfVersion = 50.0;
+                    MetadataService.FileProperties[] propeties = service.listMetadata(new List<MetadataService.ListMetadataQuery>{query}, asOfVersion);
+                    for(MetadataService.FileProperties fileProperty : propeties){
+                        flowByFullName.put(fileProperty.fullName, fileProperty);
+                    }
+                    this.retrievedResponse.put(category.ApiName__c , service.readMetadata(category.ApiName__c, new List<String>(flowByFullName.keySet())).getRecords());
                 }
-                this.retrievedResponse.put(category.ApiName__c , service.readMetadata(category.ApiName__c, new List<String>(flowByFullName.keySet())).getRecords());
             }
+            this.parseMetadata();
+        }catch(Exception e){
+            system.debug('exception'+ e.getMessage() + e.getLineNumber());
         }
-
-        this.parseMetadata();
+        
         return this.operationsByObject;
     }
 
@@ -168,12 +175,19 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     private void parseFlows(List<MetadataService.Flow> unparsedFlows){
         Integer categoryIndexBefore = this.getCategoryIndex(CategorySettingHelper.getCategorySettingMetadata(BEFORETRIGGERFLOW).Label);
         Integer categoryIndexAfter = this.getCategoryIndex(CategorySettingHelper.getCategorySettingMetadata(AFTERTRIGGERFLOW).Label);
+        Integer categoryIndexProcess = this.getCategoryIndex(CategorySettingHelper.getCategorySettingMetadata(PROCESSBUILDER).Label);
         for(MetadataService.Flow rule : unparsedFlows) {
-            if(ACTIVE.equalsIgnoreCase(rule.status) && this.operationsByObject.containsKey(rule.start.object_x)){
-                if(BEFORETRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)){
-                    this.operationsByObject.get(rule.start.object_x)[categoryIndexBefore].operations.add(this.parseBaseFlow(rule));
-                }else if(AFTERTRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)) {
-                    this.operationsByObject.get(rule.start.object_x)[categoryIndexAfter].operations.add(this.parseBaseFlow(rule));
+            if(ACTIVE.equalsIgnoreCase(rule.status)){
+                List<MetadataService.FlowRecordUpdate> updateRecords = (List<MetadataService.FlowRecordUpdate>) rule.recordUpdates;
+                String sObject_x = updateRecords[0]?.object_x;
+                if(PROCESSTYPE_AUTOLAUNCHEDFLOW.equalsIgnoreCase(rule.processType) && this.operationsByObject.containsKey(rule.start.object_x)){
+                    if(BEFORETRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)){
+                        this.operationsByObject.get(rule.start.object_x)[categoryIndexBefore].operations.add(this.parseBaseFlow(rule));
+                    }else if(AFTERTRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)) {
+                        this.operationsByObject.get(rule.start.object_x)[categoryIndexAfter].operations.add(this.parseBaseFlow(rule));
+                    }
+                } else if(PROCESSTYPE_WORKFLOW.equalsIgnoreCase(rule.processType) && this.operationsByObject.containsKey(sObject_x)){
+                    this.operationsByObject.get(sObject_x)[categoryIndexProcess].operations.add(this.parseBaseFlow(rule));
                 }
             }
         }
