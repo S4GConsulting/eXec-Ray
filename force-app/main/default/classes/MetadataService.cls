@@ -159,9 +159,11 @@ public class MetadataService {
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
         private String[] field_order_type_info = new String[]{'dateFormat','definitionCreationType','externalName','isEventDate','isInternalOrganization','isRecordModified','primaryIndexOrder'};
     }
-    public class FlowStageStepInputParameter {
+    public class FlowStageStepInputParameter extends FlowBaseElement {
         public String name;
         public MetadataService.FlowElementReferenceOrValue value;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] name_type_info = new String[]{'name','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] value_type_info = new String[]{'value','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
@@ -203,9 +205,11 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'processMetadataValues', 'assignToReference','operator','value'};
     }
-    public class FlowVisibilityRule {
+    public class FlowVisibilityRule extends FlowBaseElement{
         public String conditionLogic;
         public MetadataService.FlowCondition[] conditions;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] conditionLogic_type_info = new String[]{'conditionLogic','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] conditions_type_info = new String[]{'conditions','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
@@ -277,10 +281,12 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'fullName', 'active','ruleEntry'};
     }
-    public class FlowCollectionMapItem {
+    public class FlowCollectionMapItem extends FlowBaseElement {
         public String assignToFieldReference;
         public String operator;
         public MetadataService.FlowElementReferenceOrValue value;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] assignToFieldReference_type_info = new String[]{'assignToFieldReference','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] operator_type_info = new String[]{'operator','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] value_type_info = new String[]{'value','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
@@ -393,7 +399,7 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'fullName', 'businessHours','casesPerEntitlement','entitlementProcess','isPerIncident','term','type_x'};
     }
-    public class FlowStageStep {
+    public class FlowStageStep extends FlowBaseElement{
         public String actionName;
         public String actionType;
         public MetadataService.FlowStageStepAssignee[] assignees;
@@ -411,6 +417,8 @@ public class MetadataService {
         public String label;
         public MetadataService.FlowStageStepOutputParameter[] outputParameters;
         public Boolean requiresAsyncProcessing;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] actionName_type_info = new String[]{'actionName','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] actionType_type_info = new String[]{'actionType','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] assignees_type_info = new String[]{'assignees','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
@@ -524,7 +532,7 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'processMetadataValues','description','name', 'choiceText','dataType','userInput','value'};
     }
-    public class WorkflowFlowAction {
+    public class WorkflowFlowAction extends WorkflowAction {
         public String description;
         public String flow;
         public MetadataService.WorkflowFlowActionParameter[] flowInputs;
@@ -658,7 +666,7 @@ public class MetadataService {
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
         private String[] field_order_type_info = new String[]{'flow'};
     }
-    public class FlowCollectionProcessor {
+    public class FlowCollectionProcessor extends FlowNode {
         public String assignNextValueToReference;
         public String collectionProcessorType;
         public String collectionReference;
@@ -670,6 +678,14 @@ public class MetadataService {
         public MetadataService.FlowCollectionMapItem[] mapItems;
         public String outputSObjectType;
         public MetadataService.FlowCollectionSortOption[] sortOptions;
+        public String elementSubtype;
+        public String label;
+        public Integer locationX;
+        public Integer locationY;
+        private String[] elementSubtype_type_info = new String[]{'elementSubtype','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
+        private String[] label_type_info = new String[]{'label','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
+        private String[] locationX_type_info = new String[]{'locationX','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
+        private String[] locationY_type_info = new String[]{'locationY','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] assignNextValueToReference_type_info = new String[]{'assignNextValueToReference','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] collectionProcessorType_type_info = new String[]{'collectionProcessorType','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] collectionReference_type_info = new String[]{'collectionReference','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
@@ -840,7 +856,7 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'fullName', 'active','ruleEntry'};
     }
-    public class FlowOrchestratedStage {
+    public class FlowOrchestratedStage extends FlowNode {
         public MetadataService.FlowConnector connector;
         public MetadataService.FlowStageStepExitActionInputParameter[] exitActionInputParameters;
         public String exitActionName;
@@ -850,6 +866,14 @@ public class MetadataService {
         public MetadataService.FlowCondition[] exitConditions;
         public MetadataService.FlowConnector faultConnector;
         public MetadataService.FlowStageStep[] stageSteps;
+        public String elementSubtype;
+        public String label;
+        public Integer locationX;
+        public Integer locationY;
+        private String[] elementSubtype_type_info = new String[]{'elementSubtype','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
+        private String[] label_type_info = new String[]{'label','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
+        private String[] locationX_type_info = new String[]{'locationX','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
+        private String[] locationY_type_info = new String[]{'locationY','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] connector_type_info = new String[]{'connector','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] exitActionInputParameters_type_info = new String[]{'exitActionInputParameters','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] exitActionName_type_info = new String[]{'exitActionName','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
@@ -910,9 +934,11 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'processMetadataValues','description','name','elementSubtype','label','locationX','locationY', 'assignmentItems','connector'};
     }
-    public class FlowStageStepExitActionOutputParameter {
+    public class FlowStageStepExitActionOutputParameter extends FlowBaseElement {
         public String assignToReference;
         public String name;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] assignToReference_type_info = new String[]{'assignToReference','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] name_type_info = new String[]{'name','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
@@ -924,9 +950,11 @@ public class MetadataService {
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
         private String[] field_order_type_info = new String[]{'result'};
     }
-    public class FlowStageStepEntryActionOutputParameter {
+    public class FlowStageStepEntryActionOutputParameter extends FlowBaseElement {
         public String assignToReference;
         public String name;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] assignToReference_type_info = new String[]{'assignToReference','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] name_type_info = new String[]{'name','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
@@ -1053,9 +1081,11 @@ public class MetadataService {
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
         private String[] field_order_type_info = new String[]{'errorMessage','formulaExpression'};
     }
-    public class FlowStageStepExitActionInputParameter {
+    public class FlowStageStepExitActionInputParameter extends FlowBaseElement {
         public String name;
         public MetadataService.FlowElementReferenceOrValue value;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] name_type_info = new String[]{'name','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] value_type_info = new String[]{'value','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
@@ -1197,9 +1227,11 @@ public class MetadataService {
     }
     public virtual class WorkflowAction extends Metadata {
     }
-    public class FlowDataTypeMapping {
+    public class FlowDataTypeMapping extends FlowBaseElement {
         public String typeName;
         public String typeValue;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] typeName_type_info = new String[]{'typeName','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] typeValue_type_info = new String[]{'typeValue','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
@@ -1329,10 +1361,12 @@ public class MetadataService {
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
         private String[] field_order_type_info = new String[]{'createdById','createdByName','createdDate','fileName','fullName','id','lastModifiedById','lastModifiedByName','lastModifiedDate','manageableState','namespacePrefix','type_x'};
     }
-    public class FlowScreenRuleAction {
+    public class FlowScreenRuleAction extends FlowBaseElement {
         public String attribute;
         public String fieldReference;
         public MetadataService.FlowElementReferenceOrValue value;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] attribute_type_info = new String[]{'attribute','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] fieldReference_type_info = new String[]{'fieldReference','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] value_type_info = new String[]{'value','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
@@ -1543,9 +1577,11 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'processMetadataValues', 'name','value'};
     }
-    public class FlowStageStepOutputParameter {
+    public class FlowStageStepOutputParameter extends FlowBaseElement {
         public String assignToReference;
         public String name;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] assignToReference_type_info = new String[]{'assignToReference','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] name_type_info = new String[]{'name','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
@@ -3042,12 +3078,12 @@ public class MetadataService {
         private String[] name_type_info = new String[]{'name','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         public String elementSubtype;
         public String label;
-        //public Integer locationX;
-        //public Integer locationY;
+        public Integer locationX;
+        public Integer locationY;
         private String[] elementSubtype_type_info = new String[]{'elementSubtype','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] label_type_info = new String[]{'label','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
-        //private String[] locationX_type_info = new String[]{'locationX','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
-        //private String[] locationY_type_info = new String[]{'locationY','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
+        private String[] locationX_type_info = new String[]{'locationX','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
+        private String[] locationY_type_info = new String[]{'locationY','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         public String assignRecordIdToReference;
         public MetadataService.FlowConnector connector;
         public MetadataService.FlowConnector faultConnector;
@@ -3261,9 +3297,13 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'processMetadataValues','description','name','elementSubtype','label','locationX','locationY', 'connector','faultConnector','filterLogic','filters','inputAssignments','inputReference','object_x'};
     }
-    public class FlowScheduledPath {
+    public class FlowScheduledPath extends FlowElement {
         public MetadataService.FlowConnector connector;
         public String label;
+        public String description;
+        public String name;
+        private String[] description_type_info = new String[]{'description','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
+        private String[] name_type_info = new String[]{'name','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         public Integer maxBatchSize;
         public Integer offsetNumber;
         public String offsetUnit;
@@ -3318,9 +3358,11 @@ public class MetadataService {
     public virtual class FlowBaseElement {
         public MetadataService.FlowMetadataValue[] processMetadataValues;
     }
-    public class FlowStageStepAssignee {
+    public class FlowStageStepAssignee extends FlowBaseElement {
         public MetadataService.FlowElementReferenceOrValue assignee;
         public String assigneeType;
+        public MetadataService.FlowMetadataValue[] processMetadataValues;
+        private String[] processMetadataValues_type_info = new String[]{'processMetadataValues','http://soap.sforce.com/2006/04/metadata',null,'0','-1','false'};
         private String[] assignee_type_info = new String[]{'assignee','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] assigneeType_type_info = new String[]{'assigneeType','http://soap.sforce.com/2006/04/metadata',null,'1','1','false'};
         private String[] apex_schema_type_info = new String[]{'http://soap.sforce.com/2006/04/metadata','true','false'};
@@ -3374,10 +3416,12 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'processMetadataValues','description','name','elementSubtype','label','locationX','locationY', 'assignNextValueToReference','collectionReference','iterationOrder','nextValueConnector','noMoreValuesConnector'};
     }
-    public class FlowDefinition {
+    public class FlowDefinition extends Metadata {
         public Integer activeVersionNumber;
         public String description;
         public String masterLabel;
+        public String fullName;
+        private String[] fullName_type_info = new String[]{'fullName','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] activeVersionNumber_type_info = new String[]{'activeVersionNumber','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] description_type_info = new String[]{'description','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] masterLabel_type_info = new String[]{'masterLabel','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
@@ -3634,8 +3678,10 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'processMetadataValues','description','name', 'apexClass','dataType','isCollection','isInput','isOutput','objectType','scale','value'};
     }
-    public class FlowCategory {
+    public class FlowCategory extends Metadata {
         public String description;
+        public String fullName;
+        private String[] fullName_type_info = new String[]{'fullName','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         public MetadataService.FlowCategoryItems[] flowCategoryItems;
         public String masterLabel;
         private String[] description_type_info = new String[]{'description','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
