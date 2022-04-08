@@ -1,5 +1,4 @@
 import { LightningElement, wire, api } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { showErrorMessage } from 'c/idUtils';
 import TitleLabel from '@salesforce/label/c.SEARCH_OBJECTS_TITLE';
 import PlaceholderLabel from '@salesforce/label/c.SEARCH_OBJECTS_PLACEHOLDER';

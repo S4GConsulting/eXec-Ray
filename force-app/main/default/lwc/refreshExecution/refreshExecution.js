@@ -1,5 +1,6 @@
 import { LightningElement } from 'lwc';
 import { loadStyle } from 'lightning/platformResourceLoader';
+import resfresh from '@salesforce/apex/ExecutionTreeController.refresh';
 import NoHeader from '@salesforce/resourceUrl/NoHeader';
 import logo from '@salesforce/resourceUrl/eXecRayLogo';
 
@@ -50,14 +51,18 @@ export default class RefreshExecution extends LightningElement {
      * @description : fire refresh event to other component and reset variables.
     **/
     handleRefresh(){
-        this.lastRefresh = Date.now();
-        const refreshEvent = new CustomEvent("refresh", {
-            detail: {
-                //Is neccesary send a dynamic value because if we send the same 
-               //value always, does not fit in the target component setter (USING DYNAMIC INTERACTION)
-                refreshDateTime: this.lastRefresh.toString()
-            }
-        })
-        this.dispatchEvent(refreshEvent);   
+        // Call controller refresh. No action required in callback.
+        resfresh().then(() => {
+            // Set last redresh datetime and send refresh event.
+            this.lastRefresh = Date.now();
+            const refreshEvent = new CustomEvent("refresh", {
+                detail: {
+                    // Is neccesary send a dynamic value because if we send the same 
+                    // value always, does not fit in the target component setter (USING DYNAMIC INTERACTION)
+                    refreshDateTime: this.lastRefresh.toString()
+                }
+            })
+            this.dispatchEvent(refreshEvent);   
+        });
     }
 }
