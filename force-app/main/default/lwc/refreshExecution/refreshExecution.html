@@ -3,11 +3,11 @@
         <h3 slot="title">
             <div>
                 <img width="60" src={execRayLogo}>
-                <span class="slds-p-left_small">eXec-RAY</span>
+                <span class="slds-p-left_small">{labels.title}</span>
             </div>
         </h3>  
         <div slot="actions">
-            <span class="slds-p-right_small refreshText"><i>Last refresh: {parsedDate}</i></span><lightning-button label="Refresh" slot="actions" icon-name="utility:refresh" onclick={handleRefresh}></lightning-button>
+            <span class="slds-p-right_small refreshText"><i>{labels.lastRefresh} {parsedDate}</i></span><lightning-button label={labels.buttonLabel} slot="actions" icon-name="utility:refresh" onclick={handleRefresh}></lightning-button>
         </div>
     </lightning-card>
 </template>
