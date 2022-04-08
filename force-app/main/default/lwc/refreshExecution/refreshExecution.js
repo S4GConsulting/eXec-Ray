@@ -1,12 +1,13 @@
 import { LightningElement } from 'lwc';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import resfresh from '@salesforce/apex/ExecutionTreeController.refresh';
+import title from '@salesforce/label/c.EXEC_RAY_TITLE';
+import lastRefresh from '@salesforce/label/c.LAST_REFRESH_LABEL';
+import buttonLabel from '@salesforce/label/c.REFRESH_BUTTON_LABEL';
 import NoHeader from '@salesforce/resourceUrl/NoHeader';
 import logo from '@salesforce/resourceUrl/eXecRayLogo';
 
 export default class RefreshExecution extends LightningElement {
-
-    execRayLogo = logo;
 
     /**
      * ********************
@@ -14,8 +15,12 @@ export default class RefreshExecution extends LightningElement {
      * ********************
      **/
 
+    // Custom labels
+    labels =  {title, lastRefresh, buttonLabel}
     // Last button click time
     lastRefresh = Date.now();
+    // Static resource logo
+    execRayLogo = logo;
 
     /**
      * ********************
