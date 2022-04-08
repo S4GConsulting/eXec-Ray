@@ -26,11 +26,27 @@ public with sharing class ExecutionTreeController {
     **/
     @AuraEnabled(cacheable=true)
     public static List<CategoryOperation> getObjectMetadata(String objectName){
+        if(String.isBlank(objectName)){
+            return null;
+        }
+
         try {
             ExecutionTreeHandler handler = new ExecutionTreeHandler();
             List<CategoryOperation> categoryOperations = new List<CategoryOperation>();
             categoryOperations = handler.getCategoryOperations(objectName);
             return categoryOperations;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    /**
+    * @description Clears Platform Cache for Flows and Object Metadata
+    **/
+    @AuraEnabled
+    public static void refresh(){
+        try {
+            PlatformCacheHelper.clearCache();
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
