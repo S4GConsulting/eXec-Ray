@@ -32,15 +32,14 @@ export default class ExecutionTree extends LightningElement {
         return this._objectLabel;
     }
     set objectLabel(value) {
-        if(value !== '' && value !== undefined){     
+        if(value && value !== ''){ // Avoid first render callback.
             this._objectLabel = value;
             this.spinner = true;
-            refreshApex(this._wiredRecords).then(() => {
-                this.spinner = false;
-            });
+            this.getObjectMetadataRecords();
         }
     }
 
+    // Input variable for refresh interaction.
     @api
     get refreshDatetime(){
         return this._refreshDatetime;
@@ -48,9 +47,7 @@ export default class ExecutionTree extends LightningElement {
 
     set refreshDatetime(value){
         this.spinner = true;
-        refreshApex(this._wiredRecords).then(() => {
-            this.spinner = false;
-        });
+        this.getObjectMetadataRecords();
         this._refreshDatetime = value; 
     }
 
@@ -79,22 +76,29 @@ export default class ExecutionTree extends LightningElement {
     get objectIsSelected(){
         return this.objectLabel ? true : false;
     }
-
     
     /**
      * @description : get execution data records.
-     * @param objectName 
     **/
-    @wire(getObjectMetadata, { objectName: '$objectDeveloperName'})
-    wiredMockRecords(result) {
-        this._wiredRecords = result;
-        if (result.data) {
-            console.log(JSON.stringify(result.data));
-            this.operationsByCategory = result.data;
-        } else if (result.error) {
-            console.log(JSON.stringify(result.error));
-            this.dispatchEvent(showErrorMessage(result.error));
-        }
-        this.spinner = false;
+    getObjectMetadataRecords(){
+        getObjectMetadata({objectName : this.objectDeveloperName}).then((data) => {
+            this.operationsByCategory = data;
+            this.spinner = false;
+        }, (error) => {
+            this.dispatchEvent(showErrorMessage(error));
+            this.spinner = false;
+        });
+    }
+
+    /**
+     * @description : refresh logic from event.
+    **/
+    refreshSpinner(){
+        refreshApex(this._wiredRecords).then(() => {
+            this.spinner = false;
+        }, (error) => {
+            this.dispatchEvent(showErrorMessage(error));
+            this.spinner = false;
+        });
     }
 }

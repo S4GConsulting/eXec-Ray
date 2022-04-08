@@ -28,7 +28,7 @@
                         {operationCounter} {label.ITEMS_MESSAGE	} <!-- Number of operations TBD pass to label-->
                     </p>
                     <template if:true={showDetails}>
-                        <div class="slds-var-p-top_small"> <!-- Operations Records-->
+                        <div id={operation} class="slds-var-p-top_small"> <!-- Operations Records-->
                             <c-full-data-table
                                 records={operation.operations}  
                                 columns={tableColumns}
