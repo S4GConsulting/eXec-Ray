@@ -3,17 +3,27 @@
 **/
 public class CategoryOperation implements Comparable {
 
+    @AuraEnabled
     public String category;
+    @AuraEnabled
     public Integer order;
+    @AuraEnabled
     public List<Operation> operations;
 
     public class Operation {
+        @AuraEnabled
         public String label;
+        @AuraEnabled
         public String developerName;
+        @AuraEnabled
         public Integer order;
+        @AuraEnabled
         public String url;
+        @AuraEnabled
         public String namespace;
+        @AuraEnabled
         public Datetime createdDate;
+        @AuraEnabled
         public Datetime lastModifiedDate;
     }
 
