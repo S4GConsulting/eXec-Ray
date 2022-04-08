@@ -1,7 +1,6 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import getObjectMetadata from '@salesforce/apex/ExecutionTreeController.getObjectMetadata';
 import { showErrorMessage } from 'c/idUtils';
-import { refreshApex } from '@salesforce/apex';
 
 //Custom Labels
 import PLEASE_SELECT_OBJECT from '@salesforce/label/c.PLEASE_SELECT_OBJECT';
@@ -22,9 +21,6 @@ export default class ExecutionTree extends LightningElement {
 
     // Input variable for dynamic interaction or parent component.
     @api objectDeveloperName;
-    
-    // Variable to refresh data.
-    _wiredRecords;
 
     // Input variable for dynamic interaction or parent component.
     @api
@@ -83,18 +79,6 @@ export default class ExecutionTree extends LightningElement {
     getObjectMetadataRecords(){
         getObjectMetadata({objectName : this.objectDeveloperName}).then((data) => {
             this.operationsByCategory = data;
-            this.spinner = false;
-        }, (error) => {
-            this.dispatchEvent(showErrorMessage(error));
-            this.spinner = false;
-        });
-    }
-
-    /**
-     * @description : refresh logic from event.
-    **/
-    refreshSpinner(){
-        refreshApex(this._wiredRecords).then(() => {
             this.spinner = false;
         }, (error) => {
             this.dispatchEvent(showErrorMessage(error));
