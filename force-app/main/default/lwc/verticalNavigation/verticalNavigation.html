@@ -7,9 +7,9 @@
             <div class="slds-p-left_medium slds-p-right_medium">
                 <lightning-input data-id="userinput" label="Search an object:" name="searchText" onchange={searchField} placeholder={labels.PlaceholderLabel}></lightning-input>
             </div>
-            <div class="slds-scrollable_y scrollable">
-                <lightning-vertical-navigation selected-item={selected} onselect={handleSelect}>
-                    <lightning-vertical-navigation-section label="Standard">
+            <lightning-vertical-navigation selected-item={selected} onselect={handleSelect}>
+                <lightning-vertical-navigation-section label="Standard">
+                    <div class="slds-scrollable_y scrollable">
                         <template if:false={isAnyStandardObject}>
                             <div class="slds-text-body_small slds-text-align_center">{labels.AnyResult}</div>
                         </template>
@@ -18,8 +18,10 @@
                                 <lightning-vertical-navigation-item key={object.apiName} label={object.formattedlabel} name={object}></lightning-vertical-navigation-item>
                             </template>
                         </template>
-                    </lightning-vertical-navigation-section>
-                    <lightning-vertical-navigation-section label="Custom">
+                    </div>
+                </lightning-vertical-navigation-section>
+                <lightning-vertical-navigation-section label="Custom">
+                    <div class="slds-scrollable_y scrollable">
                         <template if:false={isAnyCustomdObject}>
                             <div class="slds-text-body_small slds-text-align_center">{labels.AnyResult}</div>
                         </template>
@@ -28,9 +30,9 @@
                                 <lightning-vertical-navigation-item key={object.apiName} label={object.formattedlabel} name={object}></lightning-vertical-navigation-item>
                             </template>
                         </template>
-                    </lightning-vertical-navigation-section>
-                </lightning-vertical-navigation>
-            </div>
+                    </div>
+                </lightning-vertical-navigation-section>
+            </lightning-vertical-navigation>
         </template>
         <template if:true={isLoading}>
             <div class="slds-is-relative" style="height:6rem">
