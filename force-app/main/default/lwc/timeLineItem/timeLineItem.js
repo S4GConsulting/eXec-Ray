@@ -9,7 +9,7 @@ import NO_ITEMS_MESSAGE from '@salesforce/label/c.NO_ITEMS_MESSAGE';
 
 /**
  * *************************
- * CATEGORY ICONS DEFINITION (TBD)
+ * CATEGORY ICONS DEFINITION 
  * *************************
  **/
 const RECORD_BEFORE_TRIGGER_FLOW_ICON = "standard:product_request_line_item";
@@ -31,7 +31,7 @@ const SHARING_RULES_ICON = "standard:service_request_detail";
 
 /**
  * *************************
- * CATEGORY NAMES DEFINITION (TBD)
+ * CATEGORY NAMES DEFINITION 
  * *************************
  **/
 const RECORD_BEFORE_TRIGGER_FLOW_NAME = "Record Before Trigger Flows";
@@ -53,7 +53,7 @@ const SHARING_RULES_NAME = "Sharing Rules";
 
 /**
  * *************************
- * MAP ICON WITH CATEGORY NAME (TBD)
+ * MAP ICON WITH CATEGORY NAME 
  * *************************
  **/
 const ICON_BY_CATEGORY_NAME = {
@@ -200,9 +200,9 @@ export default class TimeLineItem extends LightningElement {
 
     handleOpenDetails(){
         if(this.showDetails){ 
-            this.showDetails = false
+            this.showDetails = false;
         }else{
-            this.showDetails = true
-        };
+            this.showDetails = true;
+        }
     }
 }
