@@ -44,7 +44,6 @@ public with sharing class ExecutionTreeControllerTest {
         CategoryOperation categoryOperation = new CategoryOperation();
         categoryOperation.category = 'Validation Rule';
 
-        Test.setMock(HttpCalloutMock.class, new ToolingApiMock('OK'));
         Test.startTest();
             MockUtil mock = new MockUtil(ExecutionTreeHandler.class);
             ExecutionTreeController.handler = (ExecutionTreeHandler) mock.instance;
@@ -69,7 +68,6 @@ public with sharing class ExecutionTreeControllerTest {
     private static void test_getObjectMetadataError(){
         Boolean exceptionThrown = false;
 
-        Test.setMock(HttpCalloutMock.class, new ToolingApiMock('ERROR'));
         Test.startTest();
             MockUtil mock = new MockUtil(ExecutionTreeHandler.class);
             ExecutionTreeController.handler = (ExecutionTreeHandler) mock.instance;
