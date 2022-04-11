@@ -133,15 +133,17 @@ export default class VerticalNavigation extends LightningElement {
     handleSelect(event) {
         const selectedObjectLabel = event.detail.name.label;
         const selectedObjectDevelopername = event.detail.name.apiName;
-
-        this.selected = event.detail.label;
         
-        const eventWithObject = new CustomEvent("object", {
-            detail: {
-                label: selectedObjectLabel,
-                developerName: selectedObjectDevelopername
-            }
-        })
-        this.dispatchEvent(eventWithObject);
+        this.selected = event.detail.label;
+
+        if(selectedObjectLabel && selectedObjectLabel !== ''){
+            const eventWithObject = new CustomEvent("object", {
+                detail: {
+                    label: selectedObjectLabel,
+                    developerName: selectedObjectDevelopername
+                }
+            })
+            this.dispatchEvent(eventWithObject);
+        }
     }
 }
