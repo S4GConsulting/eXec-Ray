@@ -28,6 +28,7 @@ export default class ExecutionTree extends LightningElement {
         return this._objectLabel;
     }
     set objectLabel(value) {
+        
         if(value && value !== ''){ // Avoid first render callback.
             this._objectLabel = value;
             this.spinner = true;
