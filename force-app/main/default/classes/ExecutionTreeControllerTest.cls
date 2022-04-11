@@ -35,6 +35,7 @@ public with sharing class ExecutionTreeControllerTest {
             }
         Test.stopTest();
         
+        mock.assertInvoked('getObjectList');
         System.assert(exceptionThrown, 'Exception not throw.');   
     }
 
@@ -80,6 +81,7 @@ public with sharing class ExecutionTreeControllerTest {
             }
         Test.stopTest();
         
+        mock.assertInvoked('getCategoryOperations');
         System.assert(exceptionThrown, 'Exception not throw.');   
     }
 
