@@ -3,6 +3,8 @@ import { showErrorMessage } from 'c/idUtils';
 import TitleLabel from '@salesforce/label/c.SEARCH_OBJECTS_TITLE';
 import PlaceholderLabel from '@salesforce/label/c.SEARCH_OBJECTS_PLACEHOLDER';
 import AnyResult from '@salesforce/label/c.SEARCH_OBJECTS_ANY_RESULT';
+import Loading from '@salesforce/label/c.LOADING';
+import SearchAnObject from '@salesforce/label/c.SEARCH_AN_OBJECT';
 import init from '@salesforce/apex/ExecutionTreeController.init';
 import { refreshApex } from '@salesforce/apex';
 
@@ -15,7 +17,7 @@ export default class VerticalNavigation extends LightningElement {
      **/
 
     // Custom labels
-    labels =  {TitleLabel, PlaceholderLabel, AnyResult}
+    labels =  {TitleLabel, PlaceholderLabel, AnyResult, Loading, SearchAnObject}
     // List of Standard Objects available
     standardObjects;
     // List of Custom Objects available
@@ -78,25 +80,29 @@ export default class VerticalNavigation extends LightningElement {
      * @description : control if Standard Objects list is empty.
     **/
     get isAnyStandardObject(){
-        return this.standardObjectsToShow && this.standardObjectsToShow.length > 0;
+        return this.standardObjectsToShow?.length > 0;
     }
 
     /**
      * @description : control if Custom Objects list is empty.
     **/
     get isAnyCustomdObject(){
-        return this.customObjectsToShow && this.customObjectsToShow.length > 0;
+        return this.customObjectsToShow?.length > 0;
     }
 
     /**
      * @description : set objects label as: LABEL (DeveloperName)
     **/
-    formatLabel(){
-        this.standardObjects = this.standardObjects.map((element) => ({
-            ...element,
-            formattedlabel: element.label + ' (' + element.apiName + ')'
-        }));
-        this.customObjects = this.customObjects.map((element) => ({
+     formatLabel(){
+        this.standardObjects = this.formatLabelPerObject(this.standardObjects);
+        this.customObjects = this.formatLabelPerObject(this.customObjects);
+    }
+
+    /**
+     * @description : set objects label as: LABEL (DeveloperName) per object
+    **/
+    formatLabelPerObject(object){
+        return object.map((element) => ({
             ...element,
             formattedlabel: element.label + ' (' + element.apiName + ')'
         }));
@@ -107,8 +113,15 @@ export default class VerticalNavigation extends LightningElement {
     **/
     searchField(event){
         let searchText = event.target.value;
-        this.standardObjectsToShow = this.standardObjects.filter(object => object.label.toLowerCase().includes(searchText.toLowerCase()));
-        this.customObjectsToShow = this.customObjects.filter(object => object.label.toLowerCase().includes(searchText.toLowerCase()));
+        this.standardObjectsToShow = this.filterObjectsByText(this.standardObjects, searchText);
+        this.customObjectsToShow = this.filterObjectsByText(this.customObjects, searchText);
+    }
+
+    /**
+     * @description : filter objects that cointains text in the label
+    **/
+    filterObjectsByText(objects, searchText){
+        return objects.filter(currentObject => currentObject.label.toLowerCase().includes(searchText.toLowerCase()));
     }
 
     /**
