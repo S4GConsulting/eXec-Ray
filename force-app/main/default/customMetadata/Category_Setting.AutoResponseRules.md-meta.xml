@@ -12,11 +12,11 @@
     </values>
     <values>
         <field>Field_Filter__c</field>
-        <value xsi:type="xsd:string">EntityDefinitionId</value>
+        <value xsi:type="xsd:string">EntityDefinition.QualifiedApiName</value>
     </values>
     <values>
         <field>Fields__c</field>
-        <value xsi:type="xsd:string">id, name, active, entityDefinitionId, createdDate, lastModifiedDate</value>
+        <value xsi:type="xsd:string">id, name, active, entityDefinitionId, createdDate, lastModifiedDate, entityDefinition.qualifiedApiName</value>
     </values>
     <values>
         <field>FilterObject__c</field>

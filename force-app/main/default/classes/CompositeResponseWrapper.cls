@@ -1,9 +1,5 @@
 /**
- * @description       : 
- * @author            : andres.ortiz@s4g.es
- * @group             : 
- * @last modified on  : 04-04-2022
- * @last modified by  : andres.ortiz@s4g.es
+ * @description:  wrapper used for tooling response
 **/
 public class CompositeResponseWrapper {
 
@@ -25,6 +21,8 @@ public class CompositeResponseWrapper {
         public Attribute attributes;
         public string Id;
         public string Name;
+        public string Label;
+        public string DeveloperName;
         public string TableEnumOrId;
         public boolean UsageBeforeInsert;
         public boolean UsageAfterInsert;
@@ -45,10 +43,16 @@ public class CompositeResponseWrapper {
         public string CreatedDate;
         public string LastModifiedDate;
         public string NamespacePrefix;
+        public string DataType;
+        public EntityDefinition EntityDefinition;
     }
 
     public class Attribute{
         public string type;
         public string url;
     }
+    
+    public class EntityDefinition {
+        public string QualifiedApiName;
+    }   
 }
