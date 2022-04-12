@@ -1,7 +1,9 @@
 /**
  * @description       : Controller for ExecutionTree to get list of SFObjects and CategoryOperations
 **/
-public with sharing class ExecutionTreeController {
+public without sharing class ExecutionTreeController {
+
+    @TestVisible private static ExecutionTreeHandler handler = new ExecutionTreeHandler();
     
     /**
     * @description Return all the objects from org alredy categorized in Standard or Custom 
@@ -10,9 +12,8 @@ public with sharing class ExecutionTreeController {
     @AuraEnabled(cacheable=true)
     public static List<SFObject> init(){
         try {
-            ExecutionTreeHandler handler = new ExecutionTreeHandler();
             List<SFObject> sfObjects = new List<SFObject>();
-            sfObjects = handler.getObjectList();
+            sfObjects = ExecutionTreeController.handler.getObjectList();
             return sfObjects;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -24,16 +25,15 @@ public with sharing class ExecutionTreeController {
     * @param objectName 
     * @return List<CategoryOperation> 
     **/
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static List<CategoryOperation> getObjectMetadata(String objectName){
         if(String.isBlank(objectName)){
             return null;
         }
 
-        try {
-            ExecutionTreeHandler handler = new ExecutionTreeHandler();
+        try {            
             List<CategoryOperation> categoryOperations = new List<CategoryOperation>();
-            categoryOperations = handler.getCategoryOperations(objectName);
+            categoryOperations = ExecutionTreeController.handler.getCategoryOperations(objectName);
             return categoryOperations;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -51,5 +51,4 @@ public with sharing class ExecutionTreeController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
 }
