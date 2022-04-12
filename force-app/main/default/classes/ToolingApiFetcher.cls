@@ -146,7 +146,6 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
             objectsByLabel.put(objectResult.getLabel(), objectName);
             Map<String, Schema.SObjectField> objectFields = objectResult.fields.getMap();
             for(String fieldName : objectFields.keySet()) {
-                system.debug('fieldName:'+fieldName);
                 String objectReferenceName = getReferenceFields(objectFields.get(fieldName).getDescribe());
                 if(String.isNotBlank(objectReferenceName)) {
                     objectReferenceNames.add(objectReferenceName);
@@ -163,7 +162,6 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
     **/
     private String getReferenceFields(Schema.DescribeFieldResult fieldResult) {
         Schema.DisplayType dType = fieldResult.getType();
-        system.debug(dType);
         String objectReferenceName;
         if(dType == Schema.DisplayType.REFERENCE && fieldResult.getRelationshipOrder() == 0) {
             List<SObjectType> objects = fieldResult.getReferenceTo();
@@ -180,8 +178,6 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
     * @return Boolean
     **/
     private Boolean isActive(String activeString, Boolean activeBoolean ){
-        system.debug(activeString);
-        system.debug(activeBoolean);
         return String.isNotBlank(activeString) ? activeString.equalsIgnoreCase(ACTIVE): activeBoolean;
     }
 
@@ -193,11 +189,18 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
     **/
     private CategoryOperation.Operation getNewOperation(CompositeResponseWrapper.Records record, string objectName) {
         CategoryOperation.Operation newOperation = new CategoryOperation.Operation();
-        newOperation.label =  String.isNotBlank(record.Name) ? record.Name : String.isNotBlank(record.Label)? record.Label:record.ValidationName;
+        if(String.isNotBlank(record.Label)){ // SummaryFields
+            newOperation.label = record.Label + ' ('+ record.EntityDefinition.QualifiedApiName + ')' ;
+            newOperation.developerName = record.QualifiedApiName;
+        } else if(String.isNotBlank(record.Name)){ //Rest
+            newOperation.label = record.Name;
+        } else { // Validation Rule
+            newOperation.label = record.ValidationName;
+        }
         newOperation.namespace = record.NamespacePrefix;
-        newOperation.createdDate =record.CreatedDate != null ?Datetime.valueOf(this.getDate(record.CreatedDate)):null;
+        newOperation.createdDate =record.CreatedDate != null ? Datetime.valueOf(this.getDate(record.CreatedDate)):null;
         newOperation.lastModifiedDate = Datetime.valueOf(this.getDate(record.lastModifiedDate));
-        newOperation.developerName = String.isNotBlank(newOperation.namespace)? newOperation.namespace + '__' + objectName + '.' + newOperation.label :String.isNotBlank(record.DeveloperName)?record.DeveloperName: objectName + '.' + newOperation.label;
+        newOperation.developerName = String.isBlank(newOperation.developerName)? String.isNotBlank(newOperation.namespace)? newOperation.namespace + '__' + objectName + '.' + newOperation.label :objectName + '.' + newOperation.label: newOperation.developerName;
         return newOperation;
     }
     /**
