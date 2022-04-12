@@ -1,9 +1,5 @@
 /**
- * @description       : 
- * @author            : andres.ortiz@s4g.es
- * @group             : 
- * @last modified on  : 04-01-2022
- * @last modified by  : andres.ortiz@s4g.es
+ * @description : wrapper used for tooling request
 **/
 public class CompositeWrapper {
     public String allOrNone;

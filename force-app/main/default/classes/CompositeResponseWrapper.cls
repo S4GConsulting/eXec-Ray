@@ -49,6 +49,7 @@ public class CompositeResponseWrapper {
         public string NamespacePrefix;
         public string DataType;
         public EntityDefinition EntityDefinition;
+		public String QualifiedApiName;
     }
 
     public class Attribute{
@@ -58,6 +59,7 @@ public class CompositeResponseWrapper {
     
     public class EntityDefinition {
         public string DeveloperName;
+		public string QualifiedApiName;
     }
     
     
@@ -70,25 +72,6 @@ public class CompositeResponseWrapper {
 		'  "compositeResponse": ['+
 		'    {'+
 		'      "body": {'+
-		'        "totalSize": 319,'+
-		'        "done": true,'+
-		'        "records": ['+
-		'          {'+
-		'            "attributes": {'+
-		'              "type": "Flow",'+
-		'              "url": "/services/data/v53.0/tooling/sobjects/Flow/3011l000000UZ85AAG"'+
-		'            },'+
-		'            "Id": "3011l000000UZ85AAG",'+
-		'            "MasterLabel": "AP - Acciones iniciales"'+
-		'          }'+
-		'        ]'+
-		'      },'+
-		'      "httpHeaders": {},'+
-		'      "httpStatusCode": 200,'+
-		'      "referenceId": "Flows"'+
-		'    },'+
-		'    {'+
-		'      "body": {'+
 		'        "totalSize": 2,'+
 		'        "done": true,'+
 		'        "records": ['+
@@ -97,15 +80,26 @@ public class CompositeResponseWrapper {
 		'              "type": "ApexTrigger",'+
 		'              "url": "/services/data/v53.0/tooling/sobjects/ApexTrigger/01q2o000000IfijAAC"'+
 		'            },'+
+		'            "EntityDefinition": {'+
+		'              "attributes": {'+
+		'                "type": "EntityDefinition",'+
+		'                "url": "/services/data/v53.0/tooling/sobjects/EntityDefinition/01I2o000001QVSE"'+
+		'              },'+
+		'              "DeveloperName": "CleanUpRecords2",'+
+		'              "QualifiedApiName": "Account"'+
+		'            },'+
 		'            "Id": "01q2o000000IfijAAC",'+
 		'            "TableEnumOrId": "APXTConga4__Conga_Email_Staging__c",'+
 		'            "UsageAfterDelete": false,'+
-		'            "UsageAfterInsert": true,'+
+		'            "UsageAfterInsert": false,'+
 		'            "UsageAfterUndelete": false,'+
 		'            "UsageAfterUpdate": false,'+
 		'            "UsageBeforeDelete": false,'+
 		'            "UsageBeforeInsert": true,'+
 		'            "UsageBeforeUpdate": false,'+
+		'            "CreatedDate": "2020-02-15T08:03:05.000+0000",'+
+		'            "LastModifiedDate": "2020-02-15T08:03:05.000+0000",'+
+		'            "Status": "Active",'+
 		'            "Name": "CleanUpRecords2",'+
 		'            "NamespacePrefix": "APXTConga4"'+
 		'          },'+
@@ -113,6 +107,14 @@ public class CompositeResponseWrapper {
 		'            "attributes": {'+
 		'              "type": "ApexTrigger",'+
 		'              "url": "/services/data/v53.0/tooling/sobjects/ApexTrigger/01q2o000000IfikAAC"'+
+		'            },'+
+		'            "EntityDefinition": {'+
+		'              "attributes": {'+
+		'                "type": "EntityDefinition",'+
+		'                "url": "/services/data/v53.0/tooling/sobjects/EntityDefinition/01I2o000001QVSE"'+
+		'              },'+
+		'              "DeveloperName": "CleanUpRecords2",'+
+		'              "QualifiedApiName": "Account"'+
 		'            },'+
 		'            "Id": "01q2o000000IfikAAC",'+
 		'            "TableEnumOrId": "APXTConga4__Conga_Email_Template__c",'+
@@ -123,7 +125,10 @@ public class CompositeResponseWrapper {
 		'            "UsageBeforeDelete": false,'+
 		'            "UsageBeforeInsert": false,'+
 		'            "UsageBeforeUpdate": true,'+
-		'            "Name": "CongaEmailTemplateTrigger",'+
+		'            "CreatedDate": "2020-02-15T08:03:05.000+0000",'+
+		'            "LastModifiedDate": "2020-02-15T08:03:05.000+0000",'+
+		'            "Status": "Active",'+
+		'            "Name": "TestEmailTemplateTrigger",'+
 		'            "NamespacePrefix": "APXTConga4"'+
 		'          }'+
 		'        ]'+
@@ -148,12 +153,13 @@ public class CompositeResponseWrapper {
 		'                "type": "EntityDefinition",'+
 		'                "url": "/services/data/v53.0/tooling/sobjects/EntityDefinition/01I2o000001QVSE"'+
 		'              },'+
-		'              "DeveloperName": "Test_VR_1"'+
+		'              "DeveloperName": "Test_VR_1",'+
+		'              "QualifiedApiName": "Account"'+
 		'            },'+
 		'            "NamespacePrefix": "APXTConga4",'+
         '            "Active": true,'+
         '            "CreatedDate": "2020-02-15T08:03:05.000+0000",'+
-		'            "lastModifiedDate": "2020-02-15T08:03:05.000+0000",'+
+		'            "LastModifiedDate": "2020-02-15T08:03:05.000+0000",'+
         '            "EntityDefinitionId": "ServiceTerritoryMemberTest"'+
 		'          },'+
 		'          {'+
@@ -167,12 +173,13 @@ public class CompositeResponseWrapper {
 		'                "type": "EntityDefinition",'+
 		'                "url": "/services/data/v53.0/tooling/sobjects/EntityDefinition/01I2o000001QUqG"'+
 		'              },'+
-		'              "DeveloperName": "Test_VR_2"'+
+		'              "DeveloperName": "Test_VR_2",'+
+		'              "QualifiedApiName": "Account"'+
 		'            },'+
 		'            "NamespacePrefix": "CMTD",'+
         '            "Active": true,'+
         '            "CreatedDate": "2020-02-15T08:03:05.000+0000",'+
-		'            "lastModifiedDate": "2020-02-15T08:03:05.000+0000",'+
+		'            "LastModifiedDate": "2020-02-15T08:03:05.000+0000",'+
         '            "EntityDefinitionId": "ServiceTerritoryMemberTest2"'+
 		'          }'+
 		'        ]'+
@@ -196,13 +203,14 @@ public class CompositeResponseWrapper {
 		'                "type": "EntityDefinition",'+
 		'                "url": "/services/data/v53.0/tooling/sobjects/EntityDefinition/01I2o000001QVSE"'+
 		'              },'+
-		'              "DeveloperName": "Test_AR"'+
+		'              "DeveloperName": "Test_AR",'+
+		'              "QualifiedApiName": "Account"'+
 		'            },'+
 		'            "Name": "Conga Envio Email",'+
 		'            "TableEnumOrId": "Send_email__c",'+
         '            "Active": true,'+
         '            "CreatedDate": "2020-02-15T08:03:05.000+0000",'+
-		'            "lastModifiedDate": "2020-02-15T08:03:05.000+0000",'+
+		'            "LastModifiedDate": "2020-02-15T08:03:05.000+0000",'+
         '            "EntityDefinitionId": "ServiceTerritoryMemberTest2"'+
 		'          }'+
 		'        ]'+
@@ -210,26 +218,6 @@ public class CompositeResponseWrapper {
 		'      "httpHeaders": {},'+
 		'      "httpStatusCode": 200,'+
 		'      "referenceId": "AutoResponseRules"'+
-		'    },'+
-		'    {'+
-		'      "body": {'+
-		'        "totalSize": 1,'+
-		'        "done": true,'+
-		'        "records": ['+
-		'          {'+
-		'            "attributes": {'+
-		'              "type": "WorkflowRule",'+
-		'              "url": "/services/data/v53.0/tooling/sobjects/WorkflowRule/01Q2o000000JhS9EAK"'+
-		'            },'+
-		'            "Name": "Conga Envio Email",'+
-		'            "TableEnumOrId": "Envio_email__c",'+
-		'            "NamespacePrefix": null'+
-		'          }'+
-		'        ]'+
-		'      },'+
-		'      "httpHeaders": {},'+
-		'      "httpStatusCode": 200,'+
-		'      "referenceId": "WorkFlowRules"'+
 		'    }'+
 		'  ]'+
 		'}';
