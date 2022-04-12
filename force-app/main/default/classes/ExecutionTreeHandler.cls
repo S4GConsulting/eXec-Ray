@@ -5,11 +5,6 @@ public without sharing class ExecutionTreeHandler {
 
     @TestVisible private MetadataFetcher testStubFetcher;
 
-    /*private final Map<String, List<String>> CATEGORY_FETCHER = new Map<String, List<String>> {
-        'SOQLFetcher' => new List<String> {'Duplicate Rules','Assignment Rules','Entitlement Rules'},
-        'ToolingApiFetcher' => new List<String>{'After Triggers', 'Autoresponse Rules', 'Before Triggers', 'Validation Rules'},
-        'MetadataServiceFetcher' => new List<String> {'Sharing Rules', 'Escalation Rules', 'Workflow Rules','Record Before Trigger Flows','Record After Trigger Flows', 'Process Builders'}
-    };*/
     private final Map<String, String> CATEGORY_FETCHER = new Map<String,String> {
         'SOQLFetcher' => 'SOQL',
         'ToolingApiFetcher' => 'Tooling',

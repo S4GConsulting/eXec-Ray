@@ -3,29 +3,6 @@
 **/
 public abstract class MetadataFetcher {
     
-    private final Map<String, Integer> CATEGORIES_ORDER = new Map<String, Integer> {
-        'Record Before Trigger Flows' => 0,
-        'Before Triggers' => 1,
-        'Validation Rules' => 2,
-        'Duplicate Rules' => 3,
-        'After Triggers' => 4,
-        'Assignment Rules' => 5,
-        'Autoresponse Rules' => 6,
-        'Workflow Rules' => 7,
-        'Process Builders' => 8,
-        'Escalation Rules' => 9,
-        'Record After Trigger Flows' => 10,
-        'Entitlement Rules' => 11,
-        'Sharing Rules' => 12
-    };
-
-    protected final Map<String, String> CATEGORIES_MAPPING = new Map<String, String> {
-        'DuplicateRule' => 'Duplicate Rules',
-        'AssignmentRule' => 'Assignment Rules',
-        'SlaProcess' => 'Entitlement Rules',
-        'SharingRules' => 'Sharing Rules'
-    };
-
     protected Map<String, List<CategoryOperation>> operationsByObject = new Map<String, List<CategoryOperation>>();
     protected List<String> sobjectNames = new List<String>();
 
@@ -34,14 +11,15 @@ public abstract class MetadataFetcher {
     * @param sobjectNames 
     * @param categories 
     **/
-    protected void init(List<String> sobjectNames, List<String> categories) {
+    protected void init(List<String> sobjectNames, Set<String> categories) {
         this.sobjectNames = sobjectNames;
         for(String sobjectName : sobjectNames) {
             List<CategoryOperation> categoryOperations = new List<CategoryOperation>();
             for(String categoryName : categories) {
+                Category_Setting__mdt category = CategorySettingHelper.getCategorySettingByName(categoryName);
                 CategoryOperation catOperation = new CategoryOperation();
-                catOperation.category = categoryName;
-                catOperation.order = this.CATEGORIES_ORDER.get(categoryName);
+                catOperation.category = category.Label;
+                catOperation.order = Integer.valueOf(category.Order__c);
                 catOperation.operations = new List<CategoryOperation.Operation>();
                 categoryOperations.add(catOperation);
             }
@@ -55,13 +33,18 @@ public abstract class MetadataFetcher {
     * @param categories
     * @return Map containing List<CategoryOperation> per SFObject name. 
     **/
-    abstract public Map<String, List<CategoryOperation>> requestMetadata(List<String> sobjectNames, List<String> categories);
+    abstract public Map<String, List<CategoryOperation>> requestMetadata(List<String> sobjectNames, Set<String> categories);
 
     /**
     * @description Transforms metadata into a readable structure.
     **/
     abstract protected void parseMetadata();
-
+    
+    /**
+    * @description indicates the position of the category in the list
+    * @param categoryName. 
+    * @return Integer. 
+    **/
     protected Integer getCategoryIndex(String categoryName) {
         Integer index;
         List<CategoryOperation> categoryOperations = this.operationsByObject.get(new List<String>(this.operationsByObject.keySet())[0]);

@@ -2,13 +2,8 @@
  * @description       : 
 **/
 public with sharing class SOQLFetcher extends MetadataFetcher{
-
-    private final Map<String, List<String>> FIELDS_BY_TYPE = new Map<String, List<String>>{
-        'DuplicateRule' => new List<String>{'DeveloperName', 'MasterLabel', 'NamespacePrefix', 'CreatedDate', 'LastModifiedDate','SobjectType', 'IsActive'},
-        'AssignmentRule' => new List<String>{'Name','CreatedDate','LastModifiedDate','SobjectType', 'Active'},
-        'SlaProcess' => new List<String>{'Name','NameNorm','CreatedDate','LastModifiedDate','SobjectType','IsActive' }
-    };
-
+    
+    private final string SOQL ='SOQL';
     private final Map<String, Map<String, String>> OPERATION_MAPPING = new Map<String, Map<String, String>>{
         'DuplicateRule' => new Map<String, String>{
             'label' => 'MasterLabel',
@@ -42,14 +37,17 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
     * @param categories 
     * @return Map<String, List<CategoryOperation>> 
     **/
-    public override Map<String, List<CategoryOperation>> requestMetadata(List<String> sobjectNames, List<String> categories) {
+    public override Map<String, List<CategoryOperation>> requestMetadata(List<String> sobjectNames, Set<String> categories) {
         init(sobjectNames, categories);
         // Need to do 3 different queries depending the object passed
         // For each object, launch a query.
-        for(String type : FIELDS_BY_TYPE.keySet()) {
-            String fields = String.join(FIELDS_BY_TYPE.get(type), ',');
-            String query = 'SELECT ' + fields + ' FROM ' + type + ' WHERE SobjectType IN :sobjectNames';
+        for(Category_Setting__mdt category : CategorySettingHelper.getCategorySettingsByOperation(SOQL)){
+            String query = 'SELECT ' + category.Fields__c+ ' FROM ' + category.ApiName__c + ' WHERE SobjectType IN :sobjectNames';
             metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
+        //for(String type : FIELDS_BY_TYPE.keySet()) {
+        //    String fields = String.join(FIELDS_BY_TYPE.get(type), ',');
+        //    String query = 'SELECT ' + fields + ' FROM ' + type + ' WHERE SobjectType IN :sobjectNames';
+        //    metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
         }
 
         parseMetadata();
@@ -66,6 +64,7 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
         for(SObject metadataObject : metadataObjects) {
             //For each SObject need to know which mapping apply
             String objectName = metadataObject.getSObjectType().getDescribe().getName();
+
             if ((Boolean)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('active'))){
                 CategoryOperation.Operation newOperation = new CategoryOperation.Operation();
                 newOperation.label = (String)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('label'));
@@ -73,7 +72,7 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
                 newOperation.namespace = (String)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('namespace'));
                 newOperation.createdDate = (Datetime)(getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('createdDate')));
                 newOperation.lastModifiedDate = (Datetime)(getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('lastModifiedDate')));
-                Integer indexCategory = this.getCategoryIndex(CATEGORIES_MAPPING.get(objectName));
+                Integer indexCategory = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(objectName).label);
                 //Each record needs to be added to the map with the corresponding SObjectType that it belongs to
                 this.operationsByObject.get((String)metadataObject.get('SobjectType'))[indexCategory].operations.add(newOperation);
             }
