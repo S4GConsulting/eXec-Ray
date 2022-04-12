@@ -25,14 +25,9 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     **/
     public override Map<String,List<CategoryOperation>> requestMetadata(List<String> sobjectNames, Set<String> categories) {
         init(sobjectNames, categories);
-        Http h = new Http();
-        HttpRequest req = new HttpRequest();
-        req.setEndpoint(URL.getOrgDomainURL().toExternalForm() + '/services/data/v53.0/limits');
-        req.setMethod('GET');
-        HttpResponse res = h.send(req);
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
         service.SessionHeader = new MetadataService.SessionHeader_element();
-        service.SessionHeader.sessionId ='{!$Credential.OAuthToken}';//Session__c.getInstance().SessionId__c;
+        service.SessionHeader.sessionId ='{!$Credential.OAuthToken}';
         service.timeout_x = 50000;
         try{
             for(Category_Setting__mdt category :CategorySettingHelper.getCategorySettingsByOperation(METADATA)){
@@ -41,7 +36,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
                 }else if(!category.RepeatApi__c) {
                     MetadataService.ListMetadataQuery query = new MetadataService.ListMetadataQuery();
                     query.type_x= category.ApiName__c;
-                    double asOfVersion = 50.0;
+                    double asOfVersion = 54.0;
                     MetadataService.FileProperties[] propeties = service.listMetadata(new List<MetadataService.ListMetadataQuery>{query}, asOfVersion);
                     for(MetadataService.FileProperties fileProperty : propeties){
                         flowByFullName.put(fileProperty.fullName, fileProperty);
