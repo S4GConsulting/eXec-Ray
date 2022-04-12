@@ -45,6 +45,7 @@ public class CompositeResponseWrapper {
         public string NamespacePrefix;
         public string DataType;
         public EntityDefinition EntityDefinition;
+		public String QualifiedApiName;
     }
 
     public class Attribute{
@@ -53,6 +54,7 @@ public class CompositeResponseWrapper {
     }
     
     public class EntityDefinition {
-        public string QualifiedApiName;
-    }   
+        public string DeveloperName;
+		public string QualifiedApiName;
+    }
 }
