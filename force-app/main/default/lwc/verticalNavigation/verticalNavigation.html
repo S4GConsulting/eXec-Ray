@@ -5,7 +5,7 @@
     <lightning-card class="card-height" title={labels.TitleLabel}>   
         <template if:false={isLoading}>  
             <div class="slds-p-left_medium slds-p-right_medium">
-                <lightning-input data-id="userinput" label="Search an object:" name="searchText" onchange={searchField} placeholder={labels.PlaceholderLabel}></lightning-input>
+                <lightning-input data-id="userinput" label={labels.SearchAnObject} name="searchText" onchange={searchField} placeholder={labels.PlaceholderLabel}></lightning-input>
             </div>
             <lightning-vertical-navigation selected-item={selected} onselect={handleSelect}>
                 <lightning-vertical-navigation-section label="Standard">
@@ -36,7 +36,7 @@
         </template>
         <template if:true={isLoading}>
             <div class="slds-is-relative" style="height:6rem">
-                <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                <lightning-spinner alternative-text={labels.Loading} variant="brand" size="medium"></lightning-spinner>
             </div>
         </template> 
     </lightning-card>
