@@ -30,7 +30,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         service.SessionHeader.sessionId ='{!$Credential.OAuthToken}';
         service.timeout_x = 50000;
         try{
-            for(Category_Setting__mdt category :CategorySettingHelper.getCategorySettingsByOperation(METADATA)){
+            for(CategorySetting__mdt category :CategorySettingHelper.getCategorySettingsByOperation(METADATA)){
                 if(!FLOWS.equalsIgnoreCase(category.ApiName__c)){
                     this.retrievedResponse.put(category.DeveloperName , service.readMetadata(category.ApiName__c, new List<String>(this.sobjectNames)).getRecords());
                 }else if(!category.RepeatApi__c) {
