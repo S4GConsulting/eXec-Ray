@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AuthProvider xmlns="http://soap.sforce.com/2006/04/metadata">
-    <consumerKey>3MVG9t0sl2P.pBypywVpY6_bTxcrcQtOifE8DsVuZbbu7XJudy2r8fLiLxrSpLNxSgiV0UxS1Cq5._C50T4Sd</consumerKey>
-    <consumerSecret>JTTvc2xaAUnZq3Y6dgQ2I8w3A7pYVE+uBPxBOlP6pi31D0hjEFmSy2JwPdFiej9kzzohnAm5hmA/fQPdc0B7pHBBGPdiC2rX</consumerSecret>
+    <consumerKey>your_consumer_key</consumerKey>
+    <consumerSecret>j74ZuMFIrdFWIQgUiy7OGVLAzuFuPR7M</consumerSecret>
     <defaultScopes>full refresh_token offline_access</defaultScopes>
     <friendlyName>eXec-Ray</friendlyName>
     <includeOrgIdInIdentifier>true</includeOrgIdInIdentifier>

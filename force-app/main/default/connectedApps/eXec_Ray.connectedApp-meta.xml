@@ -4,8 +4,8 @@
     <label>eXec-Ray</label>
     <logoUrl>https://beehive-dev-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=0157Q000000xcTl&amp;oid=00D7Q000005ZNZ0</logoUrl>
     <oauthConfig>
-        <callbackUrl>https://beehive-dev-dev-ed.my.salesforce.com/services/authcallback/eXec_Ray</callbackUrl>
-        <consumerKey>3MVG9t0sl2P.pBypywVpY6_bTxcrcQtOifE8DsVuZbbu7XJudy2r8fLiLxrSpLNxSgiV0UxS1Cq5._C50T4Sd</consumerKey>
+        <callbackUrl>https://your-org-my-domain.my.salesforce.com/services/authcallback/eXec_Ray</callbackUrl>
+        <consumerKey></consumerKey>
         <isAdminApproved>false</isAdminApproved>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
