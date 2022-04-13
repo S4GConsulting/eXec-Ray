@@ -3,6 +3,7 @@
 **/
 public with sharing class PlatformCacheHelper {
 
+    @TestVisible
     private static final String PARTITION_LABEL = 'local.CategoryOperations';
     private static final Cache.OrgPartition ORG_PARTITION = Cache.Org.getPartition(PARTITION_LABEL);
     public static CacheTypeEnum cacheType = new CacheTypeEnum();
@@ -18,6 +19,7 @@ public with sharing class PlatformCacheHelper {
     * @param data 
     **/
     public static void putCacheData(String type, String data) {
+        //Cache.OrgPartition orgPartition = Cache.Org.getPartition(PARTITION_LABEL);
         ORG_PARTITION.put(type, data, 1800);
     }
 
@@ -27,6 +29,7 @@ public with sharing class PlatformCacheHelper {
     * @return String 
     **/
     public static String getCacheData(String type) {
+        //Cache.OrgPartition orgPartition = Cache.Org.getPartition(PARTITION_LABEL);
         String jsonData = (String)ORG_PARTITION.get(type);
         return jsonData;
     }
@@ -42,6 +45,7 @@ public with sharing class PlatformCacheHelper {
     }
 
     public static void clearCache() {
+        //Cache.OrgPartition orgPartition = Cache.Org.getPartition(PARTITION_LABEL);
         ORG_PARTITION.remove(cacheType.categories);
         ORG_PARTITION.remove(cacheType.flows);
     }
