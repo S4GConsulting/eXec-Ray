@@ -4,31 +4,6 @@
 public with sharing class SOQLFetcher extends MetadataFetcher{
     
     private final string SOQL ='SOQL';
-    private final Map<String, Map<String, String>> OPERATION_MAPPING = new Map<String, Map<String, String>>{
-        'DuplicateRule' => new Map<String, String>{
-            'label' => 'MasterLabel',
-            'developerName' => 'DeveloperName',
-            'namespace' => 'NamespacePrefix',
-            'createdDate' => 'CreatedDate',
-            'lastModifiedDate' => 'LastModifiedDate',
-            'active' => 'IsActive'
-        },
-        'AssignmentRule' => new Map<String, String>{
-            'label' => 'Name',
-            'developerName' => 'Name',
-            'createdDate' => 'CreatedDate',
-            'lastModifiedDate' => 'LastModifiedDate',
-            'active' => 'Active'
-        },
-        'SlaProcess' => new Map<String, String>{
-            'label' => 'Name',
-            'developerName' => 'NameNorm',
-            'createdDate' => 'CreatedDate',
-            'lastModifiedDate' => 'LastModifiedDate',
-            'active' => 'IsActive'
-        }
-    };
-
     private List<SObject> metadataObjects = new List<SObject>();
 
     /**
@@ -44,10 +19,6 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
         for(Category_Setting__mdt category : CategorySettingHelper.getCategorySettingsByOperation(SOQL)){
             String query = 'SELECT ' + category.Fields__c+ ' FROM ' + category.ApiName__c + ' WHERE SobjectType IN :sobjectNames';
             metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
-        //for(String type : FIELDS_BY_TYPE.keySet()) {
-        //    String fields = String.join(FIELDS_BY_TYPE.get(type), ',');
-        //    String query = 'SELECT ' + fields + ' FROM ' + type + ' WHERE SobjectType IN :sobjectNames';
-        //    metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
         }
 
         parseMetadata();
@@ -64,14 +35,15 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
         for(SObject metadataObject : metadataObjects) {
             //For each SObject need to know which mapping apply
             String objectName = metadataObject.getSObjectType().getDescribe().getName();
-
-            if ((Boolean)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('active'))){
+            Type t = Type.forName('OperationMapping.' + objectName);
+            OperationMapping opMapping = (OperationMapping)t.newInstance();
+            if ((Boolean)getFieldValue(metadataObject, opMapping.active)){
                 CategoryOperation.Operation newOperation = new CategoryOperation.Operation();
-                newOperation.label = (String)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('label'));
-                newOperation.developerName = (String)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('developerName'));
-                newOperation.namespace = (String)getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('namespace'));
-                newOperation.createdDate = (Datetime)(getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('createdDate')));
-                newOperation.lastModifiedDate = (Datetime)(getFieldValue(metadataObject, OPERATION_MAPPING.get(objectName).get('lastModifiedDate')));
+                newOperation.label = (String)getFieldValue(metadataObject, opMapping.label);
+                newOperation.developerName = (String)getFieldValue(metadataObject, opMapping.developerName);
+                newOperation.namespace = (String)getFieldValue(metadataObject, opMapping.namespace);
+                newOperation.createdDate = (Datetime)(getFieldValue(metadataObject, opMapping.createdDate));
+                newOperation.lastModifiedDate = (Datetime)(getFieldValue(metadataObject, opMapping.lastModifiedDate));
                 Integer indexCategory = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(objectName).label);
                 //Each record needs to be added to the map with the corresponding SObjectType that it belongs to
                 this.operationsByObject.get((String)metadataObject.get('SobjectType'))[indexCategory].operations.add(newOperation);
