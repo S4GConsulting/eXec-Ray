@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Autoresponse Rules</label>
+    <label>After Triggers</label>
     <protected>false</protected>
     <values>
         <field>ApiName__c</field>
-        <value xsi:type="xsd:string">AutoResponseRule</value>
+        <value xsi:type="xsd:string">ApexTrigger</value>
     </values>
     <values>
         <field>Fetcher__c</field>
         <value xsi:type="xsd:string">Tooling</value>
     </values>
     <values>
-        <field>Field_Filter__c</field>
+        <field>FieldFilter__c</field>
         <value xsi:type="xsd:string">EntityDefinition.QualifiedApiName</value>
     </values>
     <values>
         <field>Fields__c</field>
-        <value xsi:type="xsd:string">id, name, active, entityDefinitionId, createdDate, lastModifiedDate, entityDefinition.qualifiedApiName</value>
+        <value xsi:type="xsd:string">id, name, tableEnumOrId, usageBeforeInsert, usageAfterInsert, usageBeforeUpdate, usageAfterUpdate, usageBeforeDelete, usageAfterDelete, usageIsBulk, usageAfterUndelete, status, isValid, body, manageableState, entityDefinitionId, createdDate, lastModifiedDate, namespacePrefix, entityDefinition.qualifiedApiName</value>
     </values>
     <values>
         <field>FilterObject__c</field>
@@ -24,14 +24,14 @@
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">6.0</value>
+        <value xsi:type="xsd:double">4.0</value>
     </values>
     <values>
         <field>ReferenceId__c</field>
-        <value xsi:type="xsd:string">AutoResponseRules</value>
+        <value xsi:type="xsd:string">ApexTriggers</value>
     </values>
     <values>
         <field>RepeatApi__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
 </CustomMetadata>
