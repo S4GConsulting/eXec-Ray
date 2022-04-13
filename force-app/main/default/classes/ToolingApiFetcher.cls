@@ -28,28 +28,31 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
         String objects = '\''+ String.join(sobjectNames, '\',\'') + '\'';
         
         HttpRequest req = new HttpRequest();
-        //req.setEndpoint(URL.getOrgDomainURL().toExternalForm() + '/services/data/v53.0/tooling/composite');
         req.setEndpoint('callout:eXec_Ray/services/data/v53.0/tooling/composite');
         req.setMethod('GET');
         req.setHeader('Content-Type', 'application/json');
         Integer countCompositeUnit = 0;
+        String filterObjects;
+        String additionalFilter;
+        String query;
         newComposite();
         Set<String> objectReferenceNames = getReferenceObjects(sobjectNames);
-        for(Category_Setting__mdt category :CategorySettingHelper.getCategorySettingsByOperation(TOOLING)){
+        for(CategorySetting__mdt category :CategorySettingHelper.getCategorySettingsByOperation(TOOLING)){
             CompositeWrapper composite = compositesByCall.get(this.countComposite);
             if(category.FilterObject__c &&!category.RepeatApi__c && 
             ((SUMMARY_FIELDS.equalsIgnoreCase(category.referenceId__c) && !objectReferenceNames.isEmpty()) ||
              !SUMMARY_FIELDS.equalsIgnoreCase(category.referenceId__c))) {
                 CompositeWrapper.CompositeUnit unit = new CompositeWrapper.CompositeUnit();
                 unit.method = 'GET';
-                String filterObjects = objects;
-                String additionalFilter = '';
+                filterObjects = objects;
+                additionalFilter = '';
                 if(SUMMARY_FIELDS.equalsIgnoreCase(category.referenceId__c)) {
                     filterObjects = '\''+ String.join(new List<String>(objectReferenceNames), '\',\'') + '\'';
-                    //additionalFilter = ' + AND + DataType + LIKE + \'%Summary%\'';
+                     additionalFilter = ' AND DataType LIKE' + '\''+'%Summary%'+'\'';
                 }
-                unit.url = '/services/data/v53.0/tooling/query/?q=SELECT +'+ category.Fields__c.replace(',', ',+') + ' + FROM + ' + category.ApiName__c+ '+ WHERE + ' + category.Field_Filter__c + ' + IN + (' + filterObjects +  ')' + additionalFilter;
-                unit.referenceId = category.referenceId__c;  
+                query = 'SELECT '+ category.Fields__c + ' FROM ' +  category.ApiName__c + ' WHERE ' + category.FieldFilter__c + ' IN (' + filterObjects + ') ' + additionalFilter;
+                unit.url = '/services/data/v53.0/tooling/query/?q='+ EncodingUtil.urlEncode(query, 'UTF-8');
+                unit.referenceId = category.referenceId__c; 
                 composite.compositeRequest.add(unit);
             }       
         }
@@ -129,7 +132,7 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
             reference = record.UsageAfterDelete||record.UsageAfterInsert||record.UsageAfterUndelete||record.UsageAfterUpdate? AFTERTRIGGER : BEFORETRIGGER;
             newOperation.developerName = String.isNotBlank(newOperation.namespace)? newOperation.namespace + '__' + newOperation.label: newOperation.label;
         }
-        Category_Setting__mdt categorySetting = CategorySettingHelper.getCategorySettingByName(reference);
+        CategorySetting__mdt categorySetting = CategorySettingHelper.getCategorySettingByName(reference);
         Integer indexCategory = this.getCategoryIndex(categorySetting.label);
         this.operationsByObject.get(objectName)[indexCategory].operations.add(newOperation);
     }
@@ -192,14 +195,14 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
         if(String.isNotBlank(record.Label)){ // SummaryFields
             newOperation.label = record.Label + ' ('+ record.EntityDefinition.QualifiedApiName + ')' ;
             newOperation.developerName = record.QualifiedApiName;
-        } else if(String.isNotBlank(record.Name)){ //Rest
+        } else if(String.isNotBlank(record.Name)){
             newOperation.label = record.Name;
-        } else { // Validation Rule
+        } else {
             newOperation.label = record.ValidationName;
         }
         newOperation.namespace = record.NamespacePrefix;
         newOperation.createdDate =record.CreatedDate != null ? Datetime.valueOf(this.getDate(record.CreatedDate)):null;
-        newOperation.lastModifiedDate = Datetime.valueOf(this.getDate(record.lastModifiedDate));
+        newOperation.lastModifiedDate = record.LastModifiedDate != null ?Datetime.valueOf(this.getDate(record.lastModifiedDate)): null;
         newOperation.developerName = String.isBlank(newOperation.developerName)? String.isNotBlank(newOperation.namespace)? newOperation.namespace + '__' + objectName + '.' + newOperation.label :objectName + '.' + newOperation.label: newOperation.developerName;
         return newOperation;
     }

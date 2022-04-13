@@ -1,5 +1,5 @@
 /**
- * @description       : 
+ * @description: Extracts and parses the information from SOQL. 
 **/
 public with sharing class SOQLFetcher extends MetadataFetcher{
     
@@ -16,7 +16,7 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
         init(sobjectNames, categories);
         // Need to do 3 different queries depending the object passed
         // For each object, launch a query.
-        for(Category_Setting__mdt category : CategorySettingHelper.getCategorySettingsByOperation(SOQL)){
+        for(CategorySetting__mdt category : CategorySettingHelper.getCategorySettingsByOperation(SOQL)){
             String query = 'SELECT ' + category.Fields__c+ ' FROM ' + category.ApiName__c + ' WHERE SobjectType IN :sobjectNames';
             metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
         }

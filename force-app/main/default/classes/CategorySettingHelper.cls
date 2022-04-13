@@ -5,24 +5,56 @@ public without sharing class CategorySettingHelper {
     private static final string TOOLING = 'Tooling';
     private static final string METADATA = 'Metadata';
     private static final string SOQL = 'SOQL';
-    private static Map<String,Category_Setting__mdt> categoryTooling;
+    private static Map<String,CategorySetting__mdt> categoryTooling {
+        get{
+            if(categoryTooling == null){
+                fillCategory();
+            }
+            return categoryTooling;
+        }
+        set;
+    }
     
-    private static Map<String,Category_Setting__mdt> categoryMetadata;
-    private static Map<String,Category_Setting__mdt> categorySOQL;
-    private static Map<String,Category_Setting__mdt> categorySettingByName;
+    private static Map<String,CategorySetting__mdt> categoryMetadata {
+        get{
+            if(categoryMetadata == null){
+                fillCategory();
+            }
+            return categoryMetadata;
+        }
+        set;
+    }
+    private static Map<String,CategorySetting__mdt> categorySOQL {
+        get{
+            if(categorySOQL == null){
+                fillCategory();
+            }
+            return categorySOQL;
+        }
+        set;
+    }
+    private static Map<String,CategorySetting__mdt> categorySettingByName {
+        get{
+            if(categorySettingByName == null){
+                fillCategory();
+            }
+            return categorySettingByName;
+        }
+        set;
+    }
     
     /**
     * @description filling of the attributes of the class corresponding to the category
     *  
     **/
+    @SuppressWarnings('PMD.ApexCRUDViolation')
     private static void fillCategory() {
-        if(categorySettingByName == null){
-            categoryTooling = new Map<String,Category_Setting__mdt>();
-            categoryMetadata = new Map<String,Category_Setting__mdt>();
-            categorySOQL = new Map<String,Category_Setting__mdt>();
-            categorySettingByName = new Map<String,Category_Setting__mdt>();
-            List<Category_Setting__mdt> categories = [Select Id, DeveloperName, Label, ReferenceId__c, QualifiedApiName, Fields__c, FilterObject__c, ApiName__c, Order__c, Fetcher__c, Field_Filter__c, RepeatApi__c FROM Category_Setting__mdt];
-            for(Category_Setting__mdt categorySetting : categories) {
+            categoryTooling = new Map<String,CategorySetting__mdt>();
+            categoryMetadata = new Map<String,CategorySetting__mdt>();
+            categorySOQL = new Map<String,CategorySetting__mdt>();
+            categorySettingByName = new Map<String,CategorySetting__mdt>();
+            List<CategorySetting__mdt> categories = [Select Id, DeveloperName, Label, ReferenceId__c, QualifiedApiName, Fields__c, FilterObject__c, ApiName__c, Order__c, Fetcher__c, FieldFilter__c, RepeatApi__c FROM CategorySetting__mdt];
+            for(CategorySetting__mdt categorySetting : categories) {
                 if(TOOLING.equalsIgnoreCase(categorySetting.Fetcher__c)) {
                     categoryTooling.put(categorySetting.DeveloperName,categorySetting);
                 } else if(METADATA.equalsIgnoreCase(categorySetting.Fetcher__c)) {
@@ -32,7 +64,6 @@ public without sharing class CategorySettingHelper {
                 } 
                 categorySettingByName.put(categorySetting.developerName,categorySetting); 
             }
-        }
     }
     
     /**
@@ -41,7 +72,6 @@ public without sharing class CategorySettingHelper {
     *  
     **/
     public static Set<String> getCategoryNamesByOperation(string operation){
-        fillCategory();
         return TOOLING.equalsIgnoreCase(operation) ? categoryTooling.keySet() :
                METADATA.equalsIgnoreCase(operation) ? categoryMetadata.keySet() :
                SOQL.equalsIgnoreCase(operation) ? categorySOQL.keySet():new Set<String>();
@@ -49,34 +79,30 @@ public without sharing class CategorySettingHelper {
 
     /**
     * @description  get the category setting  by name 
-    * @return  Category_Setting__mdt 
+    * @return  CategorySetting__mdt 
     *  
     **/
-    public static Category_Setting__mdt getCategorySettingByName(string label) {
-        fillCategory();
+    public static CategorySetting__mdt getCategorySettingByName(string label) {
         return categorySettingByName.get(label);
     }
 
     /**
     * @description get the categorysettings according to the operation 
-    * @return  List<Category_Setting__mdt> 
+    * @return  List<CategorySetting__mdt> 
     *  
     **/
-    public static List<Category_Setting__mdt> getCategorySettingsByOperation(string operation){
-        fillCategory();
+    public static List<CategorySetting__mdt> getCategorySettingsByOperation(string operation){
         return TOOLING.equalsIgnoreCase(operation) ? categoryTooling.values() :
                METADATA.equalsIgnoreCase(operation) ? categoryMetadata.values() :
-               SOQL.equalsIgnoreCase(operation) ? categorySOQL.values():new List<Category_Setting__mdt>();
+               SOQL.equalsIgnoreCase(operation) ? categorySOQL.values():new List<CategorySetting__mdt>();
         
     }
     /**
     * @description get the all category settings
-    * @return  List<Category_Setting__mdt> 
+    * @return  List<CategorySetting__mdt> 
     *  
     **/
-    public static List<Category_Setting__mdt> getAllCategorySettings(){
-        fillCategory();
+    public static List<CategorySetting__mdt> getAllCategorySettings(){
         return categorySettingByName.values();
-    }
-    
+    }  
 }

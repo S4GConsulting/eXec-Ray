@@ -16,7 +16,7 @@ public abstract class MetadataFetcher {
         for(String sobjectName : sobjectNames) {
             List<CategoryOperation> categoryOperations = new List<CategoryOperation>();
             for(String categoryName : categories) {
-                Category_Setting__mdt category = CategorySettingHelper.getCategorySettingByName(categoryName);
+                CategorySetting__mdt category = CategorySettingHelper.getCategorySettingByName(categoryName);
                 CategoryOperation catOperation = new CategoryOperation();
                 catOperation.category = category.Label;
                 catOperation.order = Integer.valueOf(category.Order__c);
