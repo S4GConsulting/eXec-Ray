@@ -4,6 +4,6 @@
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>RepeatApi</label>
+    <label>Repeat Api</label>
     <type>Checkbox</type>
 </CustomField>

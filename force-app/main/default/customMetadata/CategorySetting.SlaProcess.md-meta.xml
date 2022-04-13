@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Process Builders</label>
+    <label>Entitlement Rules</label>
     <protected>false</protected>
     <values>
         <field>ApiName__c</field>
-        <value xsi:type="xsd:string">Flow</value>
+        <value xsi:type="xsd:string">SlaProcess</value>
     </values>
     <values>
         <field>Fetcher__c</field>
-        <value xsi:type="xsd:string">Metadata</value>
+        <value xsi:type="xsd:string">SOQL</value>
     </values>
     <values>
-        <field>Field_Filter__c</field>
+        <field>FieldFilter__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
         <field>Fields__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Name, NameNorm, CreatedDate, LastModifiedDate, SobjectType, IsActive</value>
     </values>
     <values>
         <field>FilterObject__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">8.0</value>
+        <value xsi:type="xsd:double">11.0</value>
     </values>
     <values>
         <field>ReferenceId__c</field>
@@ -32,6 +32,6 @@
     </values>
     <values>
         <field>RepeatApi__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
 </CustomMetadata>
