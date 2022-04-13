@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>appexchange@s4g.es</contactEmail>
+    <label>eXec-Ray</label>
+    <logoUrl>https://beehive-dev-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=0157Q000000xcTl&amp;oid=00D7Q000005ZNZ0</logoUrl>
+    <oauthConfig>
+        <callbackUrl>https://your-org-my-domain.my.salesforce.com/services/authcallback/eXec_Ray</callbackUrl>
+        <consumerKey></consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>true</isSecretRequiredForRefreshToken>
+        <scopes>Full</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>
