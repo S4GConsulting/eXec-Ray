@@ -17,8 +17,17 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
         // Need to do 3 different queries depending the object passed
         // For each object, launch a query.
         for(CategorySetting__mdt category : CategorySettingHelper.getCategorySettingsByOperation(SOQL)){
-            String query = 'SELECT ' + category.Fields__c+ ' FROM ' + category.ApiName__c + ' WHERE SobjectType IN :sobjectNames';
-            metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
+            try {
+                String query = 'SELECT ' + category.Fields__c+ ' FROM ' + category.ApiName__c + ' WHERE SobjectType IN :sobjectNames';
+                metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
+            } catch(QueryException e) {
+                if(e.getMessage().startsWith(String.format(System.Label.QUERY_OBJECT_EXCEPTION, new List<String> {category.ApiName__c}))) {
+                    System.debug(e.getMessage());
+                } else {
+                    throw e;
+                }
+            }
+            
         }
 
         parseMetadata();
