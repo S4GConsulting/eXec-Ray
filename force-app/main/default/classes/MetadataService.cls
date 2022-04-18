@@ -1632,7 +1632,7 @@ public class MetadataService {
     public class FlowSchedule {
         public String frequency;
         public Date startDate;
-        public DateTime startTime;
+        public String startTime;
         private String[] frequency_type_info = new String[]{'frequency','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] startDate_type_info = new String[]{'startDate','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
         private String[] startTime_type_info = new String[]{'startTime','http://soap.sforce.com/2006/04/metadata',null,'0','1','false'};
@@ -3691,7 +3691,7 @@ public class MetadataService {
         private String[] field_order_type_info = new String[]{'description','flowCategoryItems','masterLabel'};
     }
     public class MetadataPort {
-        public String endpoint_x = 'callout:eXec_Ray/services/Soap/m/54.0';//URL.getOrgDomainURL().toExternalForm() + '/services/Soap/m/54.0';
+        public String endpoint_x = 'callout:eXec_Ray' + '/services/Soap/m/54.0';//URL.getOrgDomainURL().toExternalForm() + '/services/Soap/m/54.0';
         public Map<String,String> inputHttpHeaders_x;
         public Map<String,String> outputHttpHeaders_x;
         public String clientCertName_x;
