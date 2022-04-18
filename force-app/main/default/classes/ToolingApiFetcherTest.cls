@@ -1,9 +1,6 @@
 /**
  * @description       : 
- * @author            : Raúl Iglesias
- * @group             : 
- * @last modified on  : 04-12-2022
- * @last modified by  : Raúl Iglesias
+ * @last modified on  : 04-18-2022
 **/
 @IsTest
 public with sharing class ToolingApiFetcherTest {
