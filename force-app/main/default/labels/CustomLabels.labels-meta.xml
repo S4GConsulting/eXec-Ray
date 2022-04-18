@@ -126,6 +126,6 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Query Object Exception</shortDescription>
-        <value>sObject type &apos;{0}&apos; is not supported</value>
+        <value>sObject type &apos;&apos;{0}&apos;&apos; is not supported</value>
     </labels>
 </CustomLabels>
