@@ -49,6 +49,17 @@ public class MetadataServiceMock implements WebServiceMock {
     
                 return responseElement;
     
+            } else if (r.type_x == 'Workflow') {
+    
+                MetadataService.ReadWorkflowResult result = new MetadataService.ReadWorkflowResult();
+                result.records = new MetadataService.Workflow[] {
+                };
+    
+                MetadataService.readWorkflowResponse_element responseElement = new MetadataService.readWorkflowResponse_element();
+                responseElement.result = result;
+    
+                return responseElement;
+    
             } else if (r.type_x == 'Flow') {
     
                 MetadataService.ReadFlowResult result = new MetadataService.ReadFlowResult();
