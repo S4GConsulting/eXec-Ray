@@ -215,6 +215,41 @@ public class CompositeResponseWrapper {
 		'      "httpHeaders": {},'+
 		'      "httpStatusCode": 200,'+
 		'      "referenceId": "AutoResponseRules"'+
+		'    },'+
+		'    {'+
+		'      "body": {'+
+		'        "totalSize": 1,'+
+		'        "done": true,'+
+		'        "records": ['+
+		'          {'+
+		'            "attributes": {'+
+		'              "type": "FieldDefinition",'+
+		'              "url": "/services/data/v53.0/tooling/sobjects/FieldDefinition/01Q2o000000JhS9EAK"'+
+		'            },'+
+        '            "EntityDefinition": {'+
+		'              "attributes": {'+
+		'                "type": "EntityDefinition",'+
+		'                "url": "/services/data/v53.0/tooling/sobjects/EntityDefinition/01I2o000001QVSE"'+
+		'              },'+
+		'              "DeveloperName": "Account",'+
+		'              "QualifiedApiName": "Account"'+
+		'            },'+
+		'            "ReferenceTo": {'+
+		'                "ReferenceTo": "null"'+
+		'             },'+
+		'            "QualifiedApiName": "Conga Envio Email",'+
+		'            "NamespacePrefix": "Test",'+
+        '            "Active": true,'+
+        '            "CreatedDate": "2020-02-15T08:03:05.000+0000",'+
+		'            "LastModifiedDate": "2020-02-15T08:03:05.000+0000",'+
+        '            "EntityDefinitionId": "ServiceTerritoryMemberTest2",'+
+		'            "DataType": "Lookup()"'+
+		'          }'+
+		'        ]'+
+		'      },'+
+		'      "httpHeaders": {},'+
+		'      "httpStatusCode": 200,'+
+		'      "referenceId": "FieldDefinitions"'+
 		'    }'+
 		'  ]'+
 		'}';
