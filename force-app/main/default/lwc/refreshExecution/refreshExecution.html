@@ -1,0 +1,13 @@
+<template>
+    <lightning-card class="card-height">
+        <h3 slot="title">
+            <div>
+                <img width="60" src={execRayLogo}>
+                <span class="slds-p-left_small">{labels.title}</span>
+            </div>
+        </h3>  
+        <div slot="actions">
+            <span class="slds-p-right_small refresh-text"><i>{labels.lastRefresh} {parsedDate}</i></span><lightning-button label={labels.buttonLabel} slot="actions" icon-name="utility:refresh" onclick={handleRefresh}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

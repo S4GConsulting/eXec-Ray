@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UsePlatformCache__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Specify if you want to use Platform Cache in order to minimize loading time when there is a lot of Metadata in the org</description>
+    <externalId>false</externalId>
+    <label>Use Platform Cache</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
