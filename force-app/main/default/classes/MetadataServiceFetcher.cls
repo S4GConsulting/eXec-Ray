@@ -19,10 +19,9 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     private Map<String,List<MetadataService.Metadata>> retrievedResponse = new Map<String,List<MetadataService.Metadata>>();
     private Map<String,MetadataService.FileProperties> flowByFullName = new Map<String,MetadataService.FileProperties>();
 
+       
     @TestVisible
     private MetadataService.MetadataPort service = new MetadataService.MetadataPort();
-
-    
     /**
     * @description Executes all metadata request logic
     * @return Map<String, List<CategoryOperation>> 
@@ -48,7 +47,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
                         flowByFullName.put(fileProperty.fullName, fileProperty);
                         fullNames.add(fileProperty.fullName);
                         if(count == 10){
-                            responsesMetadata.addAll(service.readMetadata(category.ApiName__c, fullNames).getRecords());
+                            responsesMetadata.addAll(this.service.readMetadata(category.ApiName__c, fullNames).getRecords());
                             count=1;
                             fullNames.clear();
                         }else {
@@ -56,7 +55,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
                         }
                     }
                     if(count>1){
-                        responsesMetadata.addAll(service.readMetadata(category.ApiName__c, fullNames).getRecords());
+                        responsesMetadata.addAll(this.service.readMetadata(category.ApiName__c, fullNames).getRecords());
                     }
                     this.retrievedResponse.put(category.ApiName__c ,responsesMetadata);
                     
@@ -74,10 +73,18 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     * @description Transforms metadata into a readable structure.
     **/
     protected override void parseMetadata() {
-        this.parseSharingRules((List<MetadataService.SharingRules>) this.retrievedResponse.get(SHARINGRULES));
-        this.parseEscalationRules((List<MetadataService.EscalationRules>)this.retrievedResponse.get(ESCALATIONRULES));
-        this.parseWorkflowRules((List<MetadataService.Workflow>)this.retrievedResponse.get(WORKFLOWS));
-        this.parseFlows(this.retrievedResponse.get(FLOWS));
+        if(this.retrievedResponse.containsKey(SHARINGRULES)){
+            this.parseSharingRules((List<MetadataService.SharingRules>) this.retrievedResponse.get(SHARINGRULES));
+        }
+        if(this.retrievedResponse.containsKey(ESCALATIONRULES)){
+            this.parseEscalationRules((List<MetadataService.EscalationRules>)this.retrievedResponse.get(ESCALATIONRULES));
+        }
+        if(this.retrievedResponse.containsKey(WORKFLOWS)){
+            this.parseWorkflowRules((List<MetadataService.Workflow>)this.retrievedResponse.get(WORKFLOWS));
+        }
+        if(this.retrievedResponse.containsKey(FLOWS)){
+            this.parseFlows(this.retrievedResponse.get(FLOWS));
+        }
     }
 
 
