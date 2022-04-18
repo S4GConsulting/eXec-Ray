@@ -120,4 +120,12 @@
         <shortDescription>Selecting message title.</shortDescription>
         <value>Please select an object to display the execution tree.</value>
     </labels>
+    <labels>
+        <fullName>QUERY_OBJECT_EXCEPTION</fullName>
+        <categories>eXec-RAY, Exception</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Query Object Exception</shortDescription>
+        <value>sObject type &apos;{0}&apos; is not supported</value>
+    </labels>
 </CustomLabels>
