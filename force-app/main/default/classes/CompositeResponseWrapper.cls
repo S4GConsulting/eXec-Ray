@@ -1,15 +1,12 @@
 /**
  * @description       : 
- * @author            : andres.ortiz@s4g.es
- * @group             : 
- * @last modified on  : 04-12-2022
- * @last modified by  : Raúl Iglesias
+ * @last modified on  : 04-18-2022
 **/
 public class CompositeResponseWrapper {
 
     public List<Bodys> compositeResponse;
 
-    public class  Bodys{
+    public class  Bodys{ 
         public Body body;
         public string referenceId;
     }
