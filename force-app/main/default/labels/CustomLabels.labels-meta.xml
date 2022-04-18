@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>OBJECTS_TITLE_LABEL</fullName>
+        <categories>Beehive LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Object Title</shortDescription>
+        <value>Objects</value>
+    </labels>
+    <labels>
+        <fullName>SEARCH_OBJECTS_PLACEHOLDER</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Objects Placeholder</shortDescription>
+        <value>Enter the object name...</value>
+    </labels>
+    <labels>
+        <fullName>SEARCH_OBJECTS_TITLE</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Object Title.</shortDescription>
+        <value>Objects</value>
+    </labels>
+    <labels>
+        <fullName>EXEC_RAY_TITLE</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>eXec RAY Title</shortDescription>
+        <value>eXec-Ray</value>
+    </labels>
+    <labels>
+        <fullName>ITEMS_MESSAGE</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Number of operations.</shortDescription>
+        <value>Items</value>
+    </labels>
+    <labels>
+        <fullName>LAST_REFRESH_LABEL</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Refresh label</shortDescription>
+        <value>Last refresh:</value>
+    </labels>
+    <labels>
+        <fullName>LOADING</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>NO_ITEMS_MESSAGE</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message when there are no operations</shortDescription>
+        <value>No items to show.</value>
+    </labels>
+    <labels>
+        <fullName>OPEN_DETAILS_MESSAGE</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Open details message in alternative text.</shortDescription>
+        <value>Open or close the details of the different operations.</value>
+    </labels>
+    <labels>
+        <fullName>OPERATION_CATEGORY_TITLE</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Category title.</shortDescription>
+        <value>Operation Category</value>
+    </labels>
+    <labels>
+        <fullName>PLEASE_SELECT_OBJECT</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Please select an object,.</shortDescription>
+        <value>No data to show. Please, select an object.</value>
+    </labels>
+    <labels>
+        <fullName>REFRESH_BUTTON_LABEL</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh button label</shortDescription>
+        <value>Refresh</value>
+    </labels>
+    <labels>
+        <fullName>SEARCH_AN_OBJECT</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search an object</shortDescription>
+        <value>Search an object:</value>
+    </labels>
+    <labels>
+        <fullName>SEARCH_OBJECTS_ANY_RESULT</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Objects Empty Results</shortDescription>
+        <value>No objects to show.</value>
+    </labels>
+    <labels>
+        <fullName>SELECT_OBJECT_MESSAGE</fullName>
+        <categories>eXec-RAY LWC</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Selecting message title.</shortDescription>
+        <value>Please select an object to display the execution tree.</value>
+    </labels>
+    <labels>
+        <fullName>QUERY_OBJECT_EXCEPTION</fullName>
+        <categories>eXec-RAY, Exception</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Query Object Exception</shortDescription>
+        <value>sObject type &apos;&apos;{0}&apos;&apos; is not supported</value>
+    </labels>
+</CustomLabels>

@@ -3,6 +3,7 @@
 **/
 public with sharing class PlatformCacheHelper {
 
+    @TestVisible
     private static final String PARTITION_LABEL = 'local.CategoryOperations';
     private static final Cache.OrgPartition ORG_PARTITION = Cache.Org.getPartition(PARTITION_LABEL);
     public static CacheTypeEnum cacheType = new CacheTypeEnum();
