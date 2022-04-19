@@ -4,7 +4,7 @@
 public with sharing class SOQLFetcher extends MetadataFetcher{
     
     private final string SOQL ='SOQL';
-    private List<SObject> metadataObjects = new List<SObject>();
+    @TestVisible private List<SObject> metadataObjects = new List<SObject>();
 
     /**
     * @description Query each object dinamically for each supported type
