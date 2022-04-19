@@ -3,6 +3,10 @@
     <label>After Triggers</label>
     <protected>false</protected>
     <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>ApiName__c</field>
         <value xsi:type="xsd:string">ApexTrigger</value>
     </values>
