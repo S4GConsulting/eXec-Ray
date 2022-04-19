@@ -18,35 +18,52 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
 
     private Map<String,List<MetadataService.Metadata>> retrievedResponse = new Map<String,List<MetadataService.Metadata>>();
     private Map<String,MetadataService.FileProperties> flowByFullName = new Map<String,MetadataService.FileProperties>();
-    
+
+       
+    @TestVisible
+    private MetadataService.MetadataPort service = new MetadataService.MetadataPort();
     /**
     * @description Executes all metadata request logic
     * @return Map<String, List<CategoryOperation>> 
     **/
     public override Map<String,List<CategoryOperation>> requestMetadata(List<String> sobjectNames, Set<String> categories) {
         init(sobjectNames, categories);
-        MetadataService.MetadataPort service = new MetadataService.MetadataPort();
-        service.SessionHeader = new MetadataService.SessionHeader_element();
-        service.SessionHeader.sessionId ='{!$Credential.OAuthToken}';
-        service.timeout_x = 50000;
+        this.service.SessionHeader = new MetadataService.SessionHeader_element();
+        this.service.SessionHeader.sessionId ='{!$Credential.OAuthToken}';
+        this.service.timeout_x = 120000;
         try{
             for(CategorySetting__mdt category :CategorySettingHelper.getCategorySettingsByOperation(METADATA)){
                 if(!FLOWS.equalsIgnoreCase(category.ApiName__c)){
-                    this.retrievedResponse.put(category.DeveloperName , service.readMetadata(category.ApiName__c, new List<String>(this.sobjectNames)).getRecords());
+                    this.retrievedResponse.put(category.DeveloperName , this.service.readMetadata(category.ApiName__c, new List<String>(this.sobjectNames)).getRecords());
                 }else if(!category.RepeatApi__c) {
                     MetadataService.ListMetadataQuery query = new MetadataService.ListMetadataQuery();
                     query.type_x= category.ApiName__c;
                     double asOfVersion = 54.0;
-                    MetadataService.FileProperties[] propeties = service.listMetadata(new List<MetadataService.ListMetadataQuery>{query}, asOfVersion);
-                    for(MetadataService.FileProperties fileProperty : propeties){
+                    MetadataService.FileProperties[] properties = this.service.listMetadata(new List<MetadataService.ListMetadataQuery>{query}, asOfVersion);
+                    List<MetadataService.Metadata> responsesMetadata = new List<MetadataService.Metadata>();
+                    Integer count = 1;
+                    List<String> fullNames = new List<String>();
+                    for(MetadataService.FileProperties fileProperty : properties){
                         flowByFullName.put(fileProperty.fullName, fileProperty);
+                        fullNames.add(fileProperty.fullName);
+                        if(count == 10){
+                            responsesMetadata.addAll(this.service.readMetadata(category.ApiName__c, fullNames).getRecords());
+                            count=1;
+                            fullNames.clear();
+                        }else {
+                            count ++;
+                        }
                     }
-                    this.retrievedResponse.put(category.ApiName__c , service.readMetadata(category.ApiName__c, new List<String>(flowByFullName.keySet())).getRecords());
+                    if(count>1){
+                        responsesMetadata.addAll(this.service.readMetadata(category.ApiName__c, fullNames).getRecords());
+                    }
+                    this.retrievedResponse.put(category.ApiName__c ,responsesMetadata);
+                    
                 }
             }
             this.parseMetadata();
         }catch(Exception e){
-            system.debug('exception'+ e.getMessage() + e.getLineNumber());
+           throw new MetadataServiceException('Exception'+ e.getMessage() + ' ' + e.getLineNumber());
         }
         
         return this.operationsByObject;
@@ -56,10 +73,18 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     * @description Transforms metadata into a readable structure.
     **/
     protected override void parseMetadata() {
-        this.parseSharingRules((List<MetadataService.SharingRules>) this.retrievedResponse.get(SHARINGRULES));
-        this.parseEscalationRules((List<MetadataService.EscalationRules>)this.retrievedResponse.get(ESCALATIONRULES));
-        this.parseWorkflowRules((List<MetadataService.Workflow>)this.retrievedResponse.get(WORKFLOWS));
-        this.parseFlows((List<MetadataService.Flow>) this.retrievedResponse.get(FLOWS));
+        if(this.retrievedResponse.containsKey(SHARINGRULES)){
+            this.parseSharingRules((List<MetadataService.SharingRules>) this.retrievedResponse.get(SHARINGRULES));
+        }
+        if(this.retrievedResponse.containsKey(ESCALATIONRULES)){
+            this.parseEscalationRules((List<MetadataService.EscalationRules>)this.retrievedResponse.get(ESCALATIONRULES));
+        }
+        if(this.retrievedResponse.containsKey(WORKFLOWS)){
+            this.parseWorkflowRules((List<MetadataService.Workflow>)this.retrievedResponse.get(WORKFLOWS));
+        }
+        if(this.retrievedResponse.containsKey(FLOWS)){
+            this.parseFlows(this.retrievedResponse.get(FLOWS));
+        }
     }
 
 
@@ -71,7 +96,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         Integer categoryIndex = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(SHARINGRULES).label);
         for(MetadataService.SharingRules rule : unparsedSharingRules) {
             if(rule.sharingCriteriaRules != null) {
-                // Updates operationsByObject map, this map is returned by requestMetadata, class public method 
+                // Updates operationsByObject map, this map is returned by requestMetadata, class public method
                 this.operationsByObject.get(rule.fullName)[categoryIndex].operations.addAll(this.parseBaseSharingRule(rule.sharingCriteriaRules));
             }
             if(rule.sharingOwnerRules != null) {
@@ -190,24 +215,24 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     * @description Transforms Flow metadata into a readable structure (operationsByObject).
     * @param unparsedFlows 
     **/
-    private void parseFlows(List<MetadataService.Flow> unparsedFlows){
-        Integer categoryIndexBefore = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(BEFORETRIGGERFLOW).Label);
-        Integer categoryIndexAfter = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(AFTERTRIGGERFLOW).Label);
-        Integer categoryIndexProcess = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(PROCESSBUILDER).Label);
-        for(MetadataService.Flow rule : unparsedFlows) {
-            if(ACTIVE.equalsIgnoreCase(rule.status)){
-                List<MetadataService.FlowRecordUpdate> updateRecords = (List<MetadataService.FlowRecordUpdate>) rule.recordUpdates;
-                String objectX = updateRecords[0]?.object_x;
-                if(PROCESSTYPE_AUTOLAUNCHEDFLOW.equalsIgnoreCase(rule.processType) && this.operationsByObject.containsKey(rule.start.object_x)){
-                    if(BEFORETRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)){
-                        this.operationsByObject.get(rule.start.object_x)[categoryIndexBefore].operations.add(this.parseBaseFlow(rule));
-                    }else if(AFTERTRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)) {
-                        this.operationsByObject.get(rule.start.object_x)[categoryIndexAfter].operations.add(this.parseBaseFlow(rule));
-                    }
-                } else if(PROCESSTYPE_WORKFLOW.equalsIgnoreCase(rule.processType) && this.operationsByObject.containsKey(objectX)){
-                    this.operationsByObject.get(objectX)[categoryIndexProcess].operations.add(this.parseBaseFlow(rule));
+    private void parseFlows(List<MetadataService.Metadata> unparsedFlows){
+        Integer categoryIndexBefore = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(BEFORETRIGGERFLOW)?.Label);
+        Integer categoryIndexAfter = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(AFTERTRIGGERFLOW)?.Label);
+        Integer categoryIndexProcess = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(PROCESSBUILDER)?.Label);
+        for(MetadataService.Metadata metadata : unparsedFlows) {
+            MetadataService.Flow rule = (MetadataService.Flow) metadata;
+            List<MetadataService.FlowRecordUpdate> updateRecords = (List<MetadataService.FlowRecordUpdate>) rule.recordUpdates;
+            String objectX = updateRecords !=null && !updateRecords.isEmpty()? updateRecords[0]?.object_x:null;
+            if(ACTIVE.equalsIgnoreCase(rule.status) && PROCESSTYPE_AUTOLAUNCHEDFLOW.equalsIgnoreCase(rule.processType) && rule.start != null && this.operationsByObject.containsKey(rule.start.object_x)){
+                if(BEFORETRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)){
+                    this.operationsByObject.get(rule.start.object_x)[categoryIndexBefore].operations.add(this.parseBaseFlow(rule));
+                }else if(AFTERTRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)) {
+                    this.operationsByObject.get(rule.start.object_x)[categoryIndexAfter].operations.add(this.parseBaseFlow(rule));
                 }
+            } else if(ACTIVE.equalsIgnoreCase(rule.status) && PROCESSTYPE_WORKFLOW.equalsIgnoreCase(rule.processType) && String.isNotBlank(objectX) && this.operationsByObject.containsKey(objectX)){
+                this.operationsByObject.get(objectX)[categoryIndexProcess].operations.add(this.parseBaseFlow(rule));
             }
+            
         }
     }
 
@@ -221,9 +246,13 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         MetadataService.FileProperties fileProperty = flowByFullName.get(flow.fullName);
         operation.label = flow.label;
         operation.developerName = flow.fullName;
-        operation.createdDate = fileProperty.lastModifiedDate;
-        operation.lastModifiedDate = fileProperty.createdDate;
+        operation.createdDate = fileProperty.createdDate;
+        operation.lastModifiedDate = fileProperty.lastModifiedDate;
         operation.namespace = fileProperty.namespacePrefix;
         return operation;
     }    
+
+    public class MetadataServiceException extends Exception {
+        
+    }
 }
