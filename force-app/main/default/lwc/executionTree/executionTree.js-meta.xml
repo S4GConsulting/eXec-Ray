@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>54.0</apiVersion>
-    <isExposed>false</isExposed>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__AppPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+            <property name="objectLabel" type="String" label="Object Label" />
+            <property name="objectDeveloperName" type="String" label="Object Developer Name" />            
+            <property name="refreshDatetime" type="String" label="Refresh datetime" />
+            <event name="refresh" label="Refresh event">
+                <schema>
+                    {
+                        "type": "object",
+                        "properties": {
+                            "refreshDateTime": {
+                                "type": "string",
+                                "title": "Refreshed time",
+                                "description": "refreshed datetime"
+                            }
+                        }
+                    }
+                </schema>
+            </event>
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

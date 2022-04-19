@@ -4,7 +4,7 @@
 public with sharing class SOQLFetcher extends MetadataFetcher{
     
     private final string SOQL ='SOQL';
-    private List<SObject> metadataObjects = new List<SObject>();
+    @TestVisible private List<SObject> metadataObjects = new List<SObject>();
 
     /**
     * @description Query each object dinamically for each supported type
@@ -17,8 +17,18 @@ public with sharing class SOQLFetcher extends MetadataFetcher{
         // Need to do 3 different queries depending the object passed
         // For each object, launch a query.
         for(CategorySetting__mdt category : CategorySettingHelper.getCategorySettingsByOperation(SOQL)){
-            String query = 'SELECT ' + category.Fields__c+ ' FROM ' + category.ApiName__c + ' WHERE SobjectType IN :sobjectNames';
-            metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
+            try {
+                String query = 'SELECT ' + category.Fields__c+ ' FROM ' + category.ApiName__c + ' WHERE SobjectType IN :sobjectNames';
+                metadataObjects.addAll(Database.query(String.escapeSingleQuotes(query)));
+            } catch(QueryException e) {
+                //Ignore exception when Object is not present in the organization
+                if(e.getMessage().startsWith(String.format(System.Label.QUERY_OBJECT_EXCEPTION, new List<String> {category.ApiName__c}))) {
+                    System.debug(e.getMessage());
+                } else {
+                    throw e;
+                }
+            }
+            
         }
 
         parseMetadata();
