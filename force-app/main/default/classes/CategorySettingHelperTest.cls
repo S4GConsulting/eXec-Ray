@@ -1,10 +1,6 @@
 /**
- * @description       : 
- * @author            : andres.ortiz@s4g.es
- * @group             : 
- * @last modified on  : 04-13-2022
- * @last modified by  : andres.ortiz@s4g.es
-**/
+ * @description: test class categorySettingHelper
+ **/
 @IsTest
 public with sharing class CategorySettingHelperTest {
     private static final string TOOLING = 'Tooling';
@@ -18,7 +14,7 @@ public with sharing class CategorySettingHelperTest {
             List<CategorySetting__mdt> categorySettingResponse = CategorySettingHelper.getCategorySettingsByOperation(TOOLING); 
         Test.stopTest();
 
-        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is not empty.');
+        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is empty.');
     }
     @IsTest
     public static void getCategorySettingsByMetadataTest(){
@@ -26,7 +22,7 @@ public with sharing class CategorySettingHelperTest {
             List<CategorySetting__mdt> categorySettingResponse = CategorySettingHelper.getCategorySettingsByOperation(METADATA); 
         Test.stopTest();
 
-        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is not empty.');
+        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is empty.');
     }
     @IsTest
     public static void getCategorySettingsBySOQLTest(){
@@ -34,7 +30,7 @@ public with sharing class CategorySettingHelperTest {
             List<CategorySetting__mdt> categorySettingResponse = CategorySettingHelper.getCategorySettingsByOperation(SOQL); 
         Test.stopTest();
 
-        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is not empty.');
+        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is empty.');
     }
     @IsTest
     public static void getCategoryNamesByToolingTest(){
@@ -42,7 +38,7 @@ public with sharing class CategorySettingHelperTest {
             Set<String> categorySettingResponse = CategorySettingHelper.getCategoryNamesByOperation(TOOLING); 
         Test.stopTest();
 
-        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is not empty.');
+        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is empty.');
     }
     @IsTest
     public static void getCategoryNamesByMetadataTest(){
@@ -50,7 +46,7 @@ public with sharing class CategorySettingHelperTest {
             Set<String> categorySettingResponse = CategorySettingHelper.getCategoryNamesByOperation(METADATA); 
         Test.stopTest();
 
-        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is not empty.');
+        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is empty.');
     }
     @IsTest
     public static void getCategoryNamesBySOQLTest(){
@@ -58,7 +54,7 @@ public with sharing class CategorySettingHelperTest {
             Set<String> categorySettingResponse = CategorySettingHelper.getCategoryNamesByOperation(SOQL); 
         Test.stopTest();
 
-        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is not empty.');
+        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is empty.');
     }
     @IsTest
     public static void getAllCategorySettingsTest(){
@@ -66,7 +62,7 @@ public with sharing class CategorySettingHelperTest {
             List<CategorySetting__mdt> categorySettingResponse = CategorySettingHelper.getAllCategorySettings(); 
         Test.stopTest();
 
-        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is not empty.');
+        System.assertEquals(False,categorySettingResponse.isEmpty() , 'categorySettingResponse is empty.');
     }
 
     @IsTest
@@ -75,6 +71,6 @@ public with sharing class CategorySettingHelperTest {
             CategorySetting__mdt categorySettingResponse = CategorySettingHelper.getCategorySettingByName(SHARINGRULES); 
         Test.stopTest();
 
-        System.assertEquals(SHARINGRULES,categorySettingResponse.developerName , 'categorySettingResponse.developerName is equals');
+        System.assertEquals(SHARINGRULES,categorySettingResponse.developerName , 'categorySettingResponse.developerName is not equals');
     }
 }
