@@ -223,13 +223,13 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
             MetadataService.Flow rule = (MetadataService.Flow) metadata;
             List<MetadataService.FlowRecordUpdate> updateRecords = (List<MetadataService.FlowRecordUpdate>) rule.recordUpdates;
             String objectX = updateRecords !=null && !updateRecords.isEmpty()? updateRecords[0]?.object_x:null;
-            if(ACTIVE.equalsIgnoreCase(rule.status) && PROCESSTYPE_AUTOLAUNCHEDFLOW.equalsIgnoreCase(rule.processType) && this.operationsByObject.containsKey(rule.start.object_x)){
+            if(ACTIVE.equalsIgnoreCase(rule.status) && PROCESSTYPE_AUTOLAUNCHEDFLOW.equalsIgnoreCase(rule.processType) && rule.start != null && this.operationsByObject.containsKey(rule.start.object_x)){
                 if(BEFORETRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)){
                     this.operationsByObject.get(rule.start.object_x)[categoryIndexBefore].operations.add(this.parseBaseFlow(rule));
                 }else if(AFTERTRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)) {
                     this.operationsByObject.get(rule.start.object_x)[categoryIndexAfter].operations.add(this.parseBaseFlow(rule));
                 }
-            } else if(ACTIVE.equalsIgnoreCase(rule.status) && PROCESSTYPE_WORKFLOW.equalsIgnoreCase(rule.processType) && this.operationsByObject.containsKey(objectX)){
+            } else if(ACTIVE.equalsIgnoreCase(rule.status) && PROCESSTYPE_WORKFLOW.equalsIgnoreCase(rule.processType) && String.isNotBlank(objectX) && this.operationsByObject.containsKey(objectX)){
                 this.operationsByObject.get(objectX)[categoryIndexProcess].operations.add(this.parseBaseFlow(rule));
             }
             
