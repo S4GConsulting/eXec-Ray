@@ -216,9 +216,9 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
     * @param unparsedFlows 
     **/
     private void parseFlows(List<MetadataService.Metadata> unparsedFlows){
-        Integer categoryIndexBefore = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(BEFORETRIGGERFLOW).Label);
-        Integer categoryIndexAfter = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(AFTERTRIGGERFLOW).Label);
-        Integer categoryIndexProcess = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(PROCESSBUILDER).Label);
+        Integer categoryIndexBefore = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(BEFORETRIGGERFLOW)?.Label);
+        Integer categoryIndexAfter = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(AFTERTRIGGERFLOW)?.Label);
+        Integer categoryIndexProcess = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(PROCESSBUILDER)?.Label);
         for(MetadataService.Metadata metadata : unparsedFlows) {
             MetadataService.Flow rule = (MetadataService.Flow) metadata;
             List<MetadataService.FlowRecordUpdate> updateRecords = (List<MetadataService.FlowRecordUpdate>) rule.recordUpdates;
