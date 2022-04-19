@@ -1,0 +1,8 @@
+.italic{
+    font-style: italic;
+    color: rgb(180, 176, 176) !important;
+}
+
+.disabledIcon {
+    --sds-c-icon-color-background: rgb(180, 176, 176);
+}

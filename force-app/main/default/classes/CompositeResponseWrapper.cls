@@ -1,6 +1,5 @@
 /**
- * @description       : 
- * @last modified on  : 04-18-2022
+* @description:  wrapper used for tooling response
 **/
 public class CompositeResponseWrapper {
 
@@ -58,8 +57,7 @@ public class CompositeResponseWrapper {
         public string DeveloperName;
 		public string QualifiedApiName;
     }
-    
-    
+
     /**
     * @description : return a string JSON format to serialize.
     * @return String 
