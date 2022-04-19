@@ -53,7 +53,7 @@ public without sharing class CategorySettingHelper {
             categoryMetadata = new Map<String,CategorySetting__mdt>();
             categorySOQL = new Map<String,CategorySetting__mdt>();
             categorySettingByName = new Map<String,CategorySetting__mdt>();
-            List<CategorySetting__mdt> categories = [Select Id, DeveloperName, Label, ReferenceId__c, QualifiedApiName, Fields__c, FilterObject__c, ApiName__c, Order__c, Fetcher__c, FieldFilter__c, RepeatApi__c FROM CategorySetting__mdt];
+            List<CategorySetting__mdt> categories = [Select Id, DeveloperName, Label, ReferenceId__c, QualifiedApiName, Fields__c, FilterObject__c, ApiName__c, Order__c, Fetcher__c, FieldFilter__c, RepeatApi__c FROM CategorySetting__mdt WHERE Active__c = true];
             for(CategorySetting__mdt categorySetting : categories) {
                 if(TOOLING.equalsIgnoreCase(categorySetting.Fetcher__c)) {
                     categoryTooling.put(categorySetting.DeveloperName,categorySetting);

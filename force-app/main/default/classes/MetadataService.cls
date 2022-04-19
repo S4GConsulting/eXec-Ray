@@ -3691,7 +3691,7 @@ public class MetadataService {
         private String[] field_order_type_info = new String[]{'description','flowCategoryItems','masterLabel'};
     }
     public class MetadataPort {
-        public String endpoint_x = 'callout:eXec_Ray' + '/services/Soap/m/54.0';//URL.getOrgDomainURL().toExternalForm() + '/services/Soap/m/54.0';
+        public String endpoint_x = 'callout:eXec_Ray' + '/services/Soap/m/54.0';
         public Map<String,String> inputHttpHeaders_x;
         public Map<String,String> outputHttpHeaders_x;
         public String clientCertName_x;
