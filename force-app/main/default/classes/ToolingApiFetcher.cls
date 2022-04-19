@@ -129,29 +129,12 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
         String  objectName = String.isNotBlank(objectLabel) ?objectsByLabel.get(objectLabel):record.EntityDefinition.QualifiedApiName;
         CategoryOperation.Operation newOperation = this.getNewOperation(record, objectName);
         if(APEXTRIGGERS.equalsIgnoreCase(reference)){
+            reference = record.UsageAfterDelete||record.UsageAfterInsert||record.UsageAfterUndelete||record.UsageAfterUpdate? AFTERTRIGGER : BEFORETRIGGER;
             newOperation.developerName = String.isNotBlank(newOperation.namespace)? newOperation.namespace + '__' + newOperation.label: newOperation.label;
-            if(record.UsageAfterDelete || record.UsageAfterInsert || record.UsageAfterUndelete || record.UsageAfterUpdate) {
-                this.putOperationInObject(AFTERTRIGGER, newOperation, objectName);
-            }
-            if(record.UsageBeforeInsert || record.UsageBeforeUpdate || record.UsageBeforeDelete) {
-                this.putOperationInObject(BEFORETRIGGER, newOperation, objectName);
-            }
         }
-        else {
-            this.putOperationInObject(reference, newOperation, objectName);
-        }   
-    }
-
-    /**
-    * @description helper method to put the new operation in the corresponding category and object
-    * @param reference 
-    * @param newOperation 
-    * @param objectName
-    **/
-    private void putOperationInObject(String reference, CategoryOperation.Operation newOperation, String objectName){
         CategorySetting__mdt categorySetting = CategorySettingHelper.getCategorySettingByName(reference);
         Integer indexCategory = this.getCategoryIndex(categorySetting.label);
-        this.operationsByObject.get(objectName)[indexCategory].operations.add(newOperation);   
+        this.operationsByObject.get(objectName)[indexCategory].operations.add(newOperation);
     }
     
     /**
@@ -182,7 +165,6 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
     **/
     private String getReferenceFields(Schema.DescribeFieldResult fieldResult) {
         Schema.DisplayType dType = fieldResult.getType();
-        system.debug(dType);
         String objectReferenceName;
         if(dType == Schema.DisplayType.REFERENCE && fieldResult.getRelationshipOrder() == 0) {
             List<SObjectType> objects = fieldResult.getReferenceTo();
@@ -199,8 +181,6 @@ public with sharing class ToolingApiFetcher extends MetadataFetcher{
     * @return Boolean
     **/
     private Boolean isActive(String activeString, Boolean activeBoolean ){
-        system.debug(activeString);
-        system.debug(activeBoolean);
         return String.isNotBlank(activeString) ? activeString.equalsIgnoreCase(ACTIVE): activeBoolean;
     }
 
