@@ -3,10 +3,12 @@
 **/
 public without sharing class ExecutionTreeHandler {
 
-    private final Map<String, List<String>> CATEGORY_FETCHER = new Map<String, List<String>> {
-        'SOQLFetcher' => new List<String> {'Duplicate Rules','Assignment Rules','Entitlement Rules'},
-        'ToolingApiFetcher' => new List<String>{'After Triggers', 'Autoresponse Rules', 'Before Triggers', 'Validation Rules'},
-        'MetadataServiceFetcher' => new List<String> {'Sharing Rules', 'Escalation Rules', 'Workflow Rules','Record Before Trigger Flows','Record After Tirgger Flows'}
+    @TestVisible private MetadataFetcher testStubFetcher;
+
+    private final Map<String, String> CATEGORY_FETCHER = new Map<String,String> {
+        'SOQLFetcher' => 'SOQL',
+        'ToolingApiFetcher' => 'Tooling',
+        'MetadataServiceFetcher' => 'Metadata'
     };
     /**
     * @description Obtain the list of SObject relevant in the org
@@ -17,7 +19,9 @@ public without sharing class ExecutionTreeHandler {
         //We only need those SObjects that are customizable
         List<EntityDefinition> entities = [SELECT QualifiedApiName, MasterLabel FROM EntityDefinition WHERE IsCustomizable = true AND IsCustomSetting = false ORDER BY MasterLabel];
         for(EntityDefinition entity : entities) {
-            sfObjects.add(getObjectWrapper(entity));
+            if(!entity.QualifiedApiName.contains('__mdt')) {
+                sfObjects.add(getObjectWrapper(entity));
+            }
         }
         return sfObjects;
     }
@@ -46,16 +50,15 @@ public without sharing class ExecutionTreeHandler {
         if(ExecRaySettings__c.getInstance().UsePlatformCache__c) {
             operationsByObject = getCachedOperations();
         }
-
-        if(!operationsByObject?.containsKey(objectName)) {
-            MetadataFetcher fetcher;
+        if(!operationsByObject?.containsKey(objectName)) {            
             for(String fetcherName : CATEGORY_FETCHER.keySet()) {
-                
+                MetadataFetcher fetcher;
                 Map<String, List<CategoryOperation>> fetchedOperationsByObject = new Map<String, List<CategoryOperation>>();
                 Type t = Type.forName(fetcherName);
-                fetcher = (MetadataFetcher)t.newInstance();
+                // We need to set stub data in test or add the correct fetcher.
+                fetcher = this.testStubFetcher == null ? (MetadataFetcher)t.newInstance() : this.testStubFetcher;
                 
-                fetchedOperationsByObject = fetcher.requestMetadata(new List<String>{objectName}, new List<String>(CATEGORY_FETCHER.get(fetcherName)));
+                fetchedOperationsByObject = fetcher.requestMetadata(new List<String>{objectName}, CategorySettingHelper.getCategoryNamesByOperation(CATEGORY_FETCHER.get(fetcherName)));
                 //We need to be checking if the SObject already has some categories in it in order to add the new categories instead of replacing them
                 if(operationsByObject.containsKey(objectName)) {
                     operationsByObject.get(objectName).addAll(fetchedOperationsByObject.get(objectName));
