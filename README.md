@@ -64,8 +64,9 @@ Getting Started
     
     *This will lunch a Salesforce login window to authorize our app to be used in your org in your name. If you get the error "error=invalid_client_id&error_description=client%20identifier%20invalid" is because the connected app is being published. Please wait some minutes and try to save again with the same information*
 
-4. Assign de eXec-Ray permission set to the people that will use the app. Take in account that the permission set only give access to the app, needed permissions to see elements are not included.
+4. In order to use the Platform Cache and ease the loading time of objects already loaded, you need to create a new record for the Custom Setting, eXec-Ray Settings. You will need to have the field Use Platform Cache set to true.
 
+5. Assign de eXec-Ray permission set to the people that will use the app. Take in account that the permission set only give access to the app, needed permissions to see elements are not included.
 
 FAQ
 ===
@@ -82,7 +83,7 @@ Thanks [S4G](https://s4g.es/) to allow us to make this project and make it avail
 Thank you all contributors for the effort, enthusiasm and desire in this project:
 * [Raúl Iglesias](https://github.com/RaulIglesiasS4G) 
 * [Héctor Martínez](https://github.com/hmolto)
-* [Juanjo Prieto](https://github.com/JuanjoPrietoS4G)
+* [Juanjo Prieto](https://github.com/WyrnCael)
 * [Andrés Ortiz](https://github.com/AndresOrtizL)
 * [José Caballero](https://github.com/josecaballeromunoz)
 * [Jonathan Wiesel](https://github.com/jonathanwiesel)
