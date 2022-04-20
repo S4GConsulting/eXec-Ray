@@ -1,0 +1,43 @@
+<!--
+  @description       : Search in a list of objects
+-->
+<template>
+    <lightning-card class="card-height" title={labels.TitleLabel}>   
+        <template if:false={isLoading}>  
+            <div class="slds-p-left_medium slds-p-right_medium">
+                <lightning-input data-id="userinput" label={labels.SearchAnObject} name="searchText" onchange={searchField} placeholder={labels.PlaceholderLabel}></lightning-input>
+            </div>
+            <lightning-vertical-navigation selected-item={selected} onselect={handleSelect}>
+                <lightning-vertical-navigation-section label="Standard">
+                    <div class="slds-scrollable_y scrollable">
+                        <template if:false={isAnyStandardObject}>
+                            <div class="slds-text-body_small slds-text-align_center">{labels.AnyResult}</div>
+                        </template>
+                        <template if:true={isAnyStandardObject}>
+                            <template for:each={standardObjectsToShow} for:item="object">
+                                <lightning-vertical-navigation-item key={object.apiName} label={object.formattedlabel} name={object}></lightning-vertical-navigation-item>
+                            </template>
+                        </template>
+                    </div>
+                </lightning-vertical-navigation-section>
+                <lightning-vertical-navigation-section label="Custom">
+                    <div class="slds-scrollable_y scrollable">
+                        <template if:false={isAnyCustomdObject}>
+                            <div class="slds-text-body_small slds-text-align_center">{labels.AnyResult}</div>
+                        </template>
+                        <template if:true={isAnyCustomdObject}>
+                            <template for:each={customObjectsToShow} for:item="object">
+                                <lightning-vertical-navigation-item key={object.apiName} label={object.formattedlabel} name={object}></lightning-vertical-navigation-item>
+                            </template>
+                        </template>
+                    </div>
+                </lightning-vertical-navigation-section>
+            </lightning-vertical-navigation>
+        </template>
+        <template if:true={isLoading}>
+            <div class="slds-is-relative" style="height:6rem">
+                <lightning-spinner alternative-text={labels.Loading} variant="brand" size="medium"></lightning-spinner>
+            </div>
+        </template> 
+    </lightning-card>
+</template>

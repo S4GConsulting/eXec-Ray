@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+            <property name="refreshDatetime" type="String" label="Refresh datetime" />
+            <event name="object" label="Object to send">
+                <schema>
+                    {
+                        "type": "object",
+                        "properties": {
+                            "label": {
+                                "type": "string",
+                                "title": "Object label",
+                                "description": "Enter an object label"
+                            },
+                            "developerName": {
+                                "type": "string",
+                                "title": "Object developerName",
+                                "description": "Enter an object developer name"
+                            }
+                       }
+                    }
+                </schema>
+            </event>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
