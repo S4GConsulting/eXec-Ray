@@ -39,11 +39,11 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
                     MetadataService.ListMetadataQuery query = new MetadataService.ListMetadataQuery();
                     query.type_x= category.ApiName__c;
                     double asOfVersion = 54.0;
-                    MetadataService.FileProperties[] propeties = this.service.listMetadata(new List<MetadataService.ListMetadataQuery>{query}, asOfVersion);
+                    MetadataService.FileProperties[] properties = this.service.listMetadata(new List<MetadataService.ListMetadataQuery>{query}, asOfVersion);
                     List<MetadataService.Metadata> responsesMetadata = new List<MetadataService.Metadata>();
                     Integer count = 1;
                     List<String> fullNames = new List<String>();
-                    for(MetadataService.FileProperties fileProperty : propeties){
+                    for(MetadataService.FileProperties fileProperty : properties){
                         flowByFullName.put(fileProperty.fullName, fileProperty);
                         fullNames.add(fileProperty.fullName);
                         if(count == 10){
@@ -96,7 +96,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         Integer categoryIndex = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(SHARINGRULES).label);
         for(MetadataService.SharingRules rule : unparsedSharingRules) {
             if(rule.sharingCriteriaRules != null) {
-                // Updates operationsByObject map, this map is returned by requestMetadata, class public method 
+                // Updates operationsByObject map, this map is returned by requestMetadata, class public method
                 this.operationsByObject.get(rule.fullName)[categoryIndex].operations.addAll(this.parseBaseSharingRule(rule.sharingCriteriaRules));
             }
             if(rule.sharingOwnerRules != null) {
@@ -246,8 +246,8 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         MetadataService.FileProperties fileProperty = flowByFullName.get(flow.fullName);
         operation.label = flow.label;
         operation.developerName = flow.fullName;
-        operation.createdDate = fileProperty.lastModifiedDate;
-        operation.lastModifiedDate = fileProperty.createdDate;
+        operation.createdDate = fileProperty.createdDate;
+        operation.lastModifiedDate = fileProperty.lastModifiedDate;
         operation.namespace = fileProperty.namespacePrefix;
         return operation;
     }    
