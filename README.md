@@ -63,8 +63,8 @@ Getting Started
     *Leave other fields as presented*
     
     *This will lunch a Salesforce login window to authorize our app to be used in your org in your name. If you get the error "error=invalid_client_id&error_description=client%20identifier%20invalid" is because the connected app is being published. Please wait some minutes and try to save again with the same information*
-    
-4. Assign de eXex-Ray permission set to the people that will use the app. Take in account that the permission set only give access to the app, needed permissions to see elements are not included.
+
+4. Assign de eXec-Ray permission set to the people that will use the app. Take in account that the permission set only give access to the app, needed permissions to see elements are not included.
 
 
 FAQ
@@ -79,7 +79,7 @@ Credits
 
 Thanks [S4G](https://s4g.es/) to allow us to make this project and make it available for the community.
 
-Thank you to all contributor for the effort, enthusiasm and desire in this project:
+Thank you all contributors for the effort, enthusiasm and desire in this project:
 * [Raúl Iglesias](https://github.com/RaulIglesiasS4G) 
 * [Héctor Martínez](https://github.com/hmolto)
 * [Juanjo Prieto](https://github.com/JuanjoPrietoS4G)
