@@ -152,13 +152,16 @@ public class MetadataServiceMock implements WebServiceMock {
     private List<MetadataService.Flow> generateFlows() {
         List<MetadataService.Flow> flows = new List<MetadataService.Flow>();
         MetadataService.Flow processBuilder =  new MetadataService.Flow();
-        MetadataService.FlowRecordUpdate recordUpdate = new MetadataService.FlowRecordUpdate();
-        recordUpdate.object_x = 'Account';
+        MetadataService.FlowMetadataValue metadataValue = new MetadataService.FlowMetadataValue();
+        MetadataService.FlowElementReferenceOrValue referenceOrValue = new MetadataService.FlowElementReferenceOrValue();
+        referenceOrValue.stringValue ='Account';
+        metadataValue.name = 'ObjectType';
+        metadataValue.value = referenceOrValue;
         processBuilder.status = 'Active';
         processBuilder.processType = 'Workflow';
         processBuilder.label = 'ProcessBuilder';
         processBuilder.fullName = 'ProcessBuilder';
-        processBuilder.recordUpdates = new List<MetadataService.FlowRecordUpdate>{recordUpdate};
+        processBuilder.processMetadataValues = new List<MetadataService.FlowMetadataValue>{metadataValue};
         flows.add(processBuilder);
 
         MetadataService.Flow beforeFlow = new MetadataService.Flow();

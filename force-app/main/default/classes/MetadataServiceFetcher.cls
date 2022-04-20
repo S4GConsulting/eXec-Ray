@@ -221,8 +221,7 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         Integer categoryIndexProcess = this.getCategoryIndex(CategorySettingHelper.getCategorySettingByName(PROCESSBUILDER)?.Label);
         for(MetadataService.Metadata metadata : unparsedFlows) {
             MetadataService.Flow rule = (MetadataService.Flow) metadata;
-            List<MetadataService.FlowRecordUpdate> updateRecords = (List<MetadataService.FlowRecordUpdate>) rule.recordUpdates;
-            String objectX = updateRecords !=null && !updateRecords.isEmpty()? updateRecords[0]?.object_x:null;
+            String objectX = rule.processMetadataValues != null ? this.getObjectByProcessBuilder(rule): null;
             if(ACTIVE.equalsIgnoreCase(rule.status) && PROCESSTYPE_AUTOLAUNCHEDFLOW.equalsIgnoreCase(rule.processType) && rule.start != null && this.operationsByObject.containsKey(rule.start.object_x)){
                 if(BEFORETRIGGERFLOW.equalsIgnoreCase(rule.start.triggerType)){
                     this.operationsByObject.get(rule.start.object_x)[categoryIndexBefore].operations.add(this.parseBaseFlow(rule));
@@ -236,6 +235,21 @@ public with sharing class MetadataServiceFetcher extends MetadataFetcher {
         }
     }
 
+    /**
+    * @description return object name from Flow of process builder.
+    * @param rule
+    * @return string 
+    **/
+    private string getObjectByProcessBuilder(MetadataService.Flow rule){
+        String objectX;
+        for(MetadataService.FlowMetadataValue flowValue :rule.processMetadataValues){
+            if('ObjectType'.equalsIgnoreCase(flowValue?.name)){
+                objectX = flowValue.value.stringValue;
+                break;
+            }
+        }
+        return objectX;
+    }
     /**
     * @description Parser MetadataService.Flow class into the proper data structure of Operation.
     * @param flow Flow class
