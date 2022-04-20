@@ -17,13 +17,14 @@ With eXec-Ray you will be able to see the order of execution for a given object.
 Packaged Release History
 ------------------------
 
-Release 1.0 (current release)
+Release 1.0.0 (current release)
 -----------
 
 * Install Package
-    * Browser Links ([Production](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t8a000000u6OKAAY)) ([Sandbox](https://test.salesforce.com/packaging/installPackage.apexp?p0=04t8a000000u6OKAAY))
-    * Salesforce CLI (`sfdx force:package:install --package 04t8a000000u6OKAAY --wait 10`)
-* [Closed Issues](https://github.com/S4GConsulting/beehive-kamehameha/issues?q=is%3Aissue+is%3Aclosed)
+    * Browser Links ([Production](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t8a000000u6P8AAI)) ([Sandbox](https://test.salesforce.com/packaging/installPackage.apexp?p0=04t8a000000u6P8AAI))
+    * Salesforce CLI (`sfdx force:package:install --package 04t8a000000u6P8AAI --wait 10`)
+* [Closed Issues](/issues?q=is%3Aissue+is%3Aclosed)
+* [Open Issues](/issues?q=is%3Aissue+is%3Aopen)
 
 Getting Started
 ---------------
@@ -35,14 +36,16 @@ Getting Started
     * Connected App Name: eXec-Ray    
     * API Name: eXecRay    
     * Contact Email: youremail@yourcompany.com    
-    * Logo Image URL: https://github.com/S4GConsulting/beehive-kamehameha/blob/main/force-app/main/default/staticresources/eXecRayLogo.png
+    * Logo Image URL: https://github.com/S4GConsulting/eXec-Ray/blob/main/force-app/main/default/staticresources/eXecRayLogo.png
 
     
     **API (Enable OAuth Settings)**
     
     * Enable OAuth Settings: true
     * Callback URL: https://*yourdomain*.my.salesforce.com/services/authcallback/eXec_Ray
-    * Selected OAuth Scopes: Full access(full) + Perform requests at any time (refresh_token, offline_access)
+    * Selected OAuth Scopes: 
+        * Full access(full) 
+        * Perform requests at any time (refresh_token, offline_access)
     
     *Leave other fields as presented*
     
@@ -60,14 +63,16 @@ Getting Started
     *Leave other fields as presented*
     
     *This will lunch a Salesforce login window to authorize our app to be used in your org in your name. If you get the error "error=invalid_client_id&error_description=client%20identifier%20invalid" is because the connected app is being published. Please wait some minutes and try to save again with the same information*
+    
+4. Assign de eXex-Ray permission set to the people that will use the app. Take in account that the permission set only give access to the app, needed permissions to see elements are not included.
 
 
 FAQ
 ===
 
-If one of your questions isn't answered below, please search and comment on [existing issues](/issues?utf8=%E2%9C%93&q=is%3Aissue) before opening a new one. Thanks! 
+If one of your questions isn't answered below, please search and comment on [existing issues](/issues?q=is%3Aissue+is%3Aopen) before opening a new one. Thanks! 
 
-Please have a look at the [CONTRIBUTING](https://github.com/S4GConsulting/beehive-kamehameha/blob/main/contributing.md) guidelines.
+Please have a look at the [CONTRIBUTING](contributing.md) guidelines.
 
 Credits
 =======
