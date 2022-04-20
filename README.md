@@ -73,4 +73,12 @@ Credits
 =======
 
 Thanks [S4G](https://s4g.es/) to allow us to make this project and make it available for the community.
-Thank you Raúl Iglesias, Héctor Martínez, Juanjo Prieto, Andrés Ortiz, José Caballero and Jonathan Wiesel for the effort, enthusiasm and desire in this project. 
+
+Thank you to all contributor for the effort, enthusiasm and desire in this project:
+* [Raúl Iglesias](https://github.com/RaulIglesiasS4G) 
+* [Héctor Martínez](https://github.com/hmolto)
+* [Juanjo Prieto](https://github.com/JuanjoPrietoS4G)
+* [Andrés Ortiz](https://github.com/AndresOrtizL)
+* [José Caballero](https://github.com/josecaballeromunoz)
+* [Jonathan Wiesel](https://github.com/jonathanwiesel)
+* [Roberto Arconada](https://github.com/RobertoArconadaS4G) 
