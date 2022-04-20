@@ -23,8 +23,8 @@ Release 1.0.0 (current release)
 * Install Package
     * Browser Links ([Production](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t8a000000u6P8AAI)) ([Sandbox](https://test.salesforce.com/packaging/installPackage.apexp?p0=04t8a000000u6P8AAI))
     * Salesforce CLI (`sfdx force:package:install --package 04t8a000000u6P8AAI --wait 10`)
-* [Closed Issues](/issues?q=is%3Aissue+is%3Aclosed)
-* [Open Issues](/issues?q=is%3Aissue+is%3Aopen)
+* [Closed Issues](https://github.com/S4GConsulting/eXec-Ray/issues?q=is%3Aissue+is%3Aclosed)
+* [Open Issues](https://github.com/S4GConsulting/eXec-Ray/issues?q=is%3Aopen+is%3Aissue)
 
 Getting Started
 ---------------
@@ -70,9 +70,9 @@ Getting Started
 FAQ
 ===
 
-If one of your questions isn't answered below, please search and comment on [existing issues](/issues?q=is%3Aissue+is%3Aopen) before opening a new one. Thanks! 
+If one of your questions isn't answered below, please search and comment on [existing issues](https://github.com/S4GConsulting/eXec-Ray/issues?q=is%3Aopen+is%3Aissue) before opening a new one. Thanks! 
 
-Please have a look at the [CONTRIBUTING](contributing.md) guidelines.
+Please have a look at the [CONTRIBUTING](https://github.com/S4GConsulting/eXec-Ray/blob/main/CONTRIBUTING.md) guidelines.
 
 Credits
 =======
