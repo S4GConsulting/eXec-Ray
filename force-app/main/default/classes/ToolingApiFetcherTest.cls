@@ -1,6 +1,6 @@
 /**
  * @description       : 
- * @last modified on  : 04-18-2022
+ * @last modified on  : 04-20-2022
 **/
 @IsTest
 public with sharing class ToolingApiFetcherTest {
@@ -12,8 +12,13 @@ public with sharing class ToolingApiFetcherTest {
 
         ToolingApiFetcher toolingApiRequest = new ToolingApiFetcher();
 
+        StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
+        mock.setStaticResource('ToolingResponseMock');
+        mock.setStatusCode(200);
+        mock.setHeader('Content-Type', 'application/json');
+
         Test.startTest();
-            Test.setMock(HttpCalloutMock.class, new ToolingApiMock('OK'));
+            Test.setMock(HttpCalloutMock.class, mock);
             Map<String, List<CategoryOperation>> toolingResults = toolingApiRequest.requestMetadata(new List<String>{'Account'}, ToolingApiFetcherTest.categories);
         Test.stopTest();
 
@@ -38,11 +43,16 @@ public with sharing class ToolingApiFetcherTest {
                     }
                 }
             }else if(categoryOperationRecord.category.equals('Before Triggers')){
-                System.assertEquals(1, categoryOperationRecord.operations.size(), 'The expected BeforeTrigger number is incorrect');
+                System.assertEquals(2, categoryOperationRecord.operations.size(), 'The expected BeforeTrigger number is incorrect');
                 for(CategoryOperation.Operation operationRecord : categoryOperationRecord.operations){
-                    System.assert( operationRecord.developerName.equals('APXTConga4__CleanUpRecords2') , 'The expected BeforeTrigger developerName is incorrect');
-                    System.assertEquals(operationRecord.label, 'CleanUpRecords2', 'The BeforeTrigger label is incorrect');
-                    System.assertEquals(operationRecord.namespace, 'APXTConga4', 'The BeforeTrigger namespace is incorrect');
+                    System.assert( operationRecord.developerName.equals('APXTConga4__CleanUpRecords2') || operationRecord.developerName.equals('APXTConga4__TestEmailTemplateTrigger'), 'The expected BeforeTrigger developerName is incorrect');
+                    if(operationRecord.developerName.equals('CleanUpRecords2')){
+                        System.assertEquals(operationRecord.label, 'CleanUpRecords2', 'The BeforeTrigger label is incorrect');
+                        System.assertEquals(operationRecord.namespace, 'APXTConga4', 'The BeforeTrigger namespace is incorrect');
+                    }else if(operationRecord.developerName.equals('APXTConga4__TestEmailTemplateTrigger')){
+                        System.assertEquals(operationRecord.label, 'TestEmailTemplateTrigger', 'The AfterTrigger label is incorrect');
+                        System.assertEquals(operationRecord.namespace, 'APXTConga4', 'The AfterTrigger namespace is incorrect');
+                    }
                 }
             }else if(categoryOperationRecord.category.equals('After Triggers')){
                 System.assertEquals(1, categoryOperationRecord.operations.size(), 'The expected AfterTrigger number is incorrect');
