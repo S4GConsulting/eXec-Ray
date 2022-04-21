@@ -1,16 +1,16 @@
 eXec-Ray
 ========================================
 
-We make visible the invisible. Visualize your org's automations according to the oficial Order of Execution.
+We make visible the invisible. Visualize your org's automations according to the official Order of Execution.
 
 Background
 ----------
 
-Order of execution in Salesforce is the set of events performed when you save a record of any standard or custom object with a insert, update or upsert operation. To have this order clear will help you to design the correct solution, to debug any issue and analyze legacy organizations.
+Order of execution in Salesforce is the set of events performed when you save a record of any standard or custom object with an insert, update or upsert operation. Being clear about this order will help you design the correct solution, debug any issue and analyze legacy organizations.
 
-The only way to to visualize what happens when you store a record is reviewing the [official order of execution page](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_triggers_order_of_execution.htm) and go one by one to each involved element in your Salesforce org. 
+The only way to visualize what happens when you store a record is reviewing the [official order of execution page](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_triggers_order_of_execution.htm) and go one by one to each involved element in your Salesforce org. 
 
-With eXec-Ray you will be able to see the order of execution for a given object. The app list every customizable objects in your Salesforce org (standard and custom) and when select one of them, you can see every events that are going to be executed when you save a record of that object and taking into account the mentioned Salesforce order of execution. 
+With eXec-Ray you will be able to see the order of execution for a given object. The app lists every customizable object in your Salesforce org (standard and custom) and by selecting one of them, you can see all the events that are going to be executed when you save a record of that object, taking into account the mentioned Salesforce order of execution. 
 
 ![screen shot](media/appExample.png)
 
@@ -49,24 +49,24 @@ Getting Started
     
     *Leave other fields as presented*
     
-    *Try to have the Consumer Key and Consumer Secret information in hand because both values and necessay in the next step*
+    *Try to have the Consumer Key and Consumer Secret information at hand because both values are needed in the next step*
 
 
 2. Update eXec-Ray [Auth Provider](https://help.salesforce.com/s/articleView?id=sf.sso_authentication_providers.htm&type=5)
     
-    * Consumer Key: use the consumer key of the previouly created connected app     
-    * Consumer Secret: use the consumer secret of the previouly created connected app 
+    * Consumer Key: use the consumer key of the previously created connected app     
+    * Consumer Secret: use the consumer secret of the previously created connected app 
 
 3. Edit the eXec-Ray [Named Credential](https://help.salesforce.com/s/articleView?id=sf.named_credentials_about.htm&type=5)
     * URL: https://*yourdomain*.my.salesforce.com/
     
     *Leave other fields as presented*
     
-    *This will lunch a Salesforce login window to authorize our app to be used in your org in your name. If you get the error "error=invalid_client_id&error_description=client%20identifier%20invalid" is because the connected app is being published. Please wait some minutes and try to save again with the same information*
+    *This will launch a Salesforce login window to authorize our app to be used in your org in your name. If you get the error "error=invalid_client_id&error_description=client%20identifier%20invalid" is because the connected app is being published. Please wait some minutes and try to save again with the same information*
 
 4. In order to use the Platform Cache and ease the loading time of objects already loaded, you need to create a new record for the Custom Setting, eXec-Ray Settings. You will need to have the field Use Platform Cache set to true.
 
-5. Assign de eXec-Ray permission set to the people that will use the app. Take in account that the permission set only give access to the app, needed permissions to see elements are not included.
+5. Assign de eXec-Ray permission set to the people that will use the app. Take into account that the permission set only gives access to the app, needed permissions to see elements are not included.
 
 FAQ
 ===
