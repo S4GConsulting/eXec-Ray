@@ -19,7 +19,12 @@ public without sharing class ExecutionTreeHandler {
         //We only need those SObjects that are customizable
         List<EntityDefinition> entities = [SELECT QualifiedApiName, MasterLabel FROM EntityDefinition WHERE IsCustomizable = true AND IsCustomSetting = false ORDER BY MasterLabel];
         for(EntityDefinition entity : entities) {
-            if(!entity.QualifiedApiName.endsWithIgnoreCase('__mdt') && !entity.QualifiedApiName.endsWithIgnoreCase('__e')) {
+            if (
+                !entity.QualifiedApiName.endsWithIgnoreCase('__mdt') &&
+                !entity.QualifiedApiName.endsWithIgnoreCase('__e') &&
+                !entity.QualifiedApiName.endsWithIgnoreCase('__x') &&
+                !entity.QualifiedApiName.endsWithIgnoreCase('__b')
+            ) {
                 sfObjects.add(getObjectWrapper(entity));
             }
         }
