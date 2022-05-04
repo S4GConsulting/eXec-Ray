@@ -36,7 +36,7 @@ Getting Started
     * Connected App Name: eXec-Ray    
     * API Name: eXecRay    
     * Contact Email: youremail@yourcompany.com    
-    * Logo Image URL: https://github.com/S4GConsulting/eXec-Ray/blob/main/force-app/main/default/staticresources/eXecRayLogo.png
+    * Logo Image URL: https://raw.githubusercontent.com/S4GConsulting/eXec-Ray/main/force-app/main/default/staticresources/eXecRayLogo.png
 
     
     **API (Enable OAuth Settings)**
